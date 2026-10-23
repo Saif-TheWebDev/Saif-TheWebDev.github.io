@@ -33,6 +33,23 @@ Type: **Instrument Serif** for display, **Newsreader** for editorial body copy,
 - SEO: metadata, Open Graph/Twitter card, `Person` and `FAQPage` JSON-LD.
 - Verified with axe-core: **0 WCAG 2.1 AA violations** in both themes.
 
+## Resilience
+
+Pages on this site degrade gracefully rather than breaking:
+
+- **Critical CSS is inlined** in `<head>`, so the page is always styled even if
+  the stylesheet request fails (stale cache, flaky network, CDN hiccup).
+- **Reveal animations are progressive enhancement.** Content is visible by
+  default; `main.js` adds the `.motion` class only after its
+  `IntersectionObserver` is confirmed working. A blocked or crashed script can
+  never leave the page blank.
+- **Assets are cache-busted** (`?v=...`) so a bad response can't survive a
+  deploy. Bump the query string whenever you edit `style.css` or `main.js`.
+- **`.nojekyll`** is present so Pages serves files verbatim, skipping Jekyll.
+
+If a deploy ever looks unstyled, hard-refresh (`Ctrl/Cmd + Shift + R`) — you are
+almost certainly seeing a cached response from mid-deploy.
+
 ## Structure
 
 ```

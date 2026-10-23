@@ -511,7 +511,7 @@ body::after {
   background: color-mix(in srgb, var(--canvas-band) 60%, var(--canvas));
 }
 .ticker-track { display: flex; width: max-content; }
-.js .ticker-track { animation: slide 42s linear infinite; }
+.motion .ticker-track { animation: slide 42s linear infinite; }
 .ticker:hover .ticker-track { animation-play-state: paused; }
 .ticker-set {
   display: flex;
@@ -1268,14 +1268,18 @@ body::after {
 }
 .toast.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 
-/* ── reveal ────────────────────────────────────────────────────────────── */
-.js .reveal {
+/* ── reveal ────────────────────────────────────────────────────────────────
+   Progressive enhancement: content is visible by default. The .motion class
+   is added by main.js only once its IntersectionObserver is wired up, so a
+   failed or blocked script can never leave the page blank.
+   ──────────────────────────────────────────────────────────────────────── */
+.motion .reveal {
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
   transition-delay: var(--d, 0s);
 }
-.js .reveal.in { opacity: 1; transform: none; }
+.motion .reveal.in { opacity: 1; transform: none; }
 
 /* ── responsive ────────────────────────────────────────────────────────── */
 @media (max-width: 1180px) {
@@ -1438,7 +1442,7 @@ body::after {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  .js .reveal { opacity: 1; transform: none; }
+  .motion .reveal { opacity: 1; transform: none; }
   .hl > span { animation: none; }
   .ticker-track { animation: none; }
 }
@@ -1447,6 +1451,6 @@ body::after {
   .bar, .ticker, .toast, .skip, .foot-social, .cross { display: none; }
   body::after { display: none; }
   body { background: #fff; color: #000; }
-  .js .reveal { opacity: 1; transform: none; }
+  .motion .reveal { opacity: 1; transform: none; }
   .sec, .hero { padding-block: 24px; }
 }
