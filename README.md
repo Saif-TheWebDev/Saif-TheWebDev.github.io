@@ -13,12 +13,15 @@ Collection* (`design.pdf`), each contributing one layer:
 | Layer | Reference | Contribution |
 |---|---|---|
 | Canvas & accent | **Claude** | Warm cream `#faf8f2`, coral accent, ink `#14130f` |
-| Display type | **Resend** | Oversized serif headlines at tight leading |
+| Display type | **owner's cut** | One supplied 600-weight grotesque, oversized and tight-tracked |
 | Structure | **Vercel** | Hairline rules, mono micro-labels, stark grid |
 | Depth | **Linear** | Near-black `#16150f` panels, one accent used sparingly |
 
-Type: **Instrument Serif** for display, **Newsreader** for editorial body copy,
-**Inter** for UI, **JetBrains Mono** for labels and metadata — all self-hosted.
+Type: **one supplied typeface**, self-hosted as `assets/fonts/orlean.woff2` and
+used for every role — display, body, labels and numerals. It is a single 600
+weight with no italic, so hierarchy comes from size, tracking and colour, and
+emphasis inside a sentence is carried by ink colour. `DESIGN.md` §8 records what
+the file actually is and the licence position; the system sans is the fallback.
 
 ## What's inside
 

@@ -6,21 +6,27 @@
    ========================================================================= */
 
 /* ── fonts ─────────────────────────────────────────────────────────────── */
-@font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/instrument-serif-400.woff2") format("woff2"); }
-@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("../fonts/instrument-serif-400-italic.woff2") format("woff2"); }
-@font-face { font-family: "Newsreader"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/newsreader-400.woff2") format("woff2"); }
-@font-face { font-family: "Newsreader"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/newsreader-500.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/inter-400.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/inter-500.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/inter-600.woff2") format("woff2"); }
-@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/jetbrains-mono-400.woff2") format("woff2"); }
-@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/jetbrains-mono-500.woff2") format("woff2"); }
+/* One typeface, end to end. The owner supplied it as "orlean.md" — a TrueType
+   file whose internal name table reads "SF Pro Display Semibold" (v13.0d3e20,
+   2324 glyphs, weight class 600). It is a single static cut: no italic, no
+   lighter or heavier companion, no variable axis. Declared at 400 so the face
+   itself is the body weight; rank is carried by size, colour and spacing, and
+   italic runs are the browser's oblique of this same cut. */
+@font-face {
+  font-family: "Orlean";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/orlean.woff2") format("woff2");
+}
 
 /* ── reset ─────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 104px; }
 body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ol, ul { margin: 0; }
 ol, ul { padding: 0; list-style: none; }
+/* the family has a single weight, so bold runs are marked by ink colour */
+strong, b { font-weight: 400; color: var(--ink); }
 img, svg, video { display: block; max-width: 100%; }
 button, input, textarea, select { font: inherit; color: inherit; }
 a { color: inherit; }
@@ -65,10 +71,13 @@ main:focus { outline: none; }
   --panel-glow: rgba(204, 120, 92, 0.34);
 
   /* type */
-  --display: "Instrument Serif", "Iowan Old Style", Palatino, Georgia, serif;
-  --serif: "Newsreader", Georgia, "Times New Roman", serif;
-  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* one family; the four names stay as roles so the scale can be retuned
+     independently of which file is loaded */
+  --face: "Orlean", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --display: var(--face);
+  --serif: var(--face);
+  --sans: var(--face);
+  --mono: var(--face);
 
   /* type scale — labels that carry information never drop below ~11px */
   --fs-label: 0.72rem;   /* uppercase mono labels, tags, counters */
@@ -179,8 +188,8 @@ body::after {
   gap: 12px;
   font-family: var(--mono);
   font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-weight: 400;
+  letter-spacing: 0.135em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -198,9 +207,9 @@ body::after {
   margin-top: 22px;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(2.4rem, 5.2vw, 4.35rem);
-  line-height: 0.96;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.95rem, 4.1vw, 3.45rem);
+  line-height: 1;
+  letter-spacing: -0.032em;
   color: var(--ink);
 }
 .sec-title em { font-style: italic; color: var(--accent); }
@@ -208,24 +217,24 @@ body::after {
 .sec-sub {
   max-width: 44ch;
   margin-top: 20px;
-  font-size: 0.96rem;
-  line-height: 1.66;
+  font-size: 1rem;
+  line-height: 1.62;
   color: var(--muted);
 }
-.sec-sub strong { color: var(--ink-2); font-weight: 500; }
+.sec-sub strong { color: var(--ink-2); font-weight: 400; }
 
 .fine {
   margin-top: 14px;
   max-width: 46ch;
   font-family: var(--mono);
   font-size: var(--fs-helper);
-  letter-spacing: 0.085em;
+  letter-spacing: 0.075em;
   line-height: 2;
   text-transform: uppercase;
   text-wrap: pretty;
   color: var(--muted-2);
 }
-.fine strong { color: var(--ink-2); font-weight: 500; }
+.fine strong { color: var(--ink-2); font-weight: 400; }
 
 .link {
   display: inline-flex;
@@ -256,7 +265,7 @@ body::after {
   border: 1px solid transparent;
   border-radius: 999px;
   font-size: 0.83rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.003em;
   line-height: 1.2;
   white-space: nowrap;
@@ -440,7 +449,7 @@ body::after {
   border-bottom: 1px solid var(--rule);
   font-family: var(--mono);
   font-size: var(--fs-label);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.125em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -452,9 +461,9 @@ body::after {
   margin-top: clamp(30px, 4.6vh, 56px);
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(3rem, 9.1vw, 8.3rem);
-  line-height: 0.88;
-  letter-spacing: -0.028em;
+  font-size: clamp(2.55rem, 7.7vw, 7.1rem);
+  line-height: 0.94;
+  letter-spacing: -0.038em;
   color: var(--ink);
 }
 .hl { display: block; overflow: hidden; padding-bottom: 0.045em; }
@@ -468,8 +477,10 @@ body::after {
 .hero-title b {
   color: var(--accent);
   font-weight: 400;
-  font-size: 1.06em;
-  line-height: 0;
+  /* 1em + inherited leading: a larger size on a zero line box makes the
+     period paint twice in Chromium (a stray black dot beside the coral one) */
+  font-size: 1em;
+  line-height: inherit;
 }
 @keyframes rise { from { transform: translateY(104%); } to { transform: none; } }
 
@@ -486,12 +497,12 @@ body::after {
 .hero-lede {
   max-width: 40ch;
   font-family: var(--serif);
-  font-size: clamp(1.06rem, 1.34vw, 1.28rem);
-  line-height: 1.54;
-  letter-spacing: 0;
+  font-size: clamp(1rem, 1.28vw, 1.16rem);
+  line-height: 1.6;
+  letter-spacing: -0.008em;
   color: var(--ink-2);
 }
-.hero-lede strong { font-weight: 500; color: var(--ink); }
+.hero-lede strong { font-weight: 400; color: var(--ink); }
 
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
 
@@ -511,7 +522,7 @@ body::after {
 .spec dt {
   font-family: var(--mono);
   font-size: var(--fs-label);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   line-height: 1.7;
   text-transform: uppercase;
   color: var(--muted-2);
@@ -523,8 +534,9 @@ body::after {
 .spec dd {
   margin-top: 10px;
   font-family: var(--display);
-  font-size: clamp(2.1rem, 3.5vw, 3.15rem);
+  font-size: clamp(1.9rem, 3vw, 2.75rem);
   line-height: 1;
+  letter-spacing: -0.03em;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
@@ -554,12 +566,12 @@ body::after {
   border: 0;
   border-left: 1px solid var(--rule);
   background: transparent;
-  color: var(--muted);
+  color: var(--ink-2);
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
 .ticker-btn:hover { background: var(--ink); color: var(--canvas); }
-.ticker-btn .ic { width: 12px; height: 12px; }
+.ticker-btn .ic { width: 13px; height: 13px; }
 .ticker-set {
   display: flex;
   align-items: center;
@@ -619,16 +631,16 @@ body::after {
 .cap-main h3 {
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(1.5rem, 2.2vw, 2.05rem);
-  line-height: 1.06;
-  letter-spacing: -0.015em;
+  font-size: clamp(1.4rem, 2vw, 1.9rem);
+  line-height: 1.1;
+  letter-spacing: -0.022em;
 }
 
 .cap-main p {
   max-width: 56ch;
   margin-top: 12px;
-  font-size: 0.9rem;
-  line-height: 1.66;
+  font-size: 0.95rem;
+  line-height: 1.64;
   color: var(--muted);
 }
 
@@ -636,7 +648,7 @@ body::after {
   padding-top: 10px;
   font-family: var(--mono);
   font-size: var(--fs-label);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.105em;
   line-height: 2;
   text-transform: uppercase;
   color: var(--ink-2);
@@ -680,9 +692,9 @@ body::after {
 }
 .work-name {
   font-family: var(--display);
-  font-size: clamp(1.6rem, 2.7vw, 2.35rem);
-  line-height: 1.02;
-  letter-spacing: -0.018em;
+  font-size: clamp(1.5rem, 2.35vw, 2.05rem);
+  line-height: 1.06;
+  letter-spacing: -0.026em;
   transition: color 0.3s, transform 0.45s var(--ease);
 }
 .work-year {
@@ -700,7 +712,7 @@ body::after {
   flex-direction: column;
   gap: 9px;
 }
-.work-desc { max-width: 48ch; font-size: 0.87rem; line-height: 1.62; color: var(--muted); }
+.work-desc { max-width: 48ch; font-size: 0.92rem; line-height: 1.6; color: var(--muted); }
 .work-tags {
   font-family: var(--mono);
   font-size: var(--fs-label);
@@ -772,8 +784,8 @@ body::after {
 .flix-top { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.46rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(247, 239, 230, 0.52); }
 .flix-top b { font-weight: 400; }
 .flix-mid { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
-.flix-logo { font-weight: 700; font-size: clamp(1.25rem, 1.9vw, 1.6rem); line-height: 0.95; letter-spacing: 0.02em; }
-.flix-logo i { font-style: normal; font-weight: 300; color: #eb3b30; }
+.flix-logo { font-weight: 400; font-size: clamp(1.25rem, 1.9vw, 1.6rem); line-height: 0.95; letter-spacing: 0.02em; }
+.flix-logo i { font-style: normal; font-weight: 400; color: #eb3b30; }
 .flix-play {
   display: grid; place-items: center;
   width: 32px; height: 32px;
@@ -866,7 +878,7 @@ body::after {
 .renata-mark { position: relative; display: block; width: 10px; height: 10px; flex: none; }
 .renata-mark i { position: absolute; inset: 3.6px 0; background: #123c32; border-radius: 1px; }
 .renata-mark i:last-child { transform: rotate(90deg); }
-.renata-word { margin-top: auto; font-weight: 500; font-size: clamp(1.1rem, 1.75vw, 1.5rem); line-height: 1; letter-spacing: 0.22em; }
+.renata-word { margin-top: auto; font-weight: 400; font-size: clamp(1.1rem, 1.75vw, 1.5rem); line-height: 1; letter-spacing: 0.22em; }
 .renata-rule { height: 1px; background: rgba(18, 60, 50, 0.26); }
 .renata-sub { font-family: var(--mono); font-size: 0.42rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(18, 60, 50, 0.66); }
 .renata-caps {
@@ -905,7 +917,7 @@ body::after {
 .step-n {
   font-family: var(--mono);
   font-size: var(--fs-label);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   color: var(--accent);
 }
 .step h3 {
@@ -913,8 +925,8 @@ body::after {
   font-family: var(--display);
   font-weight: 400;
   font-size: clamp(1.4rem, 1.9vw, 1.85rem);
-  line-height: 1.08;
-  letter-spacing: -0.015em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 .step p {
   max-width: 32ch;
@@ -954,7 +966,7 @@ body::after {
   font-size: 1.62rem;
   flex: none;
 }
-.id-name { font-size: 0.9rem; font-weight: 600; line-height: 1.3; }
+.id-name { font-size: 0.9rem; font-weight: 400; line-height: 1.3; }
 .id-role { font-size: 0.76rem; line-height: 1.45; color: var(--muted); }
 .id-facts { margin-top: 12px; }
 .id-facts > div {
@@ -1022,7 +1034,7 @@ body::after {
   line-height: 1.72;
   color: var(--muted);
 }
-.note strong { color: var(--ink); font-weight: 600; }
+.note strong { color: var(--ink); font-weight: 400; }
 
 /* quote panel */
 .quote {
@@ -1060,11 +1072,11 @@ body::after {
 }
 .quote blockquote {
   position: relative;
-  max-width: 26ch;
+  max-width: 30ch;
   font-family: var(--display);
-  font-size: clamp(1.6rem, 3vw, 2.6rem);
-  line-height: 1.16;
-  letter-spacing: -0.012em;
+  font-size: clamp(1.45rem, 2.55vw, 2.15rem);
+  line-height: 1.24;
+  letter-spacing: -0.02em;
 }
 .quote blockquote em { font-style: italic; color: var(--accent-bright); }
 .quote figcaption {
@@ -1076,7 +1088,7 @@ body::after {
   line-height: 1.5;
   color: var(--panel-muted);
 }
-.quote figcaption strong { color: var(--panel-ink); font-size: 0.82rem; font-weight: 500; }
+.quote figcaption strong { color: var(--panel-ink); font-size: 0.82rem; font-weight: 400; }
 .quote-av {
   display: grid; place-items: center;
   width: 40px; height: 40px;
@@ -1112,7 +1124,7 @@ body::after {
   cursor: pointer;
 }
 .q summary::-webkit-details-marker { display: none; }
-.q-t { font-size: clamp(0.96rem, 1.24vw, 1.08rem); font-weight: 500; line-height: 1.42; letter-spacing: -0.008em; }
+.q-t { font-size: clamp(0.96rem, 1.24vw, 1.08rem); font-weight: 400; line-height: 1.46; letter-spacing: -0.014em; }
 .q-i {
   display: grid; place-items: center;
   width: 28px; height: 28px;
@@ -1125,7 +1137,7 @@ body::after {
 .q-i .ic { width: 13px; height: 13px; }
 .q[open] .q-i { background: var(--accent); border-color: var(--accent); color: var(--on-accent); transform: rotate(45deg); }
 .q-a { padding-bottom: 22px; animation: fade 0.35s var(--ease) both; }
-.q-a p { max-width: 58ch; font-size: 0.9rem; line-height: 1.72; color: var(--muted); }
+.q-a p { max-width: 58ch; font-size: 0.95rem; line-height: 1.68; color: var(--muted); }
 @keyframes fade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
 /* ── contact panel ─────────────────────────────────────────────────────── */
@@ -1176,9 +1188,9 @@ body::after {
   margin-top: 24px;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(2rem, 4.5vw, 3.85rem);
-  line-height: 0.98;
-  letter-spacing: -0.022em;
+  font-size: clamp(1.85rem, 3.9vw, 3.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.032em;
   color: var(--panel-ink);
 }
 .panel-title em { font-style: italic; color: var(--accent-bright); }
@@ -1186,15 +1198,15 @@ body::after {
 .panel-sub {
   max-width: 48ch;
   margin-top: 20px;
-  font-size: 0.93rem;
-  line-height: 1.7;
+  font-size: 0.96rem;
+  line-height: 1.66;
   color: var(--panel-muted);
 }
 
 .panel-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 .btn-coral { background: var(--accent-bright); border-color: var(--accent-bright); color: #1a0f09; }
 .btn-coral:hover { background: #e89173; border-color: #e89173; }
-.btn-ghost { border-color: var(--panel-rule); color: var(--panel-ink); }
+.btn-ghost { background: transparent; border-color: var(--panel-rule); color: var(--panel-ink); }
 .btn-ghost:hover { background: rgba(246, 243, 234, 0.1); }
 
 .panel-meta {
@@ -1416,7 +1428,7 @@ body::after {
   .work-h { gap: 11px; }
   .work-name { font-size: clamp(1.5rem, 6.4vw, 1.9rem); }
   .work-art { aspect-ratio: 4 / 3; }
-  .work-desc { font-size: 0.84rem; }
+  .work-desc { font-size: 0.88rem; }
 
   .steps { grid-template-columns: 1fr; gap: 26px; }
   .step h3 { margin-top: 12px; }

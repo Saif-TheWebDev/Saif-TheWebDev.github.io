@@ -25,7 +25,7 @@ because they are fashionable:
 | Layer | Reference | Reason |
 |---|---|---|
 | Canvas and accent | Claude — warm cream, terracotta | Reads as a studio, not a SaaS product. Warm surfaces suit portrait-less editorial pages. |
-| Display type | Resend — oversized serif | The headline *is* the portfolio's main visual. A serif at 132 px carries personality that Inter cannot. |
+| Display type | Owner-supplied single cut — oversized grotesque | The headline *is* the portfolio's main visual. One 600-weight cut at 111 px, tight-tracked, carries the same weight of personality the serif did. |
 | Structure | Vercel — hairlines, mono micro-labels, strict grid | Signals engineering discipline behind the design. |
 | Depth | Linear — near-black panels | One dark contact panel gives the page a full stop and makes the email address the loudest element on the page. |
 
@@ -54,17 +54,28 @@ headline, and the status dot. It is never used for body copy or decoration.
 
 **Type**
 
-| Role | Family | Size |
+| Role | Token | Size |
 |---|---|---|
-| Display (h1, h2, quote) | Instrument Serif 400 + italic | `clamp(2.4rem → 8.3rem)` |
-| Editorial copy (lede, about) | Newsreader 400/500 | `clamp(1.06 → 1.28rem)` |
-| UI and body | Inter 400/500/600 | 16 px base, 0.9 rem paragraphs |
-| Labels and metadata | JetBrains Mono 400/500 | `--fs-label` 0.72 rem / `--fs-meta` 0.8 rem / `--fs-helper` 0.82 rem |
+| Display (h1, h2, quote) | `--display` → `--face` | `clamp(2.55rem → 7.1rem)`, leading 0.94, tracking −0.038 em |
+| Editorial copy (lede, intros) | `--serif` → `--face` | `clamp(1rem → 1.16rem)`, leading 1.6 |
+| UI and body | `--sans` → `--face` | 16 px base, 0.95–1 rem paragraphs, leading 1.62–1.64 |
+| Labels and metadata | `--mono` → `--face` | `--fs-label` 0.72 rem / `--fs-meta` 0.8 rem / `--fs-helper` 0.82 rem |
+
+The four role tokens survive on purpose: they all resolve to `--face`, so a
+future typeface swap is one line, and each role keeps its own size and tracking.
+
+**One weight, so rank comes from scale and colour.** The supplied file is a single
+static 600 cut with no italic and no lighter companion. Everything is set at
+`font-weight: 400`, which *is* that cut; headings are distinguished by size,
+tracking and (for one phrase per section) the accent colour. `<strong>` is marked
+by ink colour rather than a heavier stroke. Italic runs are the browser's oblique
+of the same cut — an honest slant, not a second file pretending to be one.
 
 **Rule: no text that carries information is set below 11 px.** The old scale
 bottomed out at 6.7–9.9 px, which made the footer, metadata and tags decorative
 rather than readable; that was the single largest defect found in the audit.
-Uppercase mono labels need tracking (0.11–0.17 em) to stay legible at 11.5 px.
+Uppercase labels take 0.10–0.14 em of tracking in this face (it was 0.11–0.18 em
+for the mono), and every numeric column carries `font-variant-numeric: tabular-nums`.
 
 Decorative exceptions: the "mini UI" inside the `aria-hidden` project covers
 (`.flix-top`, `.arif-res`, `.renata-sub`) is a drawing, not text, and stays small
@@ -129,7 +140,7 @@ its divider.
 
 | Asset | Origin | Licence |
 |---|---|---|
-| `assets/fonts/*.woff2` (9 files) | Instrument Serif, Newsreader, Inter, JetBrains Mono — subset woff2, self-hosted | SIL Open Font License 1.1 |
+| `assets/fonts/orlean.woff2` (1 file, 100 KB) | The owner's upload (`orlean.md`, 435 KB TrueType) converted to woff2 with fontTools. Its name table identifies it as **SF Pro Display Semibold**, v13.0d3e20, Apple — 2,324 glyphs, `usWeightClass 600`, `fsType 4`, no `fvar`, no italic. Published at the owner's explicit instruction after the mismatch was raised. | **Not openly licensed.** Apple's own name record points to the iOS Software License Agreement; `fsType 4` permits preview/print embedding only. Self-hosting it on a public site is outside those terms. |
 | `assets/img/og-image.jpg` | Rendered from this page's own type and palette (1200 × 630) | Original |
 | `assets/img/favicon.svg` | Hand-written SVG | Original |
 | SVG icon sprite (`index.html`) | Hand-drawn paths | Original |

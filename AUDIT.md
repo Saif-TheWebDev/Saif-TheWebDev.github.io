@@ -114,3 +114,44 @@ python3 -m http.server 4173
 #   - reveal/flash/resilience matrix                     test4.js
 #   - axe (light + dark), interactions, copy, perf       test5.js
 ```
+
+---
+
+## 6. Addendum — single-typeface rebuild (2026-10-24)
+
+At the owner's instruction the four families (Instrument Serif, Newsreader, Inter,
+JetBrains Mono — nine files) were replaced with **one** supplied cut across every
+role, and the type scale was retuned for it. What that changed, and what was
+re-verified afterwards:
+
+- **One font request** on load (was nine). `assets/fonts/orlean.woff2`, 100 KB,
+  preloaded, `font-display: swap`.
+- **Checks 126/127/146** — one family, four roles, no competing voice. Sizes were
+  re-derived rather than scaled: h1 `clamp(2.55rem → 7.1rem)` at 0.94 leading and
+  −0.038 em; section titles `clamp(1.95rem → 3.45rem)`; body 15–16 px at 1.62–1.64
+  leading. Nothing informational dropped below 11 px, and every numeral column
+  carries `tabular-nums`.
+- **Defect found while retuning:** the contact panel's "Copy address" `<button>`
+  had no background reset, so near-white panel ink sat on the UA's white button
+  face — an invisible label that axe had classed as *incomplete*, not a violation.
+  Fixed with `background: transparent` on `.btn-ghost`.
+- **Defect found while retuning:** the hero's accent period (`.hero-title b`) was
+  painted twice, as a black dot beside the coral one, because it was set to
+  `1.06em` on a `line-height: 0` box. Normalised to `1em` / `inherit`.
+
+Re-run after the change, same harness:
+
+| Check | Result |
+|---|---|
+| axe-core, light · dark · mobile 390 | 0 violations |
+| Reflow, 320 → 2560 px | `document.scrollWidth === clientWidth` at all 13 widths |
+| Targets under 24 × 24 | 0 (was 0) |
+| Text-spacing override (1.4.12) | no clipping, no horizontal scroll |
+| Keyboard focus | 31/31 focusables show a 2 px ring |
+| Reduced motion | ticker and hero animations `none` |
+| Print | hero visible, bar hidden |
+| 320 px menu | opens to 390 × 780, Escape closes and returns focus |
+| CLS / LCP (localhost, unthrottled) | 0.0008 / 172 ms |
+
+Still open, unchanged from §4: these are lab numbers, not field data, and the
+typeface's licence position is recorded rather than resolved.

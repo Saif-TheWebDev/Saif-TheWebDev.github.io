@@ -27,20 +27,13 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/favicon.svg">
 
-<link rel="preload" href="assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/orlean.woff2" as="font" type="font/woff2" crossorigin>
 
 <!-- Critical styles, inlined so the page is never served unstyled if the
      stylesheet request fails (stale cache, flaky network, CDN hiccup). -->
 <style>
-  @font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/instrument-serif-400.woff2") format("woff2")}
-  @font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url("assets/fonts/instrument-serif-400-italic.woff2") format("woff2")}
-  @font-face{font-family:"Newsreader";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/newsreader-400.woff2") format("woff2")}
-  @font-face{font-family:"Inter";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/inter-400.woff2") format("woff2")}
-  @font-face{font-family:"Inter";font-style:normal;font-weight:500;font-display:swap;src:url("assets/fonts/inter-500.woff2") format("woff2")}
-  @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/jetbrains-mono-400.woff2") format("woff2")}
-  :root{--canvas:#faf8f2;--canvas-band:#f2eee3;--ink:#14130f;--ink-2:#3a372f;--muted:#5f594d;--rule:#e3dccd;--accent:#a84621;--on-accent:#fffaf6;--display:"Instrument Serif","Iowan Old Style",Palatino,Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;--shell:1340px;--gutter:clamp(20px,4.4vw,56px);--bar-h:78px}
+  @font-face{font-family:"Orlean";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/orlean.woff2") format("woff2")}
+  :root{--canvas:#faf8f2;--canvas-band:#f2eee3;--ink:#14130f;--ink-2:#3a372f;--muted:#5f594d;--rule:#e3dccd;--accent:#a84621;--on-accent:#fffaf6;--face:"Orlean",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;--display:var(--face);--serif:var(--face);--sans:var(--face);--mono:var(--face);--shell:1340px;--gutter:clamp(20px,4.4vw,56px);--bar-h:78px}
   [data-theme="dark"]{--canvas:#0f0e0b;--canvas-band:#15140f;--ink:#f6f3ea;--ink-2:#d9d4c6;--muted:#aaa392;--rule:rgba(246,243,234,.14);--accent:#e08a63;--on-accent:#1a0f09}
   *,*::before,*::after{box-sizing:border-box}
   body,h1,h2,h3,h4,p,figure,blockquote,dl,dd,ol,ul{margin:0}
@@ -58,13 +51,13 @@
   .mark-word,.mark-dot{font-family:var(--display);font-size:1.62rem;line-height:1}
   .mark-dot{color:var(--accent)}
   .hero{padding-top:calc(var(--bar-h) + clamp(38px,6vh,76px))}
-  .hero-title{margin-top:clamp(30px,4.6vh,56px);font-family:var(--display);font-weight:400;font-size:clamp(3rem,9.1vw,8.3rem);line-height:.88;letter-spacing:-.028em}
+  .hero-title{margin-top:clamp(30px,4.6vh,56px);font-family:var(--display);font-weight:400;font-size:clamp(2.55rem,7.7vw,7.1rem);line-height:.94;letter-spacing:-.038em}
   .hero-title em{font-style:italic}
-  .hero-title b{color:var(--accent);font-weight:400;font-size:1.06em}
-  .sec-title{margin-top:22px;font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,5.2vw,4.35rem);line-height:.96;letter-spacing:-.02em}
+  .hero-title b{color:var(--accent);font-weight:400;font-size:1em;line-height:inherit}
+  .sec-title{margin-top:22px;font-family:var(--display);font-weight:400;font-size:clamp(1.95rem,4.1vw,3.45rem);line-height:1;letter-spacing:-.032em}
   .sec-title em{font-style:italic;color:var(--accent)}
-  .hero-lede{max-width:40ch;font-family:var(--serif);font-size:clamp(1.06rem,1.34vw,1.28rem);line-height:1.54;color:var(--ink-2)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 21px;border:1px solid transparent;border-radius:999px;font-size:.83rem;font-weight:500;line-height:1.2;text-decoration:none;white-space:nowrap;cursor:pointer}
+  .hero-lede{max-width:40ch;font-family:var(--serif);font-size:clamp(1rem,1.28vw,1.16rem);line-height:1.6;letter-spacing:-.008em;color:var(--ink-2)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 21px;border:1px solid transparent;border-radius:999px;font-size:.83rem;font-weight:400;line-height:1.2;text-decoration:none;white-space:nowrap;cursor:pointer}
   .btn-ink{background:var(--ink);border-color:var(--ink);color:var(--canvas)}
   .btn-line{border-color:var(--rule);color:var(--ink)}
   .sec{padding-block:clamp(74px,8.6vw,128px)}
@@ -76,12 +69,13 @@
   /* the ticker must never fall back to a vertical stack of words */
   .ticker{display:flex;align-items:stretch;border-block:1px solid var(--rule)}
   .ticker-vp{flex:1;min-width:0;overflow:hidden}
-  .ticker-track,.ticker-set{display:flex;align-items:center}
-  .ticker-set{white-space:nowrap}
+  .ticker-track,.ticker-set{display:flex;align-items:center;gap:24px}
+  .ticker-set{white-space:nowrap;padding:13px 24px 13px 0}
+  .ticker .ic{width:12px;height:12px;flex:none}
   .ticker-btn{flex:none;display:grid;place-items:center;width:54px;border:0;border-left:1px solid var(--rule);background:transparent;color:var(--muted);cursor:pointer}
   .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 </style>
-<link rel="stylesheet" href="assets/css/style.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/style.css?v=20261024c">
 
 <script>
   (function () {
@@ -697,6 +691,6 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/main.js?v=20261024b" defer></script>
+<script src="assets/js/main.js?v=20261024c" defer></script>
 </body>
 </html>
