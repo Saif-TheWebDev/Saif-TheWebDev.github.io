@@ -29,6 +29,7 @@
 
 <link rel="preload" href="assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
 
 <!-- Critical styles, inlined so the page is never served unstyled if the
      stylesheet request fails (stale cache, flaky network, CDN hiccup). -->
@@ -72,8 +73,15 @@
   .sprite{position:absolute;width:0;height:0;overflow:hidden}
   .panel,.quote{background:#16150f;color:#f6f3ea}
   .foot{border-top:1px solid var(--rule)}
+  /* the ticker must never fall back to a vertical stack of words */
+  .ticker{display:flex;align-items:stretch;border-block:1px solid var(--rule)}
+  .ticker-vp{flex:1;min-width:0;overflow:hidden}
+  .ticker-track,.ticker-set{display:flex;align-items:center}
+  .ticker-set{white-space:nowrap}
+  .ticker-btn{flex:none;display:grid;place-items:center;width:54px;border:0;border-left:1px solid var(--rule);background:transparent;color:var(--muted);cursor:pointer}
+  .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 </style>
-<link rel="stylesheet" href="assets/css/style.css?v=20261024">
+<link rel="stylesheet" href="assets/css/style.css?v=20261024b">
 
 <script>
   (function () {
@@ -161,6 +169,7 @@
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M9 6.4v11.2L18 12 9 6.4Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 6h2.6v12H8zM13.4 6H16v12h-2.6z" fill="currentColor"/></symbol>
 </svg>
 
 <header class="bar" id="bar">
@@ -197,7 +206,7 @@
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
   <!-- ═══════════ HERO ═══════════ -->
   <section class="hero" id="top" aria-labelledby="hero-title">
     <span class="cross cross-tl" aria-hidden="true"></span>
@@ -232,7 +241,7 @@
           </a>
           <a class="btn btn-line" href="mailto:me@webdev-saif.com">
             Let&rsquo;s build something
-            <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg>
+            <svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>
           </a>
         </div>
       </div>
@@ -249,7 +258,7 @@
           <dd><span data-count="3">3</span>+</dd>
         </div>
         <div class="spec-cell">
-          <dt>Repeat &amp; referral work</dt>
+          <dt>Repeat &amp; referral work, to date</dt>
           <dd><span data-count="95">95</span>%</dd>
         </div>
         <div class="spec-cell">
@@ -259,19 +268,24 @@
       </dl>
     </div>
 
-    <div class="ticker" aria-label="Core technologies">
-      <div class="ticker-track" id="ticker">
-        <div class="ticker-set">
-          <span>WordPress</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-          <span>React</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-          <span>Next.js</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-          <span>Node</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-          <span>SEO · AEO · GEO</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-          <span>UI / UX</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-          <span>Core Web Vitals</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-          <span>Accessibility</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+    <div class="ticker" role="group" aria-label="Core technologies">
+      <div class="ticker-vp">
+        <div class="ticker-track" id="ticker">
+          <div class="ticker-set">
+            <span>WordPress</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+            <span>React</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+            <span>Next.js</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+            <span>Node</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+            <span>SEO · AEO · GEO</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+            <span>UI / UX</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+            <span>Core Web Vitals</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+            <span>Accessibility</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
+          </div>
         </div>
       </div>
+      <button class="ticker-btn" type="button" aria-pressed="false" aria-label="Pause the technology ticker">
+        <svg class="ic" aria-hidden="true"><use href="#i-pause"/></svg>
+      </button>
     </div>
   </section>
 
@@ -297,7 +311,6 @@
             <p>Custom-built WordPress sites and careful surgery on existing ones: new sections, responsive fixes, template cleanup and page-speed work that survives the next plugin update.</p>
           </div>
           <p class="cap-tags">Custom themes<br>Redesigns<br>Core Web Vitals</p>
-          <span class="cap-arrow" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
         </li>
         <li class="cap reveal">
           <span class="cap-n">02</span>
@@ -306,7 +319,6 @@
             <p>When a project needs its own architecture: modern front ends, dashboards, APIs and product interfaces built with React, Next.js and Node. Typed, tested and maintainable.</p>
           </div>
           <p class="cap-tags">React · Next.js<br>Node<br>Headless CMS</p>
-          <span class="cap-arrow" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
         </li>
         <li class="cap reveal">
           <span class="cap-n">03</span>
@@ -315,7 +327,6 @@
             <p>Technical SEO, local visibility and content structure — plus AEO and GEO — the unglamorous foundation that decides whether all the good design gets seen at all.</p>
           </div>
           <p class="cap-tags">Audits · Schema<br>Local SEO<br>AEO / GEO</p>
-          <span class="cap-arrow" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
         </li>
         <li class="cap reveal">
           <span class="cap-n">04</span>
@@ -324,7 +335,6 @@
             <p>Interface design by the person who will build it, so nothing gets lost between the mockup and the browser. Layout, type, motion and states, decided together.</p>
           </div>
           <p class="cap-tags">UI / UX<br>Prototypes<br>Accessibility</p>
-          <span class="cap-arrow" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
         </li>
       </ol>
     </div>
@@ -371,6 +381,7 @@
             </span>
           </span>
           <span class="work-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
+          <span class="sr-only"> (opens in a new tab)</span>
         </a>
 
         <a class="work-row reveal" href="https://webdev-saif.com/arif-mia/" target="_blank" rel="noopener">
@@ -392,6 +403,7 @@
             <span class="arif-res"><b>#1</b><span class="arif-bars"><i></i><i></i><i></i></span></span>
           </span>
           <span class="work-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
+          <span class="sr-only"> (opens in a new tab)</span>
         </a>
 
         <a class="work-row reveal" href="https://webdev-saif.com/renata-plc-demo/" target="_blank" rel="noopener">
@@ -414,12 +426,13 @@
             <span class="renata-caps"></span>
           </span>
           <span class="work-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
+          <span class="sr-only"> (opens in a new tab)</span>
         </a>
       </div>
 
       <p class="work-foot reveal">
         <a class="link" href="https://webdev-saif.com/projects/" target="_blank" rel="noopener">
-          All projects on webdev-saif.com
+          All projects on webdev-saif.com<span class="sr-only"> (opens in a new tab)</span>
           <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg>
         </a>
       </p>
@@ -526,7 +539,7 @@
         </p>
 
         <a class="link reveal" href="https://webdev-saif.com/about-me/" target="_blank" rel="noopener">
-          Read the longer version
+          Read the longer version<span class="sr-only"> (opens in a new tab)</span>
           <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg>
         </a>
       </div>
@@ -661,10 +674,10 @@
       <a href="#contact">Contact</a>
     </nav>
     <div class="foot-social">
-      <a class="tbtn" href="https://github.com/Saif-TheWebDev" target="_blank" rel="noopener me" aria-label="GitHub profile">
+      <a class="tbtn" href="https://github.com/Saif-TheWebDev" target="_blank" rel="noopener me" aria-label="GitHub profile (opens in a new tab)">
         <svg class="ic" aria-hidden="true"><use href="#i-github"/></svg>
       </a>
-      <a class="tbtn" href="https://webdev-saif.com" target="_blank" rel="noopener" aria-label="Main site: webdev-saif.com">
+      <a class="tbtn" href="https://webdev-saif.com" target="_blank" rel="noopener" aria-label="Main site: webdev-saif.com (opens in a new tab)">
         <svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>
       </a>
       <a class="tbtn" href="mailto:me@webdev-saif.com" aria-label="Send an email">
@@ -684,6 +697,6 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/main.js?v=20261024" defer></script>
+<script src="assets/js/main.js?v=20261024b" defer></script>
 </body>
 </html>

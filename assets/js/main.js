@@ -106,7 +106,12 @@
     });
     if (!current && sections.length) current = sections[0].id;
     Object.keys(navMap).forEach(function (id) {
-      navMap[id].classList.toggle('is-active', id === current);
+      var link = navMap[id];
+      var active = id === current;
+      link.classList.toggle('is-active', active);
+      /* the underline is a visual cue only; give assistive tech the same state */
+      if (active) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
     });
 
     ticking = false;
@@ -131,6 +136,13 @@
     reveals.forEach(function (el) { el.classList.add('in'); });
   }
 
+  /* Anything already on screen is revealed in the same frame the hidden state
+     is switched on, so nothing the visitor can see ever flickers. */
+  function inViewport(el) {
+    var r = el.getBoundingClientRect();
+    return r.top < window.innerHeight && r.bottom > 0;
+  }
+
   if (reduce || !('IntersectionObserver' in window)) {
     revealAll();
   } else {
@@ -142,20 +154,25 @@
             revealObs.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+      }, {
+        threshold: 0.08,
+        /* The huge top margin matters: anything at or above the viewport
+           counts as seen. If a fast scroll, an End key or an anchor jump skips
+           a block, it must not stay invisible above the fold. */
+        rootMargin: '99999px 0px -6% 0px'
+      });
 
       reveals.forEach(function (el) { revealObs.observe(el); });
+      reveals.forEach(function (el) { if (inViewport(el)) el.classList.add('in'); });
       root.classList.add('motion');
 
       /* Safety net: if anything at all goes wrong (observer never fires,
-         layout thrash, a later error), reveal everything shortly after. */
+         layout thrash, a later error), reveal everything above the fold. */
       window.setTimeout(function () {
-        var stuck = reveals.filter(function (el) { return !el.classList.contains('in'); });
-        /* ONLY force-reveal elements already scrolled into view; elements
-           further down should still animate when the visitor reaches them. */
-        stuck.forEach(function (el) {
-          var r = el.getBoundingClientRect();
-          if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+        reveals.forEach(function (el) {
+          if (!el.classList.contains('in') && el.getBoundingClientRect().top < window.innerHeight) {
+            el.classList.add('in');
+          }
         });
       }, 2500);
     } catch (e) {
@@ -209,6 +226,23 @@
         ticker.appendChild(clone);
       }
     }
+  }
+
+  /* ── ticker pause control (WCAG 2.2.2) ──────────────────────────────
+     The strip scrolls on its own for more than five seconds, so it has to
+     offer a real, keyboard-operable way to stop it — hover alone is not
+     enough for keyboard and touch users.
+     ─────────────────────────────────────────────────────────────────── */
+  var tickerBtn = doc.querySelector('.ticker-btn');
+  if (tickerBtn) {
+    var tickerBox = tickerBtn.closest('.ticker');
+    tickerBtn.addEventListener('click', function () {
+      var paused = tickerBox.classList.toggle('is-paused');
+      tickerBtn.setAttribute('aria-pressed', String(paused));
+      tickerBtn.setAttribute('aria-label', paused ? 'Resume the technology ticker' : 'Pause the technology ticker');
+      var use = tickerBtn.querySelector('use');
+      if (use) use.setAttribute('href', paused ? '#i-play' : '#i-pause');
+    });
   }
 
   /* ── live Dhaka time ───────────────────────────────────────────────── */

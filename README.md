@@ -29,9 +29,23 @@ Type: **Instrument Serif** for display, **Newsreader** for editorial body copy,
   retint in dark mode and there is nothing to break.
 - Light and dark themes, following the system preference and remembered in
   `localStorage`.
-- Responsive to 320px, keyboard accessible, honours `prefers-reduced-motion`.
+- Responsive to 320px, keyboard accessible, honours `prefers-reduced-motion` and
+  forced-colors, and every target is at least 24 × 24 px.
 - SEO: metadata, Open Graph/Twitter card, `Person` and `FAQPage` JSON-LD.
-- Verified with axe-core: **0 WCAG 2.1 AA violations** in both themes.
+- Verified with axe-core (WCAG 2.0/2.1/2.2 A + AA, plus best-practice):
+  **0 violations in both themes**.
+
+## Audit
+
+The page was reviewed against the 500 checks in `fix500.pdf` and the result is
+recorded in [`AUDIT.md`](AUDIT.md) — 16 defects fixed, 9 behaviours verified,
+and every non-applicable category listed with its reason. The design context and
+asset provenance live in [`DESIGN.md`](DESIGN.md).
+
+Highlights of that pass: a real pause control for the ticker (WCAG 2.2.2), a type
+scale with an 11 px floor (it previously reached 7.4 px), 24 × 24 minimum touch
+targets, `aria-current` on the navigation, tabular numerals, and removal of the
+arrow "buttons" that made non-clickable capability rows look clickable.
 
 ## Resilience
 
@@ -42,7 +56,8 @@ Pages on this site degrade gracefully rather than breaking:
 - **Reveal animations are progressive enhancement.** Content is visible by
   default; `main.js` adds the `.motion` class only after its
   `IntersectionObserver` is confirmed working. A blocked or crashed script can
-  never leave the page blank.
+  never leave the page blank, and blocks are never hidden before they are
+  revealed — so the page cannot flash content out on load.
 - **Assets are cache-busted** (`?v=...`) so a bad response can't survive a
   deploy. Bump the query string whenever you edit `style.css` or `main.js`.
 - **`.nojekyll`** is present so Pages serves files verbatim, skipping Jekyll.
@@ -54,6 +69,8 @@ almost certainly seeing a cached response from mid-deploy.
 
 ```
 index.html
+AUDIT.md      review record against the 500 checks
+DESIGN.md     design context, tokens, asset provenance
 assets/
   css/style.css
   js/main.js
