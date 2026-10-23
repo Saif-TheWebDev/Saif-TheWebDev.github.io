@@ -120,21 +120,47 @@
   window.addEventListener('resize', requestFrame);
   frame();
 
-  /* ── reveal ────────────────────────────────────────────────────────── */
+  /* ── reveal (progressive enhancement) ───────────────────────────────
+     Content is visible by default. We only opt into the hidden-then-reveal
+     motion once the IntersectionObserver is confirmed working, so a blocked
+     or broken script leaves the page fully readable instead of blank.
+     ─────────────────────────────────────────────────────────────────── */
   var reveals = Array.prototype.slice.call(doc.querySelectorAll('.reveal'));
 
-  if (!('IntersectionObserver' in window) || reduce) {
+  function revealAll() {
     reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    revealAll();
   } else {
-    var revealObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          revealObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
-    reveals.forEach(function (el) { revealObs.observe(el); });
+    try {
+      var revealObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+
+      reveals.forEach(function (el) { revealObs.observe(el); });
+      root.classList.add('motion');
+
+      /* Safety net: if anything at all goes wrong (observer never fires,
+         layout thrash, a later error), reveal everything shortly after. */
+      window.setTimeout(function () {
+        var stuck = reveals.filter(function (el) { return !el.classList.contains('in'); });
+        /* ONLY force-reveal elements already scrolled into view; elements
+           further down should still animate when the visitor reaches them. */
+        stuck.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+        });
+      }, 2500);
+    } catch (e) {
+      revealAll();
+    }
   }
 
   /* ── counters ──────────────────────────────────────────────────────── */
