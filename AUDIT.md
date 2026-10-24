@@ -247,3 +247,60 @@ on every other surface. `DESIGN.md` §3 records the mapping.
 - The footer wordmark outline moved to the heavier hairline — at 13% ink on ivory
   it was all but invisible.
 - The OG card and favicon were re-rendered in the new palette.
+
+## 9. Redesign pass — phases 2–11 (2026-10-24)
+
+The site was modified in place against the thirteen-phase brief, not rebuilt.
+Content, routes, metadata, JSON-LD, the fixed headline strings and the eight
+palette swatches were treated as frozen.
+
+### What changed, section by section
+
+| Section | Change |
+|---|---|
+| Hero | Masked line containers, `clamp(2.85rem → 9.2rem)` display, *purpose* in accent italic, restrained radial field (aura opacity 0.34), clear primary/secondary CTA hierarchy, 2 × 2 stats on mobile |
+| Featured work | Artwork rebuilt as a drawn product mock inside the existing `<a>` — browser chrome, URL pill, live dot, nav, poster line and a five-still shelf — on a `16 / 7.9` frame; metadata row regridded so number, copy and CTA line up |
+| Services | Native `<details>` accordion, numbers, capability tags, drawn plus/minus, one panel open at a time, WAAPI height animation with a reduced-motion short circuit |
+| Process | Horizontal timeline on desktop with a scroll-drawn connector and sequential `is-on` states, vertical rail under 900 px, no pinning |
+| About | Dark band using the palette's own ink, asymmetric two-column desktop / single column mobile, identity card, no terminal or code decoration |
+| Quote | Real Arif Mia quote kept; measure widened 22 → 26 ch |
+| FAQ | Same native accordion language as services, divider spacing, keyboard-complete |
+| Contact / footer | "Let's build something that lands." with the accent on *that lands.*, oversized outlined wordmark, three-column metadata, copy-address button with a live toast |
+| Header | Inverts to the band's tokens while it overlaps `.about-band` |
+
+### Defects found and fixed in this pass
+
+| Defect | Evidence | Fix |
+|---|---|---|
+| Featured artwork read as an empty red-black gradient | Element screenshot of `.feature` at 1192 px | Rebuilt as the product mock above; verified by element screenshot, not by eye at page scale |
+| Featured mock cramped at desktop width | Same shot: 690 × 430 art with the title pushed off-centre | `16 / 7.9`, metadata regridded, mock type re-clamped |
+| Pale sticky header floated across the dark About band | `f-about.png` at 1440 px | `.bar.is-inverse` token sets for both themes, toggled from the band's `getBoundingClientRect()` |
+| Hero rail label measured 3.31:1 | Computed-style sweep, light theme, 10 px uppercase | Colour moved from `--muted-2` to `--muted` → 4.78:1 |
+| GSAP hero lines parked one line-height below the mask | Computed transform `matrix(1,0,0,1,0,131.871)` after the timeline reported progress 1 | Start states set with `gsap.set()` and every percentage tween pins `y: 0`; layout flushed before measuring. Documented in `DESIGN.md` §3 |
+| Orphan `.feature-badge` rules after the badge was removed | `grep` on both files | Both the desktop rule and its mobile override deleted; brace count 477/477 |
+
+### Re-verified by running it
+
+| Check | Method | Result |
+|---|---|---|
+| axe-core 4.10 (wcag2a/aa, wcag21a/aa, best-practice) | Real Chromium, light / dark / 390 px | **0 violations** in all three |
+| Reflow | 320, 360, 390, 414, 600, 768, 900, 1024, 1180, 1280, 1440, 1920, 2560 | `scrollWidth === clientWidth` at every width |
+| Contrast | Computed foreground over composited background for every text node, both themes | 0 failures (hero rail was the only one) |
+| Targets (2.5.8) | Every `a`, `button`, `summary` | 0 below 24 × 24 |
+| Focus | Tabbed through all 43 focusables | Ring present on every one (the 3 "missing" in the programmatic probe are `.link` elements, which pass under real keyboard focus) |
+| No JS | `main.js` blocked | Hero at final state, 0 hidden `.reveal`, 1 service panel open, no overflow |
+| GSAP blocked | `vendor/gsap/*` aborted | Hero at final state (`transform: none`), rail falls back to rAF (`--tp: 0` at top) |
+| Reduced motion | `prefers-reduced-motion: reduce` | No loader, no clip-path masks, no transform; process rail fully drawn (`--tp: 1`, 4/4 steps on) |
+| Console | Full pass, both themes, mobile | 0 errors, 0 page errors |
+| Motion | Frames at 300–4400 ms across the loader lift | Hero completes in order; `.about-band` inverts the bar |
+
+### Limits
+
+- No real project screenshots exist, so the covers stay CSS drawings; they are
+  labelled as demos where relevant.
+- Testing was Chromium-only. Firefox and Safari have not been run for this
+  pass.
+- No field data: LCP/INP/CLS are reasoned about (defer scripts, no layout
+  thrash, reserved media boxes), not measured under throttling.
+- The optional desktop magnetic hover from the brief was not implemented; the
+  hover and focus states are.

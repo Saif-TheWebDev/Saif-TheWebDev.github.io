@@ -31,6 +31,7 @@
   function endLoader() {
     root.classList.add('loaded');
     root.classList.remove('loading');
+    try { window.dispatchEvent(new CustomEvent('saif:ready')); } catch (e) {}
     window.setTimeout(function () {
       if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
       loader = null;
@@ -164,6 +165,7 @@
 
   /* ── header state + reading progress ─────────────────────────────────── */
   var bar = doc.getElementById('bar');
+  var band = doc.querySelector('.about-band');
   var progress = doc.getElementById('progress');
   var pending = false;
 
@@ -173,7 +175,15 @@
     window.requestAnimationFrame(function () {
       pending = false;
       var y = window.scrollY || window.pageYOffset;
-      if (bar) bar.classList.toggle('is-stuck', y > 18);
+      if (bar) {
+        bar.classList.toggle('is-stuck', y > 18);
+        /* the bar inverts over the one section that runs the palette backwards,
+           so it never floats as a pale strip across the dark band */
+        if (band) {
+          var r = band.getBoundingClientRect();
+          bar.classList.toggle('is-inverse', r.top <= 76 && r.bottom >= 76);
+        }
+      }
       if (progress) {
         var max = doc.documentElement.scrollHeight - window.innerHeight;
         var pct = max > 0 ? Math.min(100, (y / max) * 100) : 0;
@@ -215,6 +225,16 @@
      ────────────────────────────────────────────────────────────────────── */
   var reveals = Array.prototype.slice.call(doc.querySelectorAll('.reveal'));
 
+  /* Reveals that share a parent arrive as one gesture, 65ms apart, so a row of
+     cards reads as a sequence rather than five unrelated fades. */
+  var groupCount = new Map();
+  reveals.forEach(function (el) {
+    var key = el.parentElement;
+    var n = groupCount.get(key) || 0;
+    el.style.setProperty('--i', String(Math.min(n, 5)));
+    groupCount.set(key, n + 1);
+  });
+
   function revealAll() {
     reveals.forEach(function (el) { el.classList.add('in'); });
   }
@@ -249,6 +269,100 @@
       revealAll();
     }
   }
+
+  /* ── motion (GSAP, optional) ─────────────────────────────────────────────
+     Loaded from assets/vendor/gsap. Nothing depends on it: if the files are
+     blocked, missing or the visitor prefers reduced motion this block is
+     skipped and the page keeps its plain-CSS reveal. The hero entrance is the
+     one place where the order of the choreography is the design.
+     ──────────────────────────────────────────────────────────────────────── */
+  (function initMotion() {
+    var gsap = window.gsap;
+    var ST = window.ScrollTrigger;
+    if (!gsap || !ST || reduce) return;
+
+    gsap.registerPlugin(ST);
+    gsap.defaults({ ease: 'power3.out', duration: 0.9 });
+    /* transforms only: no filters, no layout properties, no filter drop-shadows */
+    gsap.config({ nullTargetWarn: false });
+
+    /* hero: label → masked headline lines → purpose on its own beat → subtitle
+       → CTAs → stats. Built paused so the loader, not the timeline, decides
+       when it starts. */
+    var hero = doc.querySelector('.hero');
+    if (hero) {
+      var heroTag = hero.querySelector('.hero-tag');
+      var lines = gsap.utils.toArray('.hero .display .line > span');
+      var em = hero.querySelector('.display em');
+      var sub = hero.querySelector('.hero-sub');
+      var ctas = gsap.utils.toArray('.hero-cta > *');
+      var stats = gsap.utils.toArray('.hero-base .stat');
+
+      /* Start states are set once, up front, and the timeline only tweens to
+         explicit end values. Two details matter here: the layout is flushed
+         first (so the masked spans are measured as blocks, not inline), and
+         every percentage tween also pins y to 0 — otherwise GSAP keeps the
+         pixel translation it cached while converting the percentage and the
+         line stays one line-height below its slot. */
+      void hero.offsetHeight;
+      if (heroTag) gsap.set(heroTag, { y: 12, autoAlpha: 0 });
+      if (lines.length) gsap.set(lines, { y: 0, yPercent: 128 });
+      if (em) gsap.set(em, { y: 0, yPercent: 42, autoAlpha: 0, rotate: 1.5 });
+      if (sub) gsap.set(sub, { y: 16, autoAlpha: 0 });
+      if (ctas.length) gsap.set(ctas, { y: 14, autoAlpha: 0 });
+      if (stats.length) gsap.set(stats, { y: 12, autoAlpha: 0 });
+
+      var tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+      if (heroTag) tl.to(heroTag, { y: 0, autoAlpha: 1, duration: 0.55 });
+      if (lines.length) tl.to(lines, { y: 0, yPercent: 0, duration: 1.05, stagger: 0.085 }, '-=0.28');
+      if (em) tl.to(em, { y: 0, yPercent: 0, autoAlpha: 1, rotate: 0, duration: 0.8 }, '-=0.5');
+      if (sub) tl.to(sub, { y: 0, autoAlpha: 1, duration: 0.7 }, '-=0.55');
+      if (ctas.length) tl.to(ctas, { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.075 }, '-=0.45');
+      if (stats.length) tl.to(stats, { y: 0, autoAlpha: 1, duration: 0.55, stagger: 0.065 }, '-=0.42');
+
+      var played = false;
+      var play = function () {
+        if (played) return;
+        played = true;
+        tl.play();
+      };
+      if (root.classList.contains('loaded')) play();
+      else {
+        window.addEventListener('saif:ready', play, { once: true });
+        /* the loader has its own escape hatch; this is the matching one */
+        window.setTimeout(play, 5200);
+      }
+    }
+
+    /* process rail: the connecting line draws with scroll through
+       ScrollTrigger's progress, same math as the rAF fallback. */
+    var stepsEl = doc.getElementById('steps');
+    if (stepsEl) {
+      window.__saifGSAP = true;
+      var stepItems = Array.prototype.slice.call(stepsEl.querySelectorAll('.step'));
+      var paint = function (p) {
+        p = Math.max(0, Math.min(1, p));
+        stepsEl.style.setProperty('--tp', p.toFixed(3));
+        stepItems.forEach(function (el, i) {
+          el.classList.toggle('is-on', p >= (i + 0.32) / stepItems.length);
+        });
+      };
+      ST.create({
+        trigger: stepsEl,
+        start: 'top 74%',
+        end: 'bottom 36%',
+        scrub: 0.5,
+        onUpdate: function (self) { paint(self.progress); },
+        onRefresh: function (self) { paint(self.progress); }
+      });
+    }
+
+    /* fonts change the height of every heading; one refresh after they land
+       keeps every trigger honest without watching them at runtime. */
+    if (doc.fonts && doc.fonts.ready) {
+      doc.fonts.ready.then(function () { ST.refresh(); }).catch(function () {});
+    }
+  })();
 
   /* ── counters ────────────────────────────────────────────────────────── */
   var counters = Array.prototype.slice.call(doc.querySelectorAll('[data-count]'));
@@ -412,6 +526,91 @@
     });
   });
 
+  /* ── services accordion ──────────────────────────────────────────────────
+     The markup is <details>, so it opens with no script at all. When motion is
+     allowed we take the click and animate the panel height instead, which is
+     the one thing native details cannot do. Interruptions cancel cleanly.
+     ────────────────────────────────────────────────────────────────────── */
+  Array.prototype.forEach.call(doc.querySelectorAll('.svc'), function (box) {
+    var sum = box.querySelector('.svc-sum');
+    var panel = box.querySelector('.svc-panel');
+    if (!sum || !panel) return;
+    var running = null;
+
+    sum.addEventListener('click', function (e) {
+      if (reduce || typeof panel.animate !== 'function') return;
+      e.preventDefault();
+      if (running) { running.cancel(); running = null; }
+
+      if (box.open) {
+        var from = panel.offsetHeight;
+        running = panel.animate(
+          [{ height: from + 'px' }, { height: '0px' }],
+          { duration: 300, easing: 'cubic-bezier(0.33, 1, 0.68, 1)' }
+        );
+        running.onfinish = function () {
+          box.open = false;
+          panel.style.height = '';
+          running = null;
+        };
+        running.oncancel = function () { panel.style.height = ''; };
+      } else {
+        box.open = true;
+        var to = panel.offsetHeight;
+        panel.style.height = to + 'px';
+        running = panel.animate(
+          [{ height: '0px' }, { height: to + 'px' }],
+          { duration: 430, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+        );
+        running.onfinish = function () { panel.style.height = ''; running = null; };
+        running.oncancel = function () { panel.style.height = ''; running = null; };
+      }
+    });
+  });
+
+  /* ── process rail ────────────────────────────────────────────────────────
+     The connecting line fills with scroll and each step lights as the line
+     reaches it. Pure transform + class toggles: no pinning, no scroll-jack,
+     nothing that can hold the page still.
+     ────────────────────────────────────────────────────────────────────── */
+  var stepsEl = doc.getElementById('steps');
+  if (stepsEl) {
+    var stepItems = Array.prototype.slice.call(stepsEl.querySelectorAll('.step'));
+    var stepQueued = false;
+
+    var paintSteps = function () {
+      stepQueued = false;
+      /* ScrollTrigger takes the rail over when motion is running; the rAF
+         path stays as the fallback for blocked or unsupported browsers. */
+      if (window.__saifGSAP) return;
+      var rect = stepsEl.getBoundingClientRect();
+      var vh = window.innerHeight || 800;
+      var travel = rect.height + vh * 0.36;
+      var p = ((vh * 0.74) - rect.top) / travel;
+      p = Math.max(0, Math.min(1, p));
+      stepsEl.style.setProperty('--tp', p.toFixed(3));
+      stepItems.forEach(function (el, i) {
+        el.classList.toggle('is-on', p >= (i + 0.32) / stepItems.length);
+      });
+    };
+
+    var queueSteps = function () {
+      if (stepQueued) return;
+      stepQueued = true;
+      window.requestAnimationFrame(paintSteps);
+    };
+
+    if (reduce) {
+      stepsEl.style.setProperty('--tp', '1');
+      stepItems.forEach(function (el) { el.classList.add('is-on'); });
+    } else {
+      window.addEventListener('scroll', queueSteps, { passive: true });
+      window.addEventListener('resize', queueSteps);
+      window.addEventListener('load', queueSteps);
+      paintSteps();
+    }
+  }
+
   /* ── faq accordion ───────────────────────────────────────────────────── */
   var items = Array.prototype.slice.call(doc.querySelectorAll('.q'));
   items.forEach(function (item) {
@@ -421,7 +620,7 @@
     });
   });
 
-  /* ── pointer spotlight on cards ──────────────────────────────────────── */
+  /* ── pointer spotlight on project art ────────────────────────────────── */
   if (!reduce && window.matchMedia('(hover: hover)').matches) {
     Array.prototype.forEach.call(doc.querySelectorAll('.card-art'), function (art) {
       art.addEventListener('pointermove', function (e) {

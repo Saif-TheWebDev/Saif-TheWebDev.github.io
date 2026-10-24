@@ -119,10 +119,28 @@ on purpose.
 section padding `clamp(76px, 9.4vw, 138px)`, bar height 76 px (68 px under 900),
 `scroll-padding-top` bar + 24 px so anchors clear the fixed header.
 
-**Motion:** one easing curve (`cubic-bezier(.22,1,.36,1)`). The preloader runs at
-most 1.5 s of real time and resolves early when the document and fonts are
-ready; hero lines rise 1.15 s on a 0/80/160 ms stagger; sections reveal at 0.85 s
-and 22 px. Motion explains arrival; it never delays reading.
+**Motion:** one language, two engines that share it. CSS keeps the scroll
+reveal — 0.85 s, 22 px, `cubic-bezier(.22,1,.36,1)`, staggered per block via
+`--i`. GSAP (`power3.out`, 0.55–1.05 s) runs only the two places where order is
+the point:
+
+1. **Hero entrance**, built paused and released by `saif:ready` when the
+   preloader lifts. Label (0.55 s) → three headline lines rising out of their
+   masks (`yPercent 128 → 0`, 1.05 s, 85 ms stagger) → the italic *purpose* on
+   its own beat (0.8 s, 42 % lift, 1.5° unwind) → subtitle (0.7 s) → CTAs
+   (0.6 s, 75 ms stagger) → stats (0.55 s, 65 ms stagger). Total 2.49 s, and
+   the loader covers the first frames so nothing is seen before it starts.
+2. **Process rail**, driven by a ScrollTrigger scrub (0.5) between `top 74%`
+   and `bottom 36%` of the list. It writes the same `--tp` custom property and
+   `is-on` class the rAF fallback writes, so the drawing is identical whichever
+   engine runs it.
+
+GSAP is loaded from `assets/vendor/gsap/` with `defer`, never from a CDN, and is
+optional: if it fails to load, is blocked, or the visitor prefers reduced
+motion, `initMotion()` returns before touching anything and the CSS system
+stands. Start states are set explicitly with `gsap.set()` and tweened to stated
+end values — `from()` inside a paused timeline re-reads its own start state and
+parks the masked lines a line-height low (found and fixed in this pass).
 
 ## 4. The preloader
 
@@ -167,6 +185,19 @@ behind it: the page beneath is fully rendered before the curtain lifts.
   current section carries `aria-current`, not just an underline.
 - **Focus:** 2 px accent ring at 3 px offset on every focusable element; `<main>`
   is a skip-link target and suppresses the ring on programmatic focus only.
+- **Work** is one featured case study and two equal secondary cards, not three
+  equal tiles. The featured art is a drawn product mock (browser chrome, URL
+  pill, nav, poster line, a shelf of five stills) so the largest block on the
+  page is about the project rather than a gradient. Numbers are set in the
+  metadata row, top-aligned with the CTA.
+- **Services and FAQ** are native `<details>`: open, close and keyboard
+  behaviour exist with no script. One panel animates at a time with the Web
+  Animations API and all other panels snap closed; the plus/minus is a drawn SVG
+  and rotates rather than swapping glyphs.
+- **The header inverts** (`is-inverse`) while it overlaps `.about-band`, so the
+  pale translucent bar never floats across the dark section. Each theme defines
+  its own inverse token set; the band flips to paper in the dark theme, so the
+  rule follows the band, not the theme.
 
 ## 6. Content rules
 
@@ -182,8 +213,9 @@ behind it: the page beneath is fully rendered before the curtain lifts.
 
 ## 7. Themes and modes
 
-**Dark is the default**, because the design is built around it; light is a
-deliberate inverse for daylight reading, not an afterthought. The inline head
+**Ivory is the default** — the supplied palette's canvas — and the dark
+alternate is the deliberate inverse, not an afterthought. (Earlier revisions of
+this document said dark was the default; the palette round reversed that.) The inline head
 script resolves the stored theme before first paint, so there is no flash, and
 `color-scheme` follows it so form controls and scrollbars match. Forced-colors
 mode has its own block: glow fields are removed, borders become `CanvasText`, the
@@ -203,7 +235,7 @@ visible, and the loader and progress bars paint in `Highlight`.
 - **The preloader cannot strand the page.** Three independent escapes (inline
   timeout, script watchdog, stylesheet animation) each resolve it.
 - **Cache-bust** `style.css` / `main.js` with `?v=` on every change (currently
-  `20261024h`).
+  `20261024i`). GSAP files are versioned by folder contents, not by query.
 - `.nojekyll` keeps Pages from touching the files.
 
 ## 9. Asset provenance
@@ -216,6 +248,7 @@ visible, and the loader and progress bars paint in `Highlight`.
 | SVG icon sprite (`index.html`) | Hand-drawn paths | Original |
 | Project covers | Pure CSS (gradients, one repeating hairline), no image files | Original |
 | Glow fields, grid, grain | CSS radial gradients + an inline SVG noise data-URI | Original |
+| `assets/vendor/gsap/gsap.min.js`, `ScrollTrigger.min.js` (v3.15.0, 73 + 45 KB) | npm `gsap` 3.15.0 tarball, copied verbatim | GreenSock standard licence — free for this use; banner kept in both files, provenance in `NOTICE.md` |
 | Photography, video, audio | None used | — |
 
 No generated people, no stock photos, no third-party embeds, no tracking.
@@ -223,4 +256,8 @@ No generated people, no stock photos, no third-party embeds, no tracking.
 ## 10. Verification
 
 `AUDIT.md` holds the review record: what was measured, with what, and what is
-still unverified.
+still unverified. The redesign pass is recorded in §9 of that file — axe-core 0
+violations in light, dark and mobile; no horizontal overflow from 320 to
+2560 px; all targets ≥ 24 px; a measured contrast sweep with no failures in
+either theme; and the no-JS, blocked-GSAP and reduced-motion states checked by
+running them, not assumed.
