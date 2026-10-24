@@ -287,6 +287,35 @@ lazy-load (the covers are CSS drawings) and the single font is preloaded with
 | GSAP hero lines parked one line-height below the mask | Computed transform `matrix(1,0,0,1,0,131.871)` after the timeline reported progress 1 | Start states set with `gsap.set()` and every percentage tween pins `y: 0`; layout flushed before measuring. Documented in `DESIGN.md` §3 |
 | Orphan `.feature-badge` rules after the badge was removed | `grep` on both files | Both the desktop rule and its mobile override deleted; brace count 477/477 |
 
+### Fourth round — slowed scrolling (Lenis)
+
+The page now damps scroll: a wheel notch glides to rest over ~0.9 s instead of
+snapping. Lenis 1.3.27 (MIT, 5.3 KB gzipped) drives the **real** scroll position
+via `window.scrollTo`, so the scrollbar, keyboard, find-in-page, focus, the back
+button and every scroll listener keep working; only the arrival is eased, and
+the distance is deliberately unscaled.
+
+| Behaviour | Method | Result |
+|---|---|---|
+| Wheel easing | One 600 px wheel notch, `scrollY` sampled every 55 ms | 0 → 597 px, settles at ~880 ms; curve shows the intended decay (356 → 444 → 500 → 549 → 567) |
+| Anchors clear the fixed bar | Clicked all six in-page nav/CTA links | Every section lands 90–91 px from the top with a 78 px bar — 12 px of clearance, never underneath it |
+| Href updates | Same run | `location.hash` becomes `#work` etc. without a native jump |
+| Back to top | Footer wordmark at 8438 px | Returns to 0 |
+| Skip link | Clicked from 3000 px | Jumps immediately to `main`, focus moves with it — excluded from the eased handler on purpose |
+| Deep link | Loaded `?…#faq` directly | Lands with the FAQ 101 px down, under a 78 px bar |
+| Keyboard | PageDown / ArrowDown / Home | 700 → 740 → 0, unaffected |
+| Header, progress, rail | Wheel to 1398 px | `is-stuck` set, progress 16.6 %, ScrollTrigger wired to Lenis's scroll event |
+| Menu lock | Open menu, wheel 900 px | Stays at 0 while `lenis-stopped`; Escape returns normal scroll (→ 896 px) |
+| Touch devices | 390 px with touch emulation | Lenis never fetched (`maxTouchPoints && any-hover: none`); native momentum untouched |
+| Reduced motion | Emulated | Lenis never fetched; no masks, rail drawn, 0 hidden reveals |
+| Lenis blocked | Request aborted | Native scrolling, one expected network error, no page errors |
+| Performance | Cold cache, desktop | LCP 0.62 s, CLS 0.0014, **0 ms** long tasks including a six-notch scroll burst |
+| Accessibility | axe at 1440 light/dark, 768, 390 | 0 violations; 40 tab stops all ringed; text-spacing at 390 still no overflow |
+
+**Known trade-off, stated plainly:** damping means the page keeps moving for a
+few hundred milliseconds after you stop pushing. That is the feature; `SLOW_EASE`
+in `main.js` is the single dial (default 0.075, Lenis's own default is 0.1).
+
 ### Third round — lab performance and a lighter critical path
 
 Measured in Chromium with a cold cache: desktop unthrottled, and 390 px at 4×

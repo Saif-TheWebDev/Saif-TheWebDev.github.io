@@ -145,6 +145,17 @@ body {
 }
 body.nav-open { overflow: hidden; }
 
+/* ── eased scrolling ──────────────────────────────────────────────────────
+   Lenis writes window.scrollTo on every frame, so a native smooth behaviour
+   would animate on top of it and fight the easing. It also needs the
+   document to stay auto-height and stops by clipping rather than by
+   overflow: hidden, which would kill the scroll position.
+   ──────────────────────────────────────────────────────────────────────── */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto; }
+html.lenis.lenis-smooth iframe { pointer-events: none; }
+html.lenis.lenis-stopped { overflow: clip; }
+
 /* paper grain, very light: keeps the flat fields from banding */
 body::after {
   content: "";

@@ -139,6 +139,7 @@
 
   function setNav(open) {
     doc.body.classList.toggle('nav-open', open);
+    setScrollLock(open);
     if (menuBtn) {
       menuBtn.setAttribute('aria-expanded', String(open));
       menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
@@ -270,6 +271,28 @@
     }
   }
 
+  /* ── scroll feel, shared ────────────────────────────────────────────────
+     Declared before the two blocks that use it: the motion block needs to
+     hand scroll updates to ScrollTrigger, the menu needs to park the page,
+     and the smooth scroller only exists after the curtain.
+     ──────────────────────────────────────────────────────────────────────── */
+  var smooth = null;
+
+  /* Lenis moves the real scroll position, so ScrollTrigger only needs to be
+     told to re-read it each frame it moves. Wired from whichever side
+     finishes loading second — either file may arrive after the other. */
+  function linkScrollToGSAP() {
+    if (!smooth || !window.ScrollTrigger || !window.__saifGSAP || smooth.__linked) return;
+    smooth.__linked = true;
+    smooth.on('scroll', window.ScrollTrigger.update);
+  }
+
+  function setScrollLock(locked) {
+    if (!smooth) return;
+    if (locked) smooth.stop();
+    else smooth.start();
+  }
+
   /* ── motion (GSAP, optional) ─────────────────────────────────────────────
      Loaded from assets/vendor/gsap. Nothing depends on it: if the files are
      blocked, missing or the visitor prefers reduced motion this block is
@@ -346,6 +369,7 @@
       if (!ST || !stepsEl || window.__saifGSAP) return;
       gsap.registerPlugin(ST);
       window.__saifGSAP = true;
+      linkScrollToGSAP();
 
       var stepItems = Array.prototype.slice.call(stepsEl.querySelectorAll('.step'));
       var paint = function (p) {
@@ -687,6 +711,86 @@
       featureLink.addEventListener('blur', releaseMagnet, true);
     }
   }
+
+  /* ── slowed scrolling ─────────────────────────────────────────────────────
+     The page still scrolls natively: Lenis eases the *arrival* by writing
+     window.scrollTo every frame, so the scrollbar, keyboard, find-in-page,
+     focus movement, the back button and every scroll listener keep working
+     as they always did. What changes is the tail — a wheel notch is not
+     snapped into place, it glides to rest over about a second.
+
+     The distance is deliberately NOT scaled. Halving wheel travel is what
+     makes hijacked pages feel broken: you push three times and arrive
+     nowhere. Weight comes from damping, not from taking distance away.
+
+     Loaded after the curtain (5 KB gzipped that nobody watching a loader can
+     use), never on touch or reduced motion, and the page is complete if the
+     file never arrives. Tune SLOW_EASE between 0 and 1 — lower is slower.
+     ────────────────────────────────────────────────────────────────────── */
+  var SLOW_EASE = 0.075;
+
+  /* A phone or tablet with no pointer that can hover has no wheel to ease,
+     and dragging is the OS's own momentum — so the 5 KB is not fetched and
+     nothing can get between the finger and the page. A laptop with a
+     touchscreen still reports a hovering pointer and keeps the easing. */
+  function touchOnly() {
+    return (navigator.maxTouchPoints || 0) > 0 &&
+      window.matchMedia('(any-hover: none)').matches;
+  }
+
+  function initSmooth() {
+    var Lenis = window.Lenis;
+    if (!Lenis || reduce || smooth || touchOnly()) return;
+
+    smooth = new Lenis({
+      lerp: SLOW_EASE,
+      wheelMultiplier: 1,
+      smoothWheel: true,
+      syncTouch: false,        /* touch keeps the OS's own momentum */
+      anchors: false,          /* handled below, so the fixed bar is respected */
+      autoRaf: true,
+      respectReducedMotion: true
+    });
+
+    /* native <a href="#section"> jumps would land under the fixed bar and
+       fight the easing, so in-page links go through the same scrollTo */
+    doc.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if (!a || a.classList.contains('skip')) return;
+      var id = a.getAttribute('href');
+      if (!id || id === '#') return;
+      var target = doc.querySelector(id);
+      if (!target) return;
+
+      e.preventDefault();
+      /* release the page before asking it to move: the menu parks the
+         scroller, and a stopped scroller cannot animate a scrollTo */
+      if (doc.body.classList.contains('nav-open')) setNav(false);
+      var barH = bar ? bar.offsetHeight : 0;
+      var y = Math.max(0, target.getBoundingClientRect().top + (window.scrollY || 0) - barH - 12);
+      smooth.scrollTo(y, {
+        duration: 1.15,
+        easing: function (t) { return 1 - Math.pow(1 - t, 3); }
+      });
+      if (window.history && history.replaceState) history.replaceState(null, '', id);
+    });
+
+    linkScrollToGSAP();
+  }
+
+  function loadSmooth() {
+    if (reduce || smooth || touchOnly()) return;
+    if (window.Lenis) { initSmooth(); return; }
+    var tag = doc.createElement('script');
+    tag.src = 'assets/vendor/lenis/lenis.min.js';
+    tag.async = true;
+    tag.onload = initSmooth;
+    doc.head.appendChild(tag);
+  }
+
+  if (root.classList.contains('loaded')) window.setTimeout(loadSmooth, 0);
+  else window.addEventListener('saif:ready', loadSmooth, { once: true });
 
   /* ── pointer spotlight on project art ────────────────────────────────── */
   if (!reduce && window.matchMedia('(hover: hover)').matches) {

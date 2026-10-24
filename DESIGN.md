@@ -119,6 +119,20 @@ on purpose.
 section padding `clamp(76px, 9.4vw, 138px)`, bar height 76 px (68 px under 900),
 `scroll-padding-top` bar + 24 px so anchors clear the fixed header.
 
+**Scroll feel.** The page is damped, not hijacked. Lenis supplies the easing:
+it writes `window.scrollTo` every frame toward a target set by the wheel, so
+the real scroll position, scrollbar, keyboard, find-in-page, focus and history
+all keep working — and only the *arrival* is slowed, never the distance. (Scaling
+wheel travel is what makes slick pages feel broken; weight comes from damping.)
+
+The tuning constant is `SLOW_EASE` in `main.js` (0.075, default Lenis is 0.1,
+lower is slower). A 600 px wheel notch settles in roughly 0.9 s. The library is
+5.3 KB gzipped, fetched after the curtain, skipped on touch-only devices and
+under reduced motion, and abandons the page to native scrolling if it never
+arrives. In-page links are routed through `lenis.scrollTo` with the bar height
+as an offset, so they land 12 px clear of the fixed header instead of under it;
+the skip link is excluded so it still jumps instantly and moves focus.
+
 **Motion:** one language, two engines that share it. CSS keeps the scroll
 reveal — 0.85 s, 22 px, `cubic-bezier(.22,1,.36,1)`, staggered per block via
 `--i`. GSAP (`power3.out`, 0.55–1.05 s) runs only the two places where order is
@@ -260,6 +274,7 @@ visible, and the loader and progress bars paint in `Highlight`.
 | Project covers | Pure CSS (gradients, one repeating hairline), no image files | Original |
 | Glow fields, grid, grain | CSS radial gradients + an inline SVG noise data-URI | Original |
 | `assets/vendor/gsap/gsap.min.js`, `ScrollTrigger.min.js` (v3.15.0, 71 + 44 KB on disk, 28 + 18 KB gzipped) | npm `gsap` 3.15.0 tarball, copied verbatim | GreenSock standard licence — free for this use; banner kept in both files, provenance in `NOTICE.md` |
+| `assets/vendor/lenis/lenis.min.js` (v1.3.27, 18 KB on disk, 5.3 KB gzipped) | npm `lenis` 1.3.27, `dist/lenis.min.js` copied verbatim | MIT (darkroom.engineering); full text in `assets/vendor/lenis/LICENSE.txt` |
 | Photography, video, audio | None used | — |
 
 No generated people, no stock photos, no third-party embeds, no tracking.
