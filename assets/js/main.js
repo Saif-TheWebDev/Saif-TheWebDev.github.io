@@ -303,14 +303,16 @@
       }
       var setW = firstSet.getBoundingClientRect().width;
       if (!setW) return;
-      var guard = 0;
-      /* one set of travel has to be covered at every moment, so the track
-         only needs to be wider than the viewport plus one set */
-      while (marqueeTrack.scrollWidth < window.innerWidth + setW && guard < 10) {
+
+      /* Count what is needed up front rather than looping until a measured
+         width looks big enough — a single stale measurement used to run the
+         loop to its guard on very wide viewports. One set of travel must stay
+         covered at every moment, so the track has to be viewport + one set. */
+      var needed = Math.max(2, Math.ceil((window.innerWidth + setW) / setW) + 1);
+      while (marqueeTrack.children.length < needed) {
         var clone = firstSet.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
         marqueeTrack.appendChild(clone);
-        guard++;
       }
       marqueeTrack.style.setProperty('--dist', setW + 'px');
       /* constant reading speed (≈38px/s) whatever width the strip has to fill */
