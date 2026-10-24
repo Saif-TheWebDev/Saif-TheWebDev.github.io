@@ -99,7 +99,7 @@
     else finish();
 
     /* rAF stops in background tabs, and a stalled frame must never keep the
-       curtain up: this mirrors the stylesheet's own seven-second escape. */
+       curtain up: this mirrors the stylesheet's own six-second escape. */
     window.setTimeout(function () {
       if (!done) finish();
     }, 5000);
