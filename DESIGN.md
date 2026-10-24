@@ -19,30 +19,47 @@ file rather than contradict it.
 
 ## 2. Direction and why
 
-Rebuilt after **mdx.so**, at the owner's request, taking the *structure* of that
-site rather than its assets: one enormous display face used at almost poster
-scale, soft warm glow fields behind the text, a count-up preloader, a centred
-hero, an index of services, three project cards, one oversized client quote,
-and a full-bleed closing call to action.
+**Swiss editorial × independent studio.** The page is set like a printed
+portfolio: a wide margin, a strict baseline, hairline rules doing the work that
+cards used to do, one display face at poster scale, and a single accent spent
+only where an action or one clause of a headline needs it. Nothing is decorated
+to look expensive; the hierarchy is.
 
-The **colour** is the owner's own eight-swatch palette, not MDX's black: a warm
-ivory canvas, soft near-black ink and one burnt terracotta accent. The
-composition stays MDX-shaped; the surface is paper.
+The redesign (2026-10-24) replaced the earlier MDX-shaped composition — centred
+poster hero, count-up loader, three similar project cards, a made-up stat row
+and a scrolling technology marquee — with a page that reads as an argument:
 
-| Layer | Reference | Reason |
+| Layer | Now | Why |
 |---|---|---|
-| Composition | MDX (mdx.so) | Preloader → centred poster hero → statement → services index → work cards → process → about → quote → FAQ → full-bleed contact. Centre-aligned where the message is a slogan, left-aligned where it is evidence. |
-| Colour | Owner's eight-swatch palette | Warm ivory paper rather than near-black. The accent is used on one clause per headline, never as a wash. |
-| Display type | Owner-supplied single cut, poster scale | 9.2 rem at 1440 px, 0.9 leading, −0.045 em. The headline *is* the page. |
-| Depth | Glow fields + 25% grid | Two blurred terracotta ellipses, tinted towards the canvas so they read as daylight, and a masked hairline grid give the flat paper depth without images. |
+| Header | A centred, content-width "Dynamic Island" capsule: wordmark, five links with an active dot, availability, theme switch, one solid CTA. It tightens on scroll. | Navigation as an instrument, not a browser toolbar. Content-width means it never looks like a strip of chrome. |
+| Hero | Left-aligned editorial grid: eyebrow, three-line display headline *Websites with intention. Built to perform.*, support copy, two CTAs, and a side column with location, time and reply window. | Asymmetry creates an entry point. The side column answers the boring questions before they are asked. |
+| Work | Moved directly under the hero. Three projects, three compositions: full-width lead plate, image/content flip, full-bleed concept. | The work is the argument; everything else is supporting evidence. |
+| Motion | GSAP only, `power3.out`, masked line reveals, 12–16 px offsets, no parallax theatre. Content paints first; motion only nudges it. | Motion is punctuation. If it delays reading, it is a bug. |
+| Proof | One real client quote, kept as an editorial pull-quote. The old stat wall and marquee are gone. | Numbers that cannot be verified, and a ticker of logos-style keywords, both read as noise. |
+| Footer | A giant solid `SAIF AL JAHAN` wordmark, cropped by the page edge. | A closing signature, not another nav. |
 
-Deliberately **not** used: MDX's 3D/WebGL scenes, video, cursor-follow previews,
-or any external asset. The site stays one static page with no dependencies —
-the *composition* is borrowed, the pixels are ours.
+Deliberately **not** used: gradient blobs as decoration, glassmorphism panels,
+marquees, icon cards, invented metrics, stock photography, or any WebGL/3D.
 
-A dark alternate is kept, derived by inverting the same eight swatches (the
-palette's Primary Text becomes the canvas, its Canvas becomes the ink), because
-the theme toggle was an existing promise.
+### 2.1 What each project is
+
+| # | Project | Type | Honesty rule |
+|---|---|---|---|
+| 01 | Arif Mia — arifmia.com | Client, WordPress | Only structural facts that can be checked on the live site |
+| 02 | SAIF FLIX — saif-flix.webdev-saif.com | Personal product | Demo links only; no traffic or retention claims |
+| 03 | Renata PLC — plc.webdev-saif.com | Independent concept | Labelled as not commissioned, no endorsement implied, on every page |
+
+Project 03 carries the disclaimer three times: on the home plate, in its case
+study lede, and again in the Outcome section.
+
+### 2.2 Plates instead of screenshots
+
+The build environment cannot reach the three live sites, so no real captures
+exist. Rather than draw a fake browser window (which the earlier build did),
+each project gets a **typographic plate** built from its own verifiable facts —
+name, kind, stack, and one line of positioning. Plate and screenshot share the
+same box, radius and hover, so swapping in real captures later is a one-line
+change per project. The case studies say plainly that captures are pending.
 
 ## 3. Tokens
 
@@ -85,25 +102,29 @@ one notch (muted `#68625a`, accent → the palette's own Accent Hover `#8f301b`,
 The accent has exactly three jobs: primary action, one emphasis word per
 headline, and the status dot. It is never used for body copy or decoration.
 
-**Type**
+**Type — Inter 4.x variable, self-hosted, latin subset**
 
-| Role | Token | Size |
-|---|---|---|
-| Hero display | `--display` → `--face` | `clamp(2.85rem → 9.2rem)`, leading 0.9, tracking −0.045 em |
-| Section titles, contact | `--display` → `--face` | `clamp(2rem → 4.1rem)`, leading 1, tracking −0.038 em |
-| Statement, quote | `--display` → `--face` | `clamp(1.6rem → 4.6rem)`, leading 1.02–1.12 |
-| Body and UI | `--sans` → `--face` | 16 px base, 0.88–1 rem paragraphs, leading 1.6–1.68 |
-| Labels and metadata | `--mono` → `--face` | `--fs-label` 0.72 rem / `--fs-meta` 0.8 rem / `--fs-helper` 0.84 rem |
+The face is **Inter** (`assets/fonts/inter-latin-wght-{normal,italic}.woff2`,
+OFL 1.1, `assets/fonts/LICENSE-Inter.txt`). It replaced the previous
+`orlean.woff2`, which was a renamed **SF Pro Display Semibold** — Apple's
+font may not be redistributed, so it was removed from the repository. Bytes
+are neutral: 100.1 KB before, 100.2 KB after.
 
-The role tokens survive on purpose: they all resolve to `--face`, so a future
-typeface swap is one line, and each role keeps its own size and tracking.
+| Role | Token | Weight | Size |
+|---|---|---|---|
+| Display | `--display` → `--face` | `--w-display` 600 | `clamp(2.9rem → 6rem)`, leading 0.92, tracking −0.052 em |
+| Section titles | `--display` | 600 | `clamp(2rem → 3.9rem)`, leading 0.98, tracking −0.042 em |
+| Body and UI | `--sans` | `--w-body` 400 | 16 px base, leading 1.6, tracking −0.006 em |
+| Labels and metadata | `--mono` (resolves to the same face) | `--w-label` 500 | 0.66–0.84 rem, uppercase, 0.1–0.16 em tracking |
+| Data and numerals | `--display` | `--w-data` 450 | tabular numerals on every figure column |
 
-**One weight, so rank comes from scale and colour.** The supplied file is a single
-static 600 cut with no italic and no lighter companion. Everything is set at
-`font-weight: 400`, which *is* that cut; headings are distinguished by size,
-tracking and (for one phrase per section) the accent colour. `<strong>` is marked
-by ink colour rather than a heavier stroke. Italic runs are the browser's oblique
-of the same cut — an honest slant, not a second file pretending to be one.
+**Four weights from one file.** The variable axis lets rank come from weight
+*and* scale instead of colour alone; italic is a real italic cut, not a
+synthetic oblique. `font-optical-sizing: auto` is on, so the same face holds up
+at 11 px and at 12 rem.
+
+**Rule: no information-bearing text below 11 px.** The smallest token is
+0.66 rem (~10.5 px) and only for uppercase label chrome; body copy is 16 px.
 
 **Rule: no text that carries information is set below 11 px.** The old scale
 bottomed out at 6.7–9.9 px, which made the footer, metadata and tags decorative
@@ -165,22 +186,34 @@ parks the masked lines a line-height low (found and fixed in this pass).
 
 ## 4. The preloader
 
-Present in the markup, **shown only when scripting is available** (`.loader` is
-`display: none` until `html.js`). It reports a real number: elapsed time against
-a 1.25 s floor, held under 100% until `window.load` and `document.fonts.ready` have
-both fired, then 100% and a 0.55 s fade. Three failure paths keep it honest:
+It is a courtesy, not a toll gate.
 
-1. `prefers-reduced-motion: reduce` → never shown.
-2. `main.js` blocked at parse time → the inline failsafe in `<head>` adds
-   `.loaded` after 2.2 s, and only if `main.js` never set its readiness flag.
-3. `main.js` fails after parsing → `runLoader`'s watchdog calls `finish()` at
-   5 s, and the stylesheet's own `loaderEscape` animation lifts the curtain at 6 s.
+- **First visit:** a short beat (≈520 ms minimum), honest progress tied to
+  `window.load` + `fonts.ready`, then the curtain lifts.
+- **Repeat visit in the same session:** `sessionStorage.saif-visited` shortens
+  the minimum to 120 ms; the page is essentially immediate.
+- **Hard ceiling:** 1.5 s. A stalled font or third party never holds content
+  hostage.
+- **Failure:** the inline script lifts the curtain at 2.2 s if `main.js` never
+  runs; the stylesheet carries a 7 s escape; reduced motion skips it entirely.
+- The loader is `aria-hidden`, never focusable, and is removed from the DOM
+  700 ms after it finishes.
 
-The markup ships in its finished state (100%, bar full) and the script rewinds it
-on the first frame, so a blocked script shows a complete frame rather than a
-frozen zero. It is `aria-hidden`, holds no focusable content, and is removed from
-the DOM 0.7 s after it finishes. No percentage is invented and nothing is gated
-behind it: the page beneath is fully rendered before the curtain lifts.
+## 4.1 Contact form
+
+A real `<form>` with three states, no fake success:
+
+1. **No endpoint configured (default).** Submitting validates the fields, then
+   opens a `mailto:` draft with the brief filled in and says exactly that. It
+   works on any static host with no account.
+2. **`data-endpoint` set.** The form POSTs JSON to that URL and reports the
+   real HTTP result — success only when the request succeeded.
+3. **No JavaScript.** The email link above the form is the path; nothing is
+   hidden behind the script.
+
+Validation is hand-written so the message can be specific (name, email,
+project type, description), with `aria-invalid`, `aria-describedby` and a
+polite live region. A hidden honeypot field absorbs bots.
 
 ## 5. Component rules
 
@@ -259,25 +292,31 @@ visible, and the loader and progress bars paint in `Highlight`.
   preloader never appears.
 - **The preloader cannot strand the page.** Three independent escapes (inline
   timeout, script watchdog, stylesheet animation) each resolve it.
-- **Cache-bust** `style.css` / `main.js` with `?v=` on every change (currently
-  `20261024k`). GSAP files are versioned by folder contents, not by query.
+- **Cache-bust** `style.css` / `case.css` / `main.js` with `?v=` on every change
+  (currently `20261024p`). GSAP and Lenis are resolved by `main.js` against its
+  own script URL, so the same file serves `/index.html` and `/work/*.html`.
+- **Vendor paths are relative to the script**, not the document, or the case
+  pages would request `/work/assets/vendor/…`.
 - `.nojekyll` keeps Pages from touching the files.
 
 ## 9. Asset provenance
 
 | Asset | Origin | Licence |
 |---|---|---|
-| `assets/fonts/orlean.woff2` (1 file, 100 KB) | The owner's upload (`orlean.md`, 435 KB TrueType) converted to woff2 with fontTools. Its name table identifies it as **SF Pro Display Semibold**, v13.0d3e20, Apple — 2,324 glyphs, `usWeightClass 600`, `fsType 4`, no `fvar`, no italic. Published at the owner's explicit instruction after the mismatch was raised. | **Not openly licensed.** Apple's own name record points to the iOS Software License Agreement; `fsType 4` permits preview/print embedding only. Self-hosting it on a public site is outside those terms. |
+| `assets/fonts/inter-latin-wght-normal.woff2`, `…-italic.woff2` (48.3 KB + 51.8 KB) | npm `@fontsource-variable/inter` 5.3.0, latin subset, copied verbatim | **SIL Open Font License 1.1** — full text in `assets/fonts/LICENSE-Inter.txt`. Redistribution is permitted. |
+| `assets/fonts/orlean.woff2` | **Removed 2026-10-24.** Its name table identified it as SF Pro Display Semibold (Apple, `fsType 4`), which may not be redistributed. | Deleted from the repository and the git tree. |
 | `assets/img/og-image.jpg` | Rendered from this page's own type and palette (1200 × 630) | Original |
 | `assets/img/favicon.svg` | Hand-written SVG | Original |
-| SVG icon sprite (`index.html`) | Hand-drawn paths | Original |
-| Project covers | Pure CSS (gradients, one repeating hairline), no image files | Original |
+| SVG icon sprite | Hand-drawn paths | Original |
+| Project plates | CSS fields, type and one inline dot pattern — no image files, no screenshots | Original |
 | Glow fields, grid, grain | CSS radial gradients + an inline SVG noise data-URI | Original |
-| `assets/vendor/gsap/gsap.min.js`, `ScrollTrigger.min.js` (v3.15.0, 71 + 44 KB on disk, 28 + 18 KB gzipped) | npm `gsap` 3.15.0 tarball, copied verbatim | GreenSock standard licence — free for this use; banner kept in both files, provenance in `NOTICE.md` |
-| `assets/vendor/lenis/lenis.min.js` (v1.3.27, 18 KB on disk, 5.3 KB gzipped) | npm `lenis` 1.3.27, `dist/lenis.min.js` copied verbatim | MIT (darkroom.engineering); full text in `assets/vendor/lenis/LICENSE.txt` |
+| `assets/vendor/gsap/*` (v3.15.0) | npm `gsap` 3.15.0, copied verbatim | GreenSock standard licence — free for this use; banner kept, provenance in `NOTICE.md` |
+| `assets/vendor/lenis/lenis.min.js` (v1.3.27) | npm `lenis` 1.3.27, copied verbatim | MIT (darkroom.engineering); full text in `LICENSE.txt` |
 | Photography, video, audio | None used | — |
 
 No generated people, no stock photos, no third-party embeds, no tracking.
+**No screenshots of client sites are included** — the build environment cannot
+reach those hosts, so none were fabricated.
 
 ## 10. Verification
 

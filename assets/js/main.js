@@ -64,10 +64,18 @@
       doc.fonts.ready.then(function () { fontsReady = true; });
     }
 
+    /* A first visit gets a short beat — enough to read the mark, not enough to
+       wait for anything. A repeat visit inside the same session skips it
+       entirely: the loader is a courtesy, never a toll gate. */
+    var seen = false;
+    try { seen = sessionStorage.getItem('saif-visited') === '1'; } catch (e) {}
     var start = (window.performance && window.performance.now) ? window.performance.now() : Date.now();
-    var MIN_MS = 1250;
+    var MIN_MS = seen ? 120 : 520;
+    var MAX_MS = seen ? 400 : 1500;
     var shown = 0;
     var done = false;
+
+    try { sessionStorage.setItem('saif-visited', '1'); } catch (e) {}
 
     function finish() {
       done = true;
@@ -86,6 +94,9 @@
          stop easing toward the finish and take it — the asymptotic tail was
          costing half a second of staring at "97%". */
       if (ready && fontsReady && elapsed >= MIN_MS) { finish(); return; }
+      /* a hard ceiling: a slow font or a stalled third party is not a reason to
+         keep a curtain over content that has already painted */
+      if (elapsed >= MAX_MS) { finish(); return; }
       if (!ready || !fontsReady) target = Math.min(target, 0.9);
 
       shown += (target - shown) * 0.18;
@@ -134,23 +145,26 @@
 
   /* ── mobile nav ──────────────────────────────────────────────────────── */
   var menuBtn = doc.querySelector('.menu-btn');
-  var nav = doc.getElementById('nav');
+  var nav = doc.getElementById('mnav');
   var navLinks = nav ? Array.prototype.slice.call(nav.querySelectorAll('a')) : [];
 
+  /* The panel is a dropdown, not a takeover, so the page behind it keeps its
+     scroll position. Focus moves into the panel on open and returns to the
+     button on Escape — the two things a sheet has to get right. */
   function setNav(open) {
     doc.body.classList.toggle('nav-open', open);
-    setScrollLock(open);
     if (menuBtn) {
       menuBtn.setAttribute('aria-expanded', String(open));
       menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     }
     if (open && navLinks.length) {
-      window.setTimeout(function () { navLinks[0].focus(); }, 280);
+      window.setTimeout(function () { navLinks[0].focus(); }, 240);
     }
   }
 
   if (menuBtn && nav) {
-    menuBtn.addEventListener('click', function () {
+    menuBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
       setNav(!doc.body.classList.contains('nav-open'));
     });
     navLinks.forEach(function (a) {
@@ -162,11 +176,21 @@
         menuBtn.focus();
       }
     });
+    /* a tap anywhere else closes it — a dropdown that traps you is worse than
+       no dropdown */
+    doc.addEventListener('click', function (e) {
+      if (!doc.body.classList.contains('nav-open')) return;
+      if (nav.contains(e.target)) return;
+      setNav(false);
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 900 && doc.body.classList.contains('nav-open')) setNav(false);
+    });
   }
 
   /* ── header state + reading progress ─────────────────────────────────── */
   var bar = doc.getElementById('bar');
-  var band = doc.querySelector('.about-band');
+  var bands = Array.prototype.slice.call(doc.querySelectorAll('[data-invert]'));
   var progress = doc.getElementById('progress');
   var pending = false;
 
@@ -180,10 +204,13 @@
         bar.classList.toggle('is-stuck', y > 18);
         /* the bar inverts over the one section that runs the palette backwards,
            so it never floats as a pale strip across the dark band */
-        if (band) {
-          var r = band.getBoundingClientRect();
-          bar.classList.toggle('is-inverse', r.top <= 76 && r.bottom >= 76);
-        }
+        var probe = (doc.querySelector('.bar-in') || bar).getBoundingClientRect();
+        var py = probe.top + probe.height / 2;
+        var overBand = bands.some(function (b) {
+          var r = b.getBoundingClientRect();
+          return r.top <= py && r.bottom >= py;
+        });
+        bar.classList.toggle('is-inverse', overBand);
       }
       if (progress) {
         var max = doc.documentElement.scrollHeight - window.innerHeight;
@@ -317,7 +344,8 @@
       var em = hero.querySelector('.display em');
       var sub = hero.querySelector('.hero-sub');
       var ctas = gsap.utils.toArray('.hero-cta > *');
-      var stats = gsap.utils.toArray('.hero-base .stat');
+      var side = hero.querySelector('.hero-side');
+      var base = gsap.utils.toArray('.hero-base > ul > li, .hero-scroll');
 
       /* Start states are set once, up front, and the timeline only tweens to
          explicit end values. Two details matter here: the layout is flushed
@@ -329,17 +357,21 @@
       if (heroTag) gsap.set(heroTag, { y: 12, autoAlpha: 0 });
       if (lines.length) gsap.set(lines, { y: 0, yPercent: 128 });
       if (em) gsap.set(em, { y: 0, yPercent: 42, autoAlpha: 0, rotate: 1.5 });
-      if (sub) gsap.set(sub, { y: 16, autoAlpha: 0 });
-      if (ctas.length) gsap.set(ctas, { y: 14, autoAlpha: 0 });
-      if (stats.length) gsap.set(stats, { y: 12, autoAlpha: 0 });
+      /* content is never hidden to be animated: it paints at first paint and
+         the timeline only nudges it, so a slow script cannot delay LCP */
+      if (sub) gsap.set(sub, { y: 14 });
+      if (ctas.length) gsap.set(ctas, { y: 12 });
+      if (side) gsap.set(side, { y: 12 });
+      if (base.length) gsap.set(base, { y: 8 });
 
       var tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
       if (heroTag) tl.to(heroTag, { y: 0, autoAlpha: 1, duration: 0.55 });
-      if (lines.length) tl.to(lines, { y: 0, yPercent: 0, duration: 1.05, stagger: 0.085 }, '-=0.28');
+      if (lines.length) tl.to(lines, { y: 0, yPercent: 0, duration: 0.92, stagger: 0.07 }, '-=0.28');
       if (em) tl.to(em, { y: 0, yPercent: 0, autoAlpha: 1, rotate: 0, duration: 0.8 }, '-=0.5');
-      if (sub) tl.to(sub, { y: 0, autoAlpha: 1, duration: 0.7 }, '-=0.55');
-      if (ctas.length) tl.to(ctas, { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.075 }, '-=0.45');
-      if (stats.length) tl.to(stats, { y: 0, autoAlpha: 1, duration: 0.55, stagger: 0.065 }, '-=0.42');
+      if (sub) tl.to(sub, { y: 0, duration: 0.7 }, '-=0.55');
+      if (ctas.length) tl.to(ctas, { y: 0, duration: 0.6, stagger: 0.06 }, '-=0.45');
+      if (side) tl.to(side, { y: 0, duration: 0.7 }, '-=0.55');
+      if (base.length) tl.to(base, { y: 0, duration: 0.5, stagger: 0.05 }, '-=0.5');
 
       var played = false;
       var play = function () {
@@ -400,7 +432,7 @@
       if (!stepsEl) return;
       if (window.ScrollTrigger) { wireRail(); return; }
       var tag = doc.createElement('script');
-      tag.src = 'assets/vendor/gsap/ScrollTrigger.min.js';
+      tag.src = SELF + 'assets/vendor/gsap/ScrollTrigger.min.js';
       tag.async = true;
       tag.onload = wireRail;
       doc.head.appendChild(tag);
@@ -410,97 +442,149 @@
     else window.addEventListener('saif:ready', loadRail, { once: true });
   })();
 
-  /* ── counters ────────────────────────────────────────────────────────── */
-  var counters = Array.prototype.slice.call(doc.querySelectorAll('[data-count]'));
-  var counted = false;
-
-  function runCounters() {
-    if (counted) return;
-    counted = true;
-
-    counters.forEach(function (el) {
-      var target = parseInt(el.getAttribute('data-count'), 10) || 0;
-      if (reduce || !window.requestAnimationFrame) { el.textContent = target; return; }
-
-      var begin = null;
-      function tick(now) {
-        if (begin === null) begin = now;
-        var p = Math.min((now - begin) / 1300, 1);
-        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
-        if (p < 1) window.requestAnimationFrame(tick);
-      }
-      window.requestAnimationFrame(tick);
-    });
-  }
-
-  var stats = doc.querySelector('.stats');
-  if (stats && 'IntersectionObserver' in window) {
-    var statObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) { runCounters(); statObs.disconnect(); }
-      });
-    }, { threshold: 0.4 });
-    statObs.observe(stats);
-  } else {
-    runCounters();
-  }
-
-  /* ── marquee fill ──────────────────────────────────────────────────────
-     Two sets are in the HTML so the strip is complete without scripting. On
-     wide viewports one set can be narrower than the window, which would show
-     a gap at the loop point — so clone until the track covers two screens and
-     hand the stylesheet the real set width to travel.
+  /* ── inquiry form ──────────────────────────────────────────────────────
+     Progressive by design:
+       · no endpoint configured  → compose a mail draft (works everywhere)
+       · endpoint configured     → POST the fields as JSON and report the
+                                   real result, never a guessed one
+     Validation is ours so the message can be specific, and `novalidate` keeps
+     the browser's own bubbles from fighting the inline errors. Without JS the
+     form still posts to nothing and the email link above it is the path.
      ────────────────────────────────────────────────────────────────────── */
-  var marqueeTrack = doc.getElementById('marquee');
-  if (marqueeTrack) {
-    var firstSet = marqueeTrack.querySelector('.marquee-set');
-    var originals = Array.prototype.slice.call(marqueeTrack.children);
+  (function inquiry() {
+    var form = doc.getElementById('inquiry');
+    if (!form) return;
 
-    var fillMarquee = function () {
-      if (!firstSet) return;
-      while (marqueeTrack.children.length > originals.length) {
-        marqueeTrack.removeChild(marqueeTrack.lastElementChild);
-      }
-      var setW = firstSet.getBoundingClientRect().width;
-      if (!setW) return;
-
-      /* Count what is needed up front rather than looping until a measured
-         width looks big enough — a single stale measurement used to run the
-         loop to its guard on very wide viewports. One set of travel must stay
-         covered at every moment, so the track has to be viewport + one set. */
-      var needed = Math.max(2, Math.ceil((window.innerWidth + setW) / setW) + 1);
-      while (marqueeTrack.children.length < needed) {
-        var clone = firstSet.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
-        marqueeTrack.appendChild(clone);
-      }
-      marqueeTrack.style.setProperty('--dist', setW + 'px');
-      /* constant reading speed (≈38px/s) whatever width the strip has to fill */
-      marqueeTrack.style.animationDuration = (setW / 38).toFixed(1) + 's';
+    var status = doc.getElementById('inq-status');
+    var submit = form.querySelector('.btn-submit');
+    var fields = {
+      name: form.querySelector('#inq-name'),
+      email: form.querySelector('#inq-email'),
+      project: form.querySelector('#inq-type'),
+      message: form.querySelector('#inq-msg')
     };
 
-    fillMarquee();
-    window.addEventListener('resize', function () {
-      window.clearTimeout(fillMarquee.timer);
-      fillMarquee.timer = window.setTimeout(fillMarquee, 200);
-    });
-  }
+    var rules = {
+      name: function (v) { return v.trim().length >= 2 ? '' : 'Please tell me your name.'; },
+      email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Please use a valid email address.'; },
+      project: function (v) { return v ? '' : 'Pick the closest option — it can change later.'; },
+      message: function (v) { return v.trim().length >= 10 ? '' : 'A sentence or two is enough to start.'; }
+    };
 
-  /* ── marquee pause control (WCAG 2.2.2) ─────────────────────────────────
-     The strip moves on its own for more than five seconds, so it has to offer
-     a real, keyboard-operable way to stop — hover alone is not enough.
-     ────────────────────────────────────────────────────────────────────── */
-  var marqueeBtn = doc.querySelector('.marquee-btn');
-  if (marqueeBtn) {
-    var marqueeBox = marqueeBtn.closest('.marquee');
-    marqueeBtn.addEventListener('click', function () {
-      var paused = marqueeBox.classList.toggle('is-paused');
-      marqueeBtn.setAttribute('aria-pressed', String(paused));
-      marqueeBtn.setAttribute('aria-label', paused ? 'Resume the technology ticker' : 'Pause the technology ticker');
-      var use = marqueeBtn.querySelector('use');
-      if (use) use.setAttribute('href', paused ? '#i-play' : '#i-pause');
+    function setError(key, msg) {
+      var input = fields[key];
+      if (!input) return;
+      var field = input.closest('.field');
+      var err = doc.getElementById('err-' + (key === 'project' ? 'type' : key === 'message' ? 'msg' : key));
+      var bad = !!msg;
+      if (field) field.toggleAttribute('data-invalid', bad);
+      input.setAttribute('aria-invalid', bad ? 'true' : 'false');
+      if (err) {
+        err.hidden = !bad;
+        if (msg) err.textContent = msg;
+        input.setAttribute('aria-describedby', err.id);
+      }
+    }
+
+    function validate(key) {
+      var input = fields[key];
+      var msg = rules[key](input.value);
+      setError(key, msg);
+      return !msg;
+    }
+
+    Object.keys(fields).forEach(function (key) {
+      var input = fields[key];
+      /* validate on blur, then live once the field has been flagged — an error
+         that appears while you are still typing the first character is noise */
+      input.addEventListener('blur', function () { if (input.value) validate(key); });
+      input.addEventListener('input', function () {
+        var field = input.closest('.field');
+        if (field && field.hasAttribute('data-invalid')) validate(key);
+      });
     });
-  }
+
+    function summary() {
+      var budget = form.querySelector('#inq-budget');
+      var when = form.querySelector('#inq-when');
+      var lines = [
+        'Name: ' + fields.name.value.trim(),
+        'Email: ' + fields.email.value.trim(),
+        'Project: ' + fields.project.value,
+        'Message:',
+        fields.message.value.trim()
+      ];
+      if (budget && budget.value) lines.push('', 'Budget: ' + budget.value);
+      if (when && when.value) lines.push('Timeline: ' + when.value);
+      return lines.join('\n');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var ok = Object.keys(fields).map(validate).every(Boolean);
+      if (!ok) {
+        var first = form.querySelector('[data-invalid] input, [data-invalid] select, [data-invalid] textarea');
+        if (first) first.focus();
+        if (status) {
+          status.setAttribute('data-state', 'error');
+          status.textContent = 'Check the highlighted fields and try again.';
+        }
+        return;
+      }
+
+      /* bots tick the hidden field; humans never see it */
+      var trap = form.querySelector('#inq-company');
+      if (trap && trap.value) return;
+
+      var endpoint = (form.getAttribute('data-endpoint') || '').trim();
+      if (!endpoint) {
+        var to = form.getAttribute('data-email') || 'me@webdev-saif.com';
+        var href = 'mailto:' + to +
+          '?subject=' + encodeURIComponent('Project inquiry — ' + fields.project.value) +
+          '&body=' + encodeURIComponent(summary());
+        window.location.href = href;
+        if (status) {
+          status.removeAttribute('data-state');
+          status.textContent = 'Opening your email app with the brief filled in. If nothing opens, write to ' + to + ' directly.';
+        }
+        return;
+      }
+
+      if (submit) { submit.disabled = true; }
+      if (status) {
+        status.removeAttribute('data-state');
+        status.textContent = 'Sending…';
+      }
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: fields.name.value.trim(),
+          email: fields.email.value.trim(),
+          project: fields.project.value,
+          message: fields.message.value.trim(),
+          budget: (form.querySelector('#inq-budget') || {}).value || '',
+          timeline: (form.querySelector('#inq-when') || {}).value || ''
+        })
+      }).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        form.reset();
+        if (status) {
+          status.removeAttribute('data-state');
+          status.textContent = 'Sent. You will get a reply at the address you gave, usually within a day.';
+        }
+      }).catch(function () {
+        if (status) {
+          status.setAttribute('data-state', 'error');
+          status.textContent = 'That did not send. Email me at ' + (form.getAttribute('data-email') || 'me@webdev-saif.com') + ' and I will pick it up there.';
+        }
+      }).then(function () {
+        if (submit) { submit.disabled = false; }
+      });
+    });
+  })();
 
   /* ── live Dhaka time ─────────────────────────────────────────────────── */
   var clocks = doc.querySelectorAll('[data-clock]');
@@ -521,6 +605,14 @@
   if (clocks.length) { updateClock(); window.setInterval(updateClock, 30000); }
 
   /* ── copy email ──────────────────────────────────────────────────────── */
+  /* Vendor files are resolved against this script's own URL, so the same file
+     serves the home page and /work/*.html without a build step or an absolute
+     path that would break if the site ever moves under a subdirectory. */
+  var SELF = (function () {
+    var el = doc.currentScript || doc.querySelector('script[src*="assets/js/main.js"]');
+    return el ? el.src.replace(/assets\/js\/main\.js.*$/, '') : '';
+  })();
+
   var toast = doc.getElementById('toast');
   var toastTimer;
 
@@ -767,7 +859,8 @@
       /* release the page before asking it to move: the menu parks the
          scroller, and a stopped scroller cannot animate a scrollTo */
       if (doc.body.classList.contains('nav-open')) setNav(false);
-      var barH = bar ? bar.offsetHeight : 0;
+      var barIn = doc.querySelector('.bar-in');
+      var barH = barIn ? barIn.getBoundingClientRect().bottom + 10 : (bar ? bar.offsetHeight : 0);
       var y = Math.max(0, target.getBoundingClientRect().top + (window.scrollY || 0) - barH - 12);
       smooth.scrollTo(y, {
         duration: 1.15,
@@ -783,7 +876,7 @@
     if (reduce || smooth || touchOnly()) return;
     if (window.Lenis) { initSmooth(); return; }
     var tag = doc.createElement('script');
-    tag.src = 'assets/vendor/lenis/lenis.min.js';
+    tag.src = SELF + 'assets/vendor/lenis/lenis.min.js';
     tag.async = true;
     tag.onload = initSmooth;
     doc.head.appendChild(tag);
@@ -794,7 +887,7 @@
 
   /* ── pointer spotlight on project art ────────────────────────────────── */
   if (!reduce && window.matchMedia('(hover: hover)').matches) {
-    Array.prototype.forEach.call(doc.querySelectorAll('.card-art'), function (art) {
+    Array.prototype.forEach.call(doc.querySelectorAll('.plate'), function (art) {
       art.addEventListener('pointermove', function (e) {
         var r = art.getBoundingClientRect();
         art.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');

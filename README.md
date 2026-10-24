@@ -7,72 +7,34 @@ Content is adapted from [webdev-saif.com](https://webdev-saif.com).
 
 ## Design system
 
-Rebuilt after **[mdx.so](https://mdx.so)** — its composition, not its assets:
-a count-up preloader, a centred poster hero on soft glow fields, a statement, an
-index of services, three project cards, one oversized quote, and a full-bleed
-closing call to action. No WebGL, no video, no external files; the structure is
-borrowed and everything on screen is ours.
+**Swiss editorial × independent studio**, built on the owner's eight-swatch
+palette. A centred "Dynamic Island" header, an asymmetric editorial hero
+(*Websites with intention. Built to perform.*), the work moved directly under
+the hero in three different compositions, an accordion of four services, a
+four-step process, a typographic About band, one real client quote, a native
+FAQ, and a contact section with a real form beside the email address.
 
-Colour is the **owner's eight-swatch palette**: warm ivory canvas `#f7f5f0`,
-soft near-black ink `#191817`, burnt terracotta accent `#b64024`, with card,
-stone, secondary-text and border swatches behind them. The full mapping is in
-`DESIGN.md` §3.
-
-| Layer | Reference | Contribution |
+| Layer | Source | Contribution |
 |---|---|---|
-| Composition | **MDX** | Preloader → poster hero → statement → services → work → process → about → quote → FAQ → contact |
-| Canvas | **owner's palette** | Warm ivory `#f7f5f0`, ink `#191817`, burnt terracotta `#b64024`, glow fields and a masked 25% grid |
-| Display type | **owner's cut** | One supplied 600-weight grotesque at poster scale — 9.2 rem, 0.9 leading, tight tracking |
-| Detail | **Vercel** | Hairline rules, tracked micro-labels, strict grid |
-| Motion | **Linear / Vercel** | GSAP hero entrance with masked lines; ScrollTrigger line draw; CSS reveal for everything else |
+| Composition | Swiss editorial / studio sites | Strict margins, hairline rules instead of cards, one display face at poster scale, asymmetric grids |
+| Colour | **owner's eight swatches** | Warm ivory `#f7f5f0`, ink `#191817`, burnt terracotta `#b64024`; accent only for actions and one clause per headline |
+| Type | **Inter 4.x variable** (OFL, self-hosted) | Display 600 / body 400 / label 500 / data 450 — rank from weight and scale |
+| Header | A floating capsule | Content-width, translucent, hairline border, tightens on scroll, active-section dot, one solid CTA |
+| Motion | GSAP + Lenis | Masked line reveals, `power3.out`, transform/opacity only; content paints before it animates |
+| Work | Three plates | Full-width lead, image/content flip, full-bleed concept — each with real facts and a live link |
 
-Type: **one supplied typeface**, self-hosted as `assets/fonts/orlean.woff2` and
-used for every role — display, body, labels and numerals. It is a single 600
-weight with no italic, so hierarchy comes from size, tracking and colour, and
-emphasis inside a sentence is carried by ink colour. `DESIGN.md` §9 records what
-the file actually is and the licence position; the system sans is the fallback.
-
-The ivory palette is the default. A dark alternate is derived by inverting the
-same eight swatches and sits behind the existing toggle; the choice is
-remembered in `localStorage` and resolved before first paint.
-
-### Motion
-
-Two engines, one language. CSS (`cubic-bezier(.22,1,.36,1)`, 0.85 s, 22 px)
-handles scroll reveals. GSAP 3.15 — self-hosted in `assets/vendor/gsap/`, loaded
-with `defer`, never from a CDN — handles the hero entrance (label → masked
-headline lines → *purpose* → subtitle → CTAs → stats, 2.49 s total) and the
-process line via ScrollTrigger — which is fetched *after* the curtain lifts, not
-shipped in the critical path. If GSAP is missing, blocked, or the visitor prefers
-reduced motion, `initMotion()` never runs and the page is complete and static.
-nothing on the page depends on an animation to become visible.
-
-### Slowed scrolling
-
-Scrolling is damped rather than instant: Lenis eases the page to rest over about
-a second instead of snapping. It drives the real scroll position, so the
-scrollbar, keyboard, find-in-page, focus and the back button behave natively —
-and the *distance* is deliberately unchanged (a wheel notch still travels a
-wheel notch). Self-hosted at `assets/vendor/lenis/`, fetched after the curtain,
-never on touch-only devices or with reduced motion. Tune `SLOW_EASE` in
-`assets/js/main.js` (0.075; lower is slower).
-
-### The preloader
-
-A real progress counter, not a fake one: elapsed time against a 1.25 s floor,
-held under 100% until the document and the font have both loaded, then
-completion and a 0.55 s fade. It is `aria-hidden`, holds no focusable content, is removed
-from the DOM afterwards, and never appears with JS off or
-`prefers-reduced-motion: reduce`. Three independent failsafes lift the curtain if
-anything stalls, so it can never strand the page. Details in `DESIGN.md` §4.
+Full rationale, tokens, component rules and provenance: **`DESIGN.md`**.
+What was tested and what still needs the owner: **`AUDIT.md`** §10.
 
 ## What's inside
 
-- One hand-written page: preloader, poster hero, statement, services, selected
-  work, process, about, quote, FAQ and contact.
+- One hand-written page — hero, selected work, services, process, about, quote,
+  FAQ, contact — plus three case-study pages under `work/`.
 - No build step, no framework, no CDN. Plain HTML, CSS and vanilla JS.
-- Project covers (SAIF FLIX, Arif Mia, Renata PLC) and every glow field drawn
-  entirely in CSS, so they retint with the theme and there is nothing to break.
+- Project plates, glow fields and every icon drawn in CSS/SVG, so they retint
+  with the theme and there is nothing to break or 404.
+- A real inquiry form that either posts to a configured endpoint or composes a
+  mail draft — never a fake success.
 - Ivory and dark themes behind one toggle, remembered in `localStorage` and
   resolved before first paint so there is no flash.
 - Responsive to 320px, keyboard accessible, honours `prefers-reduced-motion` and
@@ -120,30 +82,67 @@ Pages on this site degrade gracefully rather than breaking:
 If a deploy ever looks unstyled, hard-refresh (`Ctrl/Cmd + Shift + R`) — you are
 almost certainly seeing a cached response from mid-deploy.
 
+## Contact form
+
+The form in `#contact` works with **no configuration**: it validates, then
+opens a `mailto:` draft with the brief filled in. To collect submissions
+server-side instead, set one attribute on the form in `index.html`:
+
+```html
+<form class="inq" id="inquiry" data-endpoint="https://formspree.io/f/XXXXXXX" …>
+```
+
+Any endpoint that accepts a JSON `POST` works (Formspree, Getform, Basin, a
+Cloudflare Worker). No key is embedded in the page and nothing is sent until
+someone submits. Without JavaScript, the email link is the path.
+
+## Case studies
+
+`/work/arif-mia.html`, `/work/saif-flix.html` and `/work/renata-plc.html` are
+static pages on the same design system, generated from one shell so they cannot
+drift apart:
+
+```bash
+python3 tools/build-case-studies.py   # rewrites the three files in place
+```
+
+Edit the data at the bottom of that script, not the generated HTML.
+
 ## Structure
 
 ```
 index.html
-AUDIT.md      review record against the 500 checks
-DESIGN.md     design context, tokens, asset provenance
+work/              arif-mia.html, saif-flix.html, renata-plc.html
+tools/             build-case-studies.py (generates work/*.html)
+sitemap.xml, robots.txt
+AUDIT.md           review record + test results
+DESIGN.md          design context, tokens, asset provenance
 assets/
-  css/style.css
+  css/style.css, case.css
   js/main.js
-  fonts/*.woff2
+  fonts/inter-*.woff2, LICENSE-Inter.txt
   img/favicon.svg, og-image.jpg
   vendor/gsap/gsap.min.js, ScrollTrigger.min.js, NOTICE.md
   vendor/lenis/lenis.min.js, LICENSE.txt, NOTICE.md
 ```
 
+## Screenshots
+
+No screenshots of the three client/demo sites are included. The build
+environment cannot reach `arifmia.com`, `saif-flix.webdev-saif.com` or
+`plc.webdev-saif.com`, and drawing a fake interface was not an option. Each
+project uses a typographic plate built from verifiable facts; when real
+captures exist, they drop into `.plate` without a layout change.
+
 ## Testing
 
 The browser checks live outside the repo (Puppeteer + `@sparticuz/chromium`,
-axe-core) and are re-run against a local `python3 -m http.server`. This pass
-covered 13 widths from 320 to 2560 px, axe in light/dark/mobile (0 violations),
-a computed-style contrast sweep in both themes, keyboard tabbing through every
-focusable, `prefers-reduced-motion`, blocked `main.js`, blocked GSAP, and
-element screenshots of the featured work card. Results are in
-[`AUDIT.md`](AUDIT.md) §9.
+axe-core) and run against a local `python3 -m http.server`. The premium-redesign
+pass covered 12 widths from 320 to 2560 px, axe in light/dark/mobile/tablet
+(0 violations), the three case pages at 390/768/1440, anchor offsets, theme
+persistence, form validation, `prefers-reduced-motion`, reduced loader timing,
+and LCP/CLS with and without 4G throttling. Results are in
+[`AUDIT.md`](AUDIT.md) §10.
 
 ## Local preview
 

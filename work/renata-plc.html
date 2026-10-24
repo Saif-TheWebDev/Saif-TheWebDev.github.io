@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+
+<title>Renata PLC — Saif Al Jahan</title>
+<meta name="description" content="An independent concept study of a corporate pharmaceutical website — information architecture, product search and investor content for a Bangladeshi manufacturer. Not commissioned.">
+<meta name="author" content="Saif Al Jahan">
+<meta id="theme-meta" name="theme-color" content="#f7f5f0">
+<link rel="canonical" href="https://saif-thewebdev.github.io/work/renata-plc.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Saif Al Jahan">
+<meta property="og:title" content="Renata PLC — Saif Al Jahan">
+<meta property="og:description" content="An independent concept study of a corporate pharmaceutical website — information architecture, product search and investor content for a Bangladeshi manufacturer. Not commissioned.">
+<meta property="og:url" content="https://saif-thewebdev.github.io/work/renata-plc.html">
+<meta property="og:image" content="https://saif-thewebdev.github.io/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://saif-thewebdev.github.io/assets/img/og-image.jpg">
+<meta name="twitter:title" content="Renata PLC — Saif Al Jahan">
+<meta name="twitter:description" content="An independent concept study of a corporate pharmaceutical website — information architecture, product search and investor content for a Bangladeshi manufacturer. Not commissioned.">
+
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/favicon.svg">
+<link rel="preload" href="../assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css?v=20261024p">
+<link rel="stylesheet" href="../assets/css/case.css?v=20261024p">
+
+<script>
+  // theme before paint, same contract as the home page
+  (function () {
+    var d = document.documentElement;
+    d.className = 'js';
+    try {
+      var t = localStorage.getItem('saif-theme');
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      d.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Renata PLC",
+  "description": "An independent concept study of a corporate pharmaceutical website — information architecture, product search and investor content for a Bangladeshi manufacturer. Not commissioned.",
+  "url": "https://saif-thewebdev.github.io/work/renata-plc.html",
+  "creator": {
+    "@type": "Person",
+    "name": "Saif Al Jahan",
+    "url": "https://saif-thewebdev.github.io/"
+  },
+  "about": "Corporate website concept (independent)"
+}
+</script>
+</head>
+<body class="case-page">
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M8 16 16 8M9.5 8H16v6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m4.2 7.2 7.8 5.6 7.8-5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar" id="bar">
+  <div class="bar-in">
+    <a class="mark" href="../index.html" aria-label="Saif Al Jahan — back to portfolio">Saif<span aria-hidden="true">.</span></a>
+
+    <nav class="nav" id="nav" aria-label="Case study">
+      <a href="../index.html#work">All work</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+
+    <div class="bar-r">
+      <button class="icon-btn theme-btn" type="button" aria-label="Switch theme" aria-pressed="false">
+        <svg class="ic ic-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+      <a class="bar-cta" href="../index.html#contact">
+        Start a project
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu">
+        <span class="bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+  <div class="bar-line" aria-hidden="true"><span id="progress"></span></div>
+
+  <nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="../index.html#work">All work</a>
+    <a href="../index.html#services">Services</a>
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+
+<article>
+
+<section class="case-hero">
+  <div class="shell">
+    <p class="crumb"><a href="../index.html">Saif Al Jahan</a><span aria-hidden="true">/</span><a href="../index.html#work">Work</a><span aria-hidden="true">/</span>Renata PLC</p>
+
+    <h1 class="case-title">Renata <em>PLC</em></h1>
+    <p class="case-lede">An independent concept for a listed pharmaceutical manufacturer: nine templates, an audience-shaped structure and a product catalogue that can actually be searched.</p>
+
+    <div class="concept-note">
+        <b>Independent concept · not commissioned</b>
+        <p>Renata PLC has not commissioned, reviewed or endorsed this work. It is a design study built on publicly available information, made to explore a hard information-architecture problem. No client relationship is implied anywhere on this page.</p>
+      </div>
+
+    <div class="case-foot-hero">
+      <span class="case-status">Concept study · not a client project</span>
+      <div class="case-links">
+        <a class="btn-line" href="https://plc.webdev-saif.com/" target="_blank" rel="noopener">Open the concept <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="case-mid">
+  <div class="shell">
+    <dl class="facts">
+      <div><dt>Type</dt><dd>Independent concept</dd></div>
+      <div><dt>Role</dt><dd>Design &amp; build</dd></div>
+      <div><dt>Stack</dt><dd>Static HTML, CSS, JavaScript</dd></div>
+      <div><dt>Year</dt><dd>2026</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="case-main">
+  <div class="shell case-wrap">
+    <nav class="toc" aria-label="On this page">
+      <p>Contents</p>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#problem">The problem</a></li>
+        <li><a href="#role">My role</a></li>
+        <li><a href="#approach">Technical approach</a></li>
+        <li><a href="#design">Design decisions</a></li>
+        <li><a href="#challenges">Challenges</a></li>
+        <li><a href="#outcome">Outcome</a></li>
+        <li><a href="#gallery">Evidence</a></li>
+      </ol>
+    </nav>
+
+    <div class="case-body">
+      <section class="case-sec" id="overview">
+        <h2><span class="n" aria-hidden="true">01</span>Overview</h2>
+        <p><strong>Renata PLC</strong> is one of Bangladesh's established pharmaceutical manufacturers: decades of operation, facilities across the country, products exported to dozens of markets. This is an <strong>independent concept study</strong> of how a company like that could explain itself online — not a commissioned project.</p><p>I chose it because the information architecture problem is unusually hard: one site has to serve investors, doctors, distributors, journalists, job seekers and patients, each with different questions and different tolerances for density.</p>
+      </section>
+      <section class="case-sec" id="problem">
+        <h2><span class="n" aria-hidden="true">02</span>The problem</h2>
+        <p>Corporate pharmaceutical sites tend to collapse under their own committees. The home page becomes a carousel of congratulations, the product catalogue becomes an unsearchable list, and investor information hides three levels down in a PDF.</p><ul><li>Audiences with conflicting needs sharing one navigation.</li><li>A product range in the hundreds that has to be searchable by brand, generic name, therapeutic area and dosage form.</li><li>Investor and governance content that is legally material and must stay current.</li><li>Regulatory care: nothing on the page may imply a medical claim the company has not made.</li></ul>
+      </section>
+      <section class="case-sec" id="role">
+        <h2><span class="n" aria-hidden="true">03</span>My role</h2>
+        <p>Everything in the concept: competitor and content audit, information architecture, the page templates, the design system, and the static build. No real company data was invented for it — where the concept needed a figure, the layout shows the shape of a figure rather than a fabricated one.</p>
+      </section>
+      <section class="case-sec" id="approach">
+        <h2><span class="n" aria-hidden="true">04</span>Technical approach</h2>
+        <dl class="dec">
+      <div><dt>Structure</dt><dd>Static HTML pages with one shared stylesheet and a small script — nine templates covering home, about, leadership, what we do, products, R&amp;D pipeline, investors, CSR and newsroom.</dd></div>
+      <div><dt>Product search</dt><dd>Filtering by brand, generic name, therapeutic area, dosage form and market, all client-side so the catalogue answers a question in one keystroke rather than a page load.</dd></div>
+      <div><dt>Investors</dt><dd>A dated, ordered area for results and disclosures, because the audience for it is looking for a specific document, not a story.</dd></div>
+      <div><dt>Navigation</dt><dd>Audience-shaped top level, with the mega-menu reserved for products — the one place where breadth is genuinely the point.</dd></div>
+      <div><dt>Disclosure</dt><dd>A visible concept banner and a footer note stating the work is independent. That is a build requirement, not a legal afterthought.</dd></div>
+    </dl>
+      </section>
+      <section class="case-sec" id="design">
+        <h2><span class="n" aria-hidden="true">05</span>Design decisions</h2>
+        <p>Restraint over decoration. A corporate site at this scale earns trust through consistency and legibility: a single column of content at a comfortable measure, dense data presented in real tables, and a type scale that keeps a 20-page document readable on a phone.</p><p>The palette is deliberately narrow — one ink, one paper, one accent — so that the product photography and the facility imagery carry the colour. Interactive states are unambiguous, because half the audience is on a hospital network with an old browser.</p>
+      </section>
+      <section class="case-sec" id="challenges">
+        <h2><span class="n" aria-hidden="true">06</span>Challenges</h2>
+        <dl class="dec">
+      <div><dt>Breadth without noise</dt><dd>Every additional audience adds navigation. The resolution was to keep the top level short and let each section own its own sub-navigation instead of building a mega-menu for everything.</dd></div>
+      <div><dt>Product data at scale</dt><dd>A real catalogue needs fields the design cannot invent. The concept defines the filter model and the result-card anatomy instead of pretending to hold the dataset.</dd></div>
+      <div><dt>Claims discipline</dt><dd>Pharmaceutical content is regulated. The concept avoids efficacy language entirely; product entries describe form and market, not benefit.</dd></div>
+      <div><dt>Density on mobile</dt><dd>Investor tables and product filters have to survive a 360px screen. Tables scroll in their own container and filters collapse into a single control.</dd></div>
+    </dl>
+      </section>
+      <section class="case-sec" id="outcome">
+        <h2><span class="n" aria-hidden="true">07</span>Outcome</h2>
+        <p>Live as a working concept at <strong>plc.webdev-saif.com</strong>. It has no client, no analytics and no outcome to report — and the honest version of this section is to say so plainly.</p><div class="concept-note" style="margin-top:22px">
+          <b>Not commissioned</b>
+          <p>Renata PLC has not commissioned, reviewed or endorsed this work. It is an independent design study using publicly available company information. All trademarks belong to their owners.</p>
+        </div>
+        <div class="case-links">
+          <a class="btn-line btn-line--solid" href="https://plc.webdev-saif.com/" target="_blank" rel="noopener">Open the concept <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></a>
+        </div>
+      </section>
+      <section class="case-sec" id="gallery">
+        <h2><span class="n" aria-hidden="true">08</span>Evidence</h2>
+        <div class="gallery">
+        <p class="gal-note">No screenshots of the concept are included yet: the concept host is outside this build environment's network. The pages below exist and are open to inspection.</p>
+        <div class="gal-grid">
+        <div class="gal-card"><span class="k">Product search</span><span class="v">Brand · generic · area · form · market</span><span class="m">Client-side filtering across the full catalogue model.</span></div>
+        <div class="gal-card"><span class="k">Templates</span><span class="v">Nine pages</span><span class="m">Home, about, founder, what we do, products, R&amp;D, investors, CSR, team.</span></div>
+        <div class="gal-card"><span class="k">Investors</span><span class="v">Dated disclosure list</span><span class="m">Ordered by date, built for someone looking for one document.</span></div>
+        <div class="gal-card"><span class="k">Disclosure</span><span class="v">Independent concept</span><span class="m">Stated in the banner and the footer of every page.</span></div>
+        </div>
+      </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<div class="shell">
+  <div class="case-next">
+    <a href="arif-mia.html">
+      <span class="k">Next project</span>
+      <span class="t">Arif Mia <svg class="ic" aria-hidden="true" style="width:.6em;height:.6em"><use href="#i-arrow"/></svg></span>
+    </a>
+  </div>
+</div>
+
+</article>
+</main>
+
+<footer class="foot">
+  <div class="shell foot-in">
+    <a class="foot-mark" href="../index.html">Saif<span aria-hidden="true">.</span></a>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../index.html#process">Process</a>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+    <div class="foot-social">
+      <a class="icon-btn" href="https://github.com/Saif-TheWebDev" target="_blank" rel="noopener me" aria-label="GitHub profile (opens in a new tab)">
+        <svg class="ic" aria-hidden="true"><use href="#i-github"/></svg>
+      </a>
+      <a class="icon-btn" href="mailto:me@webdev-saif.com" aria-label="Send an email">
+        <svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="shell foot-bot">
+    <p>&copy; <span id="year">2026</span> Saif Al Jahan</p>
+    <p class="foot-note">Designed &amp; built by hand</p>
+    <a class="foot-top" href="#main">
+      Back to top
+      <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </a>
+  </div>
+
+  <p class="foot-word" aria-hidden="true">SAIF AL JAHAN</p>
+</footer>
+
+<script src="../assets/js/main.js?v=20261024p" defer></script>
+</body>
+</html>

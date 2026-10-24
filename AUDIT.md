@@ -397,3 +397,81 @@ reduced motion the rail is drawn complete (`1`, 4 lit).
   capability; headless Chromium reports `hover: none`, so it was exercised by
   stubbing the media query and dispatching real pointer events (±5 px measured,
   clean release), not in a real cursor environment.
+
+---
+
+## 10. Addendum — premium redesign (2026-10-24)
+
+### What changed
+
+| Area | Before | Now |
+|---|---|---|
+| Typeface | `orlean.woff2` — an SF Pro Display Semibold renamed, not redistributable | **Inter 4.x variable**, latin subset, OFL 1.1, real italic; four named weights (`--w-display/body/label/data`) |
+| Header | Full-width sticky bar, height fixed, no active indicator | Content-width "island" capsule, translucent with a real hairline, tightens on scroll, accent dot for the active section, one solid CTA, theme switch |
+| Mobile menu | Full-screen takeover | Dropdown sheet anchored to the island; Escape closes and returns focus, outside-tap closes, no scroll lock |
+| Hero | Centred poster: "Good design. Clean code. Clear purpose." + 4 stat columns + technology marquee | Left editorial grid: eyebrow, *Websites with intention. Built to perform.*, support copy, two CTAs, side column (based / local time / reply window), honest foot rail |
+| Work | Below services; three near-identical cards with CSS-drawn fake browser UIs | Directly under the hero; a full-width lead plate, an image/content flip and a full-bleed concept — three compositions, real facts, live links, case-study links |
+| Case studies | Did not exist | `/work/arif-mia.html`, `/work/saif-flix.html`, `/work/renata-plc.html` — Overview / Problem / Role / Approach / Design / Challenges / Outcome / Evidence, generated from one shell |
+| Services | Creative titles only | The four named services, native `<details>` accordion, SVG-only controls |
+| Process | Listen → Shape → Build → Launch & tune | Discover → Define → Design & Build → Launch & Refine, each with a named deliverable on a shared baseline |
+| About | "Hi, I'm Saif. I connect the dots." + initials card | Typographic identity composition (no invented portrait), facts table, narrative, tool breakdown |
+| Social proof | 20+ projects / 3+ years / 95% repeat / "Lighthouse 100" (a target presented as a result) | Removed. One real client quote remains |
+| Contact | Email + copy button | Email + copy + a real inquiry form (six fields, honeypot, accessible validation, mailto or configured endpoint — never a fake success) |
+| Footer | Small mark, outline wordmark | Solid giant `SAIF AL JAHAN` wordmark, cropped by the page edge: minimal links, year, back to top |
+| Motion | Loader with a 1.25 s floor, hero hidden until it finished | Loader 520 ms floor on first visit, 120 ms on repeat, 1.5 s hard ceiling; hero copy paints immediately and is only nudged |
+| SEO | No sitemap, no robots | `sitemap.xml`, `robots.txt`, case-study canonicals + `CreativeWork` JSON-LD, new OG card rendered from the page's own type |
+
+### Verified by running it
+
+| Check | Method | Result |
+|---|---|---|
+| axe-core (wcag2a/aa, wcag21aa, wcag22aa, best-practice) | Real Chromium, 1440 light, 1440 dark, 390 mobile, 768 tablet | **0 violations** in all four |
+| axe on case pages | `arif-mia` @1440, `saif-flix` @390, `renata-plc` @768 | 0 / 0 / 0 after deepening the concept-note label to `--accent-2` (was 4.47:1, now passes) |
+| Reflow | 320, 360, 375, 390, 414, 600, 768, 1024, 1280, 1440, 1920, 2560 | `scrollWidth === clientWidth` at every width, home and case pages |
+| Anchor offset | Clicked *Work* in the capsule | Section top lands at 102 px with the capsule bottom at 72 px — 30 px clearance |
+| Theme | Toggle, then reload | `data-theme` and `localStorage` both `dark` after reload; first visit follows `prefers-color-scheme` |
+| Form validation | Empty submit, bad email, valid submit | 4 inline errors + `aria-invalid` on empty; email-only error on bad address; valid submit composes the mail draft and says so |
+| Reduced motion | `prefers-reduced-motion: reduce` | Loader removed, headline at final state, 0 hidden `.reveal` |
+| Loader | First visit vs repeat (`sessionStorage`) | 520 ms floor / 120 ms floor / 1500 ms ceiling; DOM node removed 700 ms after finish |
+| LCP / CLS | Chromium, no throttle and 4G + 4× CPU | desktop LCP **490 ms**, CLS **0.0007**; mobile LCP **712 ms**, CLS **0.0012**, TBT 250 ms |
+| Console | Whole pass, both themes, mobile, case pages | 0 page errors, 0 failed requests |
+
+### Fixed during this pass (worth recording)
+
+- **Chromium `text-wrap: pretty` overflow.** The About note laid a `<strong>` run
+  outside its container at 600 px, producing `scrollWidth 952` on a 600 px
+  viewport. Replaced with default wrapping plus `overflow-wrap: break-word`.
+- **`backdrop-filter` creates a containing block.** The mobile menu, positioned
+  `absolute` inside the capsule, anchored to the pill's width and rendered
+  off-screen. It now sits outside `.bar-in` in the DOM.
+- **Hero `max-width: 17ch`** resolved against 16 px body type and squeezed the
+  headline to 172 px; the critical CSS also still centred the hero.
+- **Anchor offset** measured the fixed wrapper instead of the capsule, so links
+  landed 30 px low once the capsule started shrinking on scroll.
+- **Vendor paths** were document-relative, so Lenis 404'd on `/work/*.html`.
+
+### Limits and what the owner still needs to do
+
+- **Screenshots of the three live sites do not exist in this build.** The
+  environment cannot reach `arifmia.com`, `saif-flix.webdev-saif.com` or
+  `plc.webdev-saif.com` (curl and Chromium both fail; only the platform's page
+  reader reaches them). No UI was invented: projects use typographic plates
+  built from verifiable facts, and the case studies say so. **Owner action:**
+  add real captures and swap `.plate` for `<img>`.
+- **Chromium only.** Firefox and Safari were not run. `backdrop-filter`,
+  `color-mix()` and `text-wrap` are all used; current Safari and Firefox support
+  them, but that is reasoning, not a test.
+- **INP was not measured** — there was no field traffic and no synthetic
+  interaction benchmark in this pass. TBT is reported instead (250 ms under 4×
+  CPU throttling), which is a proxy, not INP.
+- **Lighthouse was not run** here. The previous pass recorded scores; this pass
+  reports only the lab metrics above. No score is claimed.
+- **The Arif Mia quote** is carried over from webdev-saif.com. There is no
+  written authorisation on file in this repository. **Owner action:** confirm
+  the client is happy for it to be published, or remove §quote.
+- **Form endpoint** is empty, so the form opens a mail draft. **Owner action:**
+  set `data-endpoint` (documented in README) to collect submissions directly.
+- **Canonical / sitemap** point at `https://saif-thewebdev.github.io/`. If the
+  site should consolidate with `webdev-saif.com`, that is a redirect decision
+  the owner has to make; the duplicate-content question is not resolved by this
+  pass.

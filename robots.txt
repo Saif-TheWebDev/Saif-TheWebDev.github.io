@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://saif-thewebdev.github.io/sitemap.xml
