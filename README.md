@@ -99,7 +99,7 @@ Pages on this site degrade gracefully rather than breaking:
   `main.js`, and a 6 s CSS animation. With reduced motion it is never shown.
 - **Assets are cache-busted** (`?v=...`) so a bad response can't survive a
   deploy. Bump the query string whenever you edit `style.css` or `main.js`
-  (currently `20261024j`).
+  (currently `20261024k`).
 - **GSAP is optional.** It is a `defer` script with no preload and no inline
   dependency; with `assets/vendor/gsap/*` blocked by request interception the
   hero renders in its final state and the process rail falls back to the rAF

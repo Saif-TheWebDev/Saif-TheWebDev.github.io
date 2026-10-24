@@ -239,7 +239,7 @@ visible, and the loader and progress bars paint in `Highlight`.
 - **The preloader cannot strand the page.** Three independent escapes (inline
   timeout, script watchdog, stylesheet animation) each resolve it.
 - **Cache-bust** `style.css` / `main.js` with `?v=` on every change (currently
-  `20261024i`). GSAP files are versioned by folder contents, not by query.
+  `20261024k`). GSAP files are versioned by folder contents, not by query.
 - `.nojekyll` keeps Pages from touching the files.
 
 ## 9. Asset provenance

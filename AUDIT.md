@@ -254,6 +254,14 @@ The site was modified in place against the thirteen-phase brief, not rebuilt.
 Content, routes, metadata, JSON-LD, the fixed headline strings and the eight
 palette swatches were treated as frozen.
 
+**Document facts checked in the same run:** one `h1`, 12 headings with no level
+skips, one `main`, one `footer`, two labelled `nav`s; `title`, description,
+canonical, Open Graph, Twitter card, `theme-color`, `lang="en"` and
+`width=device-width` all present; both JSON-LD blocks parse (`Person`,
+`FAQPage`); no inline event handlers; no dead in-page anchors; no images to
+lazy-load (the covers are CSS drawings) and the single font is preloaded with
+`font-display: swap`.
+
 ### What changed, section by section
 
 | Section | Change |
@@ -279,13 +287,29 @@ palette swatches were treated as frozen.
 | GSAP hero lines parked one line-height below the mask | Computed transform `matrix(1,0,0,1,0,131.871)` after the timeline reported progress 1 | Start states set with `gsap.set()` and every percentage tween pins `y: 0`; layout flushed before measuring. Documented in `DESIGN.md` §3 |
 | Orphan `.feature-badge` rules after the badge was removed | `grep` on both files | Both the desktop rule and its mobile override deleted; brace count 477/477 |
 
+### Second testing round — interaction behaviours
+
+| Control | Test | Result |
+|---|---|---|
+| Services accordion | Real pointer click on each of the four summaries, settling 900 ms each | **Was broken**: all four stayed open, so the page read as an inventory rather than an argument. Added a `toggle` listener that closes siblings; re-tested → exactly one open after every click, keyboard `Enter` works, and the native (reduced-motion / no-JS) path closes siblings too |
+| FAQ accordion | Clicked all six | One open at a time, 6/6 |
+| Theme toggle | Clicked twice | light → dark → light, `aria-pressed` and `meta[theme-color]` follow |
+| Copy address | Clicked | Toast "Email copied — talk soon." visible, label swaps to *Copied* |
+| Marquee | Clicked pause | `animation-play-state: running → paused`, restored |
+| Mobile menu | Real pointer click at 390 px, then `Escape` | Opens (`nav-open`, `aria-expanded=true`, focus moved to *Work*), closes, focus returns to the button |
+| Text spacing (1.4.12) | 1.5 line height, 0.12 em tracking, 0.16 em word spacing at 320 and 390 px | No overflow (`scrollWidth === clientWidth`) |
+| 200 % zoom equivalent | 640 px viewport at DPR 2 | No overflow |
+| Forced colours | CDP `forced-colors: active` | Header, tags and rules fall back to system colours; aura and glow removed; display text `rgb(0,0,0)` on `Canvas` |
+| Print | `type: print` emulation | Chrome, loader, ticker and glows removed; ink on white |
+
 ### Re-verified by running it
 
 | Check | Method | Result |
 |---|---|---|
 | axe-core 4.10 (wcag2a/aa, wcag21a/aa, best-practice) | Real Chromium, light / dark / 390 px | **0 violations** in all three |
 | Reflow | 320, 360, 390, 414, 600, 768, 900, 1024, 1180, 1280, 1440, 1920, 2560 | `scrollWidth === clientWidth` at every width |
-| Contrast | Computed foreground over composited background for every text node, both themes | 0 failures (hero rail was the only one) |
+| Contrast | Computed foreground over composited background for every text node, both themes — semi-transparent fills composited, `color(srgb …)` parsed | 0 failures in light and dark (the hero rail was the only one found in the first round) |
+| Header over the inverted band | Real painted pixels sampled from a screenshot beside each label (a DOM walk cannot see what a fixed element is painted over) | Light theme: ink-2 10.8:1, accent 5.1:1, muted 6.3:1. Dark theme: 8.3 / 4.9 / 4.6:1. Worst case 4.57:1, above the 4.5 threshold. The first DOM-based probe reported failures here; the pixel measurement showed they were artefacts of guessing the backdrop |
 | Targets (2.5.8) | Every `a`, `button`, `summary` | 0 below 24 × 24 |
 | Focus | Tabbed through all 43 focusables | Ring present on every one (the 3 "missing" in the programmatic probe are `.link` elements, which pass under real keyboard focus) |
 | No JS | `main.js` blocked | Hero at final state, 0 hidden `.reveal`, 1 service panel open, no overflow |
@@ -299,7 +323,12 @@ palette swatches were treated as frozen.
 - No real project screenshots exist, so the covers stay CSS drawings; they are
   labelled as demos where relevant.
 - Testing was Chromium-only. Firefox and Safari have not been run for this
-  pass.
+  pass. `backdrop-filter` and `color-mix()` are used in the header and both
+  are supported in current Safari and Firefox, but that is reasoning, not a
+  test.
+- Headless Chromium reports `hover: none` / `pointer: none`, so hover-only
+  states (card lift, magnetic CTA, marquee hover-pause) were exercised with a
+  stubbed media query and real pointer events rather than a real cursor.
 - No field data: LCP/INP/CLS are reasoned about (defer scripts, no layout
   thrash, reserved media boxes), not measured under throttling.
 - The desktop magnetic hover exists only for fine pointers with hover
