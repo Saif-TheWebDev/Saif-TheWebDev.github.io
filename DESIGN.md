@@ -293,7 +293,7 @@ visible, and the loader and progress bars paint in `Highlight`.
 - **The preloader cannot strand the page.** Three independent escapes (inline
   timeout, script watchdog, stylesheet animation) each resolve it.
 - **Cache-bust** `style.css` / `case.css` / `main.js` with `?v=` on every change
-  (currently `20261024p`). GSAP and Lenis are resolved by `main.js` against its
+  (currently `20261024q`). GSAP and Lenis are resolved by `main.js` against its
   own script URL, so the same file serves `/index.html` and `/work/*.html`.
 - **Vendor paths are relative to the script**, not the document, or the case
   pages would request `/work/assets/vendor/…`.
