@@ -7,16 +7,21 @@ Content is adapted from [webdev-saif.com](https://webdev-saif.com).
 
 ## Design system
 
-Rebuilt after **[mdx.so](https://mdx.so)** — its composition, not its assets: a
-cinematic near-black canvas, a count-up preloader, a centred poster hero on soft
-glow fields, a statement, an index of services, three project cards, one
-oversized quote, and a full-bleed closing call to action. No WebGL, no video, no
-external files; the structure is borrowed and everything on screen is ours.
+Rebuilt after **[mdx.so](https://mdx.so)** — its composition, not its assets:
+a count-up preloader, a centred poster hero on soft glow fields, a statement, an
+index of services, three project cards, one oversized quote, and a full-bleed
+closing call to action. No WebGL, no video, no external files; the structure is
+borrowed and everything on screen is ours.
+
+Colour is the **owner's eight-swatch palette**: warm ivory canvas `#f7f5f0`,
+soft near-black ink `#191817`, burnt terracotta accent `#b64024`, with card,
+stone, secondary-text and border swatches behind them. The full mapping is in
+`DESIGN.md` §3.
 
 | Layer | Reference | Contribution |
 |---|---|---|
 | Composition | **MDX** | Preloader → poster hero → statement → services → work → process → about → quote → FAQ → contact |
-| Canvas | **MDX** | Near-black `#08080a`, one ember accent `#e08a63`, glow fields and a masked 25% grid |
+| Canvas | **owner's palette** | Warm ivory `#f7f5f0`, ink `#191817`, burnt terracotta `#b64024`, glow fields and a masked 25% grid |
 | Display type | **owner's cut** | One supplied 600-weight grotesque at poster scale — 9.2 rem, 0.9 leading, tight tracking |
 | Detail | **Vercel** | Hairline rules, tracked micro-labels, strict grid |
 
@@ -26,14 +31,15 @@ weight with no italic, so hierarchy comes from size, tracking and colour, and
 emphasis inside a sentence is carried by ink colour. `DESIGN.md` §9 records what
 the file actually is and the licence position; the system sans is the fallback.
 
-Dark is the default; light (`#f6f3ec` paper) is a deliberate inverse behind the
-same toggle as before.
+The ivory palette is the default. A dark alternate is derived by inverting the
+same eight swatches and sits behind the existing toggle; the choice is
+remembered in `localStorage` and resolved before first paint.
 
 ### The preloader
 
-A real progress counter, not a fake one: elapsed time against a 1.5 s floor,
-capped at 90% until the document and the font have both loaded, then completion
-and a 0.7 s fade. It is `aria-hidden`, holds no focusable content, is removed
+A real progress counter, not a fake one: elapsed time against a 1.25 s floor,
+held under 100% until the document and the font have both loaded, then
+completion and a 0.55 s fade. It is `aria-hidden`, holds no focusable content, is removed
 from the DOM afterwards, and never appears with JS off or
 `prefers-reduced-motion: reduce`. Three independent failsafes lift the curtain if
 anything stalls, so it can never strand the page. Details in `DESIGN.md` §4.
@@ -45,8 +51,8 @@ anything stalls, so it can never strand the page. Details in `DESIGN.md` §4.
 - No build step, no framework, no CDN. Plain HTML, CSS and vanilla JS.
 - Project covers (SAIF FLIX, Arif Mia, Renata PLC) and every glow field drawn
   entirely in CSS, so they retint with the theme and there is nothing to break.
-- Light and dark themes, following the system preference and remembered in
-  `localStorage`.
+- Ivory and dark themes behind one toggle, remembered in `localStorage` and
+  resolved before first paint so there is no flash.
 - Responsive to 320px, keyboard accessible, honours `prefers-reduced-motion` and
   forced-colors, and every target is at least 24 × 24 px.
 - SEO: metadata, Open Graph/Twitter card, `Person` and `FAQPage` JSON-LD.

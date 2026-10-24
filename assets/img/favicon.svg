@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Saif Al Jahan">
-  <rect width="64" height="64" rx="14" fill="#121013"/>
-  <text x="27" y="45" font-family="Georgia, 'Times New Roman', serif" font-size="40" text-anchor="middle" fill="#f3f0e9">s</text>
-  <circle cx="45" cy="42" r="4.5" fill="#e2542c"/>
+  <rect width="64" height="64" rx="14" fill="#191817"/>
+  <text x="27" y="45" font-family="Georgia, 'Times New Roman', serif" font-size="40" text-anchor="middle" fill="#f7f5f0">s</text>
+  <circle cx="45" cy="42" r="4.5" fill="#b64024"/>
 </svg>

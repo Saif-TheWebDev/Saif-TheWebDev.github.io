@@ -206,3 +206,44 @@ carried over unchanged; nothing was invented to fill the new layout.
 5. **Marquee gap at 1440 px** — two sets were narrower than the window, so the loop
    point showed a hole. Now cloned to fit and travelling exactly one set width.
 6. **Icons full-bleed without CSS** — the sprite had no sizing in the critical CSS.
+
+## 8. Palette round — the eight supplied swatches
+
+The owner supplied eight swatches (ivory canvas, near-black ink, burnt
+terracotta accent, card white, warm stone, muted charcoal, beige border, deep
+rust) and asked for them to be used. They define a *light* surface, so the ivory
+now is the default and the dark theme became the derived alternate.
+
+| Check | Result |
+|---|---|
+| axe-core — ivory · dark · 390 px | **0 violations** |
+| Contrast, computed with alpha compositing, both themes | **0 failures** — ink 16.3:1, secondary 4.78:1, accent 5.14:1, ivory-on-accent 5.14:1 |
+| Reflow, 320 → 2560 px, 13 widths | `scrollWidth === clientWidth` at every width |
+| Targets under 24 × 24 | 0 |
+| Keyboard focus | 41/41 visible focusables (the 42nd is the mobile menu button, `display: none` on desktop; it shows a 2 px ring at 390 px) |
+| Text spacing (1.4.12) | no horizontal scroll; only the decorative footer wordmark overflows its own clipped box |
+| Reduced motion · print · forced colours | unchanged, all pass |
+| No JS · no CSS · blocked JS | loader absent/self-resolving, 0 hidden reveals, hero visible |
+| Theme toggle | `data-theme` flips, `theme-color` meta follows (`#f7f5f0` ↔ `#191817`), label updates, choice persisted |
+| CLS (localhost) | 0.00062 |
+
+### Two pairs that needed care
+
+1. **Secondary text on the stone band** — `#716C65` on `#E9E3D9` measures 4.08:1,
+   under AA. The exact swatch is kept on canvas and card (4.78:1 / 5.16:1); only
+   inside `.sec-band` is it stepped to `#68625A` (4.72:1).
+2. **Accent on the stone band** — `#B64024` on `#E9E3D9` measures 4.39:1. Inside
+   the band the accent becomes the palette's own Accent Hover `#8F301B` (6.31:1).
+
+Both are scoped to the band, so the eight swatches are used exactly as supplied
+on every other surface. `DESIGN.md` §3 records the mapping.
+
+### Also changed
+
+- The inlined critical CSS now carries both token sets, so a returning visitor
+  with a stored dark theme gets the right colour on the very first paint.
+- The preloader, its hairline, the theme button icons and the `theme-color` meta
+  all read from tokens instead of the old dark literals.
+- The footer wordmark outline moved to the heavier hairline — at 13% ink on ivory
+  it was all but invisible.
+- The OG card and favicon were re-rendered in the new palette.

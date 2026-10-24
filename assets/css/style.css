@@ -1,9 +1,14 @@
 /* =========================================================================
    Saif Al Jahan — portfolio
-   Direction: cinematic dark, one enormous grotesque, ember accent.
+   Direction: warm ivory paper, burnt terracotta, one enormous grotesque.
    Structure after MDX: preloader, centred display hero, glow fields, services
    index, project cards, oversized quote, full-bleed contact.
    Hand-written, no dependencies, one self-hosted typeface.
+
+   Colour is the owner's eight-swatch palette (DESIGN.md §2): ivory canvas,
+   soft near-black ink, burnt terracotta accent. Everything else is derived
+   from those eight and marked as such. A dark alternate is kept and is
+   derived by inversion, not by a second palette.
    ========================================================================= */
 
 /* ── fonts ─────────────────────────────────────────────────────────────── */
@@ -19,29 +24,33 @@
 }
 
 /* ── tokens ────────────────────────────────────────────────────────────── */
+/* the palette itself — default canvas is the ivory page */
 :root {
-  /* surfaces */
-  --bg: #08080a;
-  --bg-2: #0b0b0e;
-  --band: #0c0c10;
-  --panel: #101014;
-  --panel-2: #15151a;
+  /* surfaces — Canvas / Background, Card Background, Secondary Surface */
+  --bg: #f7f5f0;
+  --bg-2: #f2efe8;
+  --band: #e9e3d9;
+  --panel: #fffefb;
+  --panel-2: #f2efe8;
 
-  /* type */
-  --ink: #f4f1ea;
-  --ink-2: #c8c4ba;
-  --muted: #9a968d;
-  --muted-2: #6f6c66;
+  /* type — Primary Text, Secondary Text */
+  --ink: #191817;
+  --ink-2: #4a453e;
+  --muted: #716c65;
+  --muted-2: #8c867d;
 
-  /* hairlines */
-  --rule: rgba(244, 241, 234, 0.13);
-  --rule-2: rgba(244, 241, 234, 0.24);
+  /* hairlines — Borders / Dividers, mixed on ink for the lighter weights */
+  --rule: rgba(25, 24, 23, 0.13);
+  --rule-2: rgba(25, 24, 23, 0.26);
 
-  /* signature */
-  --accent: #e08a63;
-  --accent-2: #c96a44;
-  --accent-soft: rgba(224, 138, 99, 0.13);
-  --on-accent: #1a0f09;
+  /* signature — Signature Accent, Accent Hover */
+  --accent: #b64024;
+  --accent-2: #8f301b;
+  --accent-soft: rgba(182, 64, 36, 0.1);
+  --on-accent: #fffefb;
+  /* the glow fields are a wash, not a light source: on paper they read as
+     warm daylight, so they are tinted towards the canvas and kept faint */
+  --glow: #dd8a68;
 
   /* roles — all one family, kept separate so the scale stays tunable */
   --face: "Orlean", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -61,30 +70,35 @@
   --bar-h: 76px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
-[data-theme="light"] {
-  --bg: #f6f3ec;
-  --bg-2: #f1ede2;
-  --band: #efeade;
-  --panel: #fffdf8;
-  --panel-2: #f9f5ec;
+/* Dark alternate, derived from the same eight swatches: the palette's Primary
+   Text becomes the canvas and its Canvas becomes the ink. The accent is
+   lightened (#e0704e) because #b64024 measures 3.16:1 on #191817 — fine for a
+   fill, not for text. */
+[data-theme="dark"] {
+  --bg: #191817;
+  --bg-2: #1c1a19;
+  --band: #211f1d;
+  --panel: #221f1e;
+  --panel-2: #2a2725;
 
-  --ink: #121210;
-  --ink-2: #3b382f;
-  --muted: #5f5b51;
-  --muted-2: #736e62;
+  --ink: #f7f5f0;
+  --ink-2: #d8d2c8;
+  --muted: #a7a199;
+  --muted-2: #7e7871;
 
-  --rule: rgba(18, 18, 16, 0.14);
-  --rule-2: rgba(18, 18, 16, 0.26);
+  --rule: rgba(247, 245, 240, 0.14);
+  --rule-2: rgba(247, 245, 240, 0.26);
 
-  --accent: #a84621;
-  --accent-2: #8f3a1b;
-  --accent-soft: rgba(168, 70, 33, 0.1);
-  --on-accent: #fffaf6;
+  --accent: #e0704e;
+  --accent-2: #c9563a;
+  --accent-soft: rgba(224, 112, 78, 0.14);
+  --on-accent: #191817;
+  --glow: var(--accent);
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 /* ── reset ─────────────────────────────────────────────────────────────── */
@@ -131,17 +145,17 @@ body {
 }
 body.nav-open { overflow: hidden; }
 
-/* paper grain, very light: keeps the flat black from banding */
+/* paper grain, very light: keeps the flat fields from banding */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 500;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
 }
-[data-theme="light"] body::after { opacity: 0.05; mix-blend-mode: multiply; }
+[data-theme="dark"] body::after { opacity: 0.035; mix-blend-mode: normal; }
 
 .shell {
   width: 100%;
@@ -463,9 +477,9 @@ html.js .loader { animation: loaderEscape 0s linear 6s forwards; }
   opacity: 0.75;
 }
 
-.theme-btn .ic-moon { display: none; }
-[data-theme="dark"] .theme-btn .ic-moon { display: block; }
-[data-theme="dark"] .theme-btn .ic-sun { display: none; }
+.theme-btn .ic-sun { display: none; }
+[data-theme="dark"] .theme-btn .ic-sun { display: block; }
+[data-theme="dark"] .theme-btn .ic-moon { display: none; }
 
 .menu-btn { display: none; }
 .bars { display: grid; gap: 5px; width: 16px; }
@@ -479,8 +493,8 @@ html.js .loader { animation: loaderEscape 0s linear 6s forwards; }
   pointer-events: none;
   border-radius: 50%;
   filter: blur(70px);
-  opacity: 0.5;
-  background: radial-gradient(circle at 50% 50%, var(--accent) 0%, transparent 66%);
+  opacity: 0.2;
+  background: radial-gradient(circle at 50% 50%, var(--glow) 0%, transparent 66%);
   animation: drift 22s ease-in-out infinite alternate;
 }
 .aura-a {
@@ -568,7 +582,7 @@ html.js .loader { animation: loaderEscape 0s linear 6s forwards; }
   color: var(--ink-2);
 }
 .hero-tag-mute { color: var(--muted); }
-.hero-tag-sep { color: var(--rule-2); }
+.hero-tag-sep { color: var(--muted-2); }
 
 .hero .display {
   margin-top: clamp(20px, 3.2vw, 38px);
@@ -683,6 +697,12 @@ html.js .loader { animation: loaderEscape 0s linear 6s forwards; }
   background: var(--band);
   border-block: 1px solid var(--rule);
 }
+/* The warm stone lifts the page but costs a little contrast, so the two
+   greys it carries step down one notch: --muted to #68625a (4.72:1 on stone,
+   4.08:1 untouched) and the accent to the palette's own Accent Hover
+   #8f301b (6.31:1, against 4.39:1 untouched). Canvas and card surfaces keep
+   the exact swatch values. */
+html:not([data-theme="dark"]) .sec-band { --muted: #68625a; --accent: #8f301b; }
 .sec-head-row {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
@@ -1408,9 +1428,10 @@ html.js .loader { animation: loaderEscape 0s linear 6s forwards; }
   user-select: none;
 }
 @supports (-webkit-text-stroke: 1px #000) {
-  .foot-word { color: transparent; -webkit-text-stroke: 1px var(--rule); }
+  /* the outline is the only thing showing, so it carries the heavier hairline */
+  .foot-word { color: transparent; -webkit-text-stroke: 1px var(--rule-2); }
 }
-[data-theme="light"] .foot-word { opacity: 1; }
+[data-theme="dark"] .foot-word { opacity: 0.9; }
 
 /* ── toast ─────────────────────────────────────────────────────────────── */
 .toast {
