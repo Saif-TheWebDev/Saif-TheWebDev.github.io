@@ -278,10 +278,8 @@
      ──────────────────────────────────────────────────────────────────────── */
   (function initMotion() {
     var gsap = window.gsap;
-    var ST = window.ScrollTrigger;
-    if (!gsap || !ST || reduce) return;
+    if (!gsap || reduce) return;
 
-    gsap.registerPlugin(ST);
     gsap.defaults({ ease: 'power3.out', duration: 0.9 });
     /* transforms only: no filters, no layout properties, no filter drop-shadows */
     gsap.config({ nullTargetWarn: false });
@@ -334,11 +332,21 @@
       }
     }
 
-    /* process rail: the connecting line draws with scroll through
-       ScrollTrigger's progress, same math as the rAF fallback. */
+    /* ── process rail ─────────────────────────────────────────────────────
+       ScrollTrigger is 45 KB that only this one scrub needs, and that section
+       is three viewports below the fold — so it is fetched after the curtain
+       lifts instead of competing with the hero's first frames. The rAF rail
+       runs until it arrives, and keeps running if it never does: the two write
+       the same custom property and the same class.
+       ────────────────────────────────────────────────────────────────────── */
     var stepsEl = doc.getElementById('steps');
-    if (stepsEl) {
+
+    function wireRail() {
+      var ST = window.ScrollTrigger;
+      if (!ST || !stepsEl || window.__saifGSAP) return;
+      gsap.registerPlugin(ST);
       window.__saifGSAP = true;
+
       var stepItems = Array.prototype.slice.call(stepsEl.querySelectorAll('.step'));
       var paint = function (p) {
         p = Math.max(0, Math.min(1, p));
@@ -347,6 +355,7 @@
           el.classList.toggle('is-on', p >= (i + 0.32) / stepItems.length);
         });
       };
+
       ST.create({
         trigger: stepsEl,
         start: 'top 74%',
@@ -355,13 +364,26 @@
         onUpdate: function (self) { paint(self.progress); },
         onRefresh: function (self) { paint(self.progress); }
       });
+
+      /* fonts change the height of the list; one refresh after they land keeps
+         the trigger honest without watching them at runtime. */
+      if (doc.fonts && doc.fonts.ready) {
+        doc.fonts.ready.then(function () { ST.refresh(); }).catch(function () {});
+      }
     }
 
-    /* fonts change the height of every heading; one refresh after they land
-       keeps every trigger honest without watching them at runtime. */
-    if (doc.fonts && doc.fonts.ready) {
-      doc.fonts.ready.then(function () { ST.refresh(); }).catch(function () {});
+    function loadRail() {
+      if (!stepsEl) return;
+      if (window.ScrollTrigger) { wireRail(); return; }
+      var tag = doc.createElement('script');
+      tag.src = 'assets/vendor/gsap/ScrollTrigger.min.js';
+      tag.async = true;
+      tag.onload = wireRail;
+      doc.head.appendChild(tag);
     }
+
+    if (root.classList.contains('loaded')) window.setTimeout(loadRail, 0);
+    else window.addEventListener('saif:ready', loadRail, { once: true });
   })();
 
   /* ── counters ────────────────────────────────────────────────────────── */

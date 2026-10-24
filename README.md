@@ -42,9 +42,10 @@ Two engines, one language. CSS (`cubic-bezier(.22,1,.36,1)`, 0.85 s, 22 px)
 handles scroll reveals. GSAP 3.15 — self-hosted in `assets/vendor/gsap/`, loaded
 with `defer`, never from a CDN — handles the hero entrance (label → masked
 headline lines → *purpose* → subtitle → CTAs → stats, 2.49 s total) and the
-process line via ScrollTrigger. If GSAP is missing, blocked, or the visitor
-prefers reduced motion, `initMotion()` never runs and the page is complete and
-static. Nothing on the page depends on an animation to become visible.
+process line via ScrollTrigger — which is fetched *after* the curtain lifts, not
+shipped in the critical path. If GSAP is missing, blocked, or the visitor prefers
+reduced motion, `initMotion()` never runs and the page is complete and static.
+Nothing on the page depends on an animation to become visible.
 
 ### The preloader
 
@@ -99,7 +100,7 @@ Pages on this site degrade gracefully rather than breaking:
   `main.js`, and a 6 s CSS animation. With reduced motion it is never shown.
 - **Assets are cache-busted** (`?v=...`) so a bad response can't survive a
   deploy. Bump the query string whenever you edit `style.css` or `main.js`
-  (currently `20261024k`).
+  (currently `20261024l`).
 - **GSAP is optional.** It is a `defer` script with no preload and no inline
   dependency; with `assets/vendor/gsap/*` blocked by request interception the
   hero renders in its final state and the process rail falls back to the rAF
