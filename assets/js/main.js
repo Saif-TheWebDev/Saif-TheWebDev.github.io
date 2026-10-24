@@ -531,11 +531,26 @@
      allowed we take the click and animate the panel height instead, which is
      the one thing native details cannot do. Interruptions cancel cleanly.
      ────────────────────────────────────────────────────────────────────── */
-  Array.prototype.forEach.call(doc.querySelectorAll('.svc'), function (box) {
+  var svcBoxes = Array.prototype.slice.call(doc.querySelectorAll('.svc'));
+
+  svcBoxes.forEach(function (box) {
     var sum = box.querySelector('.svc-sum');
     var panel = box.querySelector('.svc-panel');
     if (!sum || !panel) return;
     var running = null;
+
+    /* one discipline at a time — the same rule the FAQ follows. Native
+       <details> allows several open at once, which reads as an inventory
+       rather than an argument, so opening one closes the rest. */
+    box.addEventListener('toggle', function () {
+      if (!box.open) return;
+      svcBoxes.forEach(function (other) {
+        if (other === box || !other.open) return;
+        other.open = false;
+        var otherPanel = other.querySelector('.svc-panel');
+        if (otherPanel) otherPanel.style.height = '';
+      });
+    });
 
     sum.addEventListener('click', function (e) {
       if (reduce || typeof panel.animate !== 'function') return;
