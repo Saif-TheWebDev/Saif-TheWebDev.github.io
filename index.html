@@ -118,7 +118,7 @@
   @media (prefers-reduced-motion: reduce){ html.js .loader{display:none} }
 </style>
 
-<link rel="stylesheet" href="assets/css/style.css?v=20261024h">
+<link rel="stylesheet" href="assets/css/style.css?v=20261024i">
 
 <script>
   /* Runs before the first paint: marks the document as scripted, starts the
@@ -282,6 +282,12 @@
     <div class="aura aura-b" aria-hidden="true"></div>
     <div class="aura-grid" aria-hidden="true"></div>
 
+    <p class="hero-rail" aria-hidden="true">
+      <span>Independent developer</span>
+      <i></i>
+      <span>Mymensingh &middot; BD</span>
+    </p>
+
     <div class="shell hero-in">
       <p class="hero-tag">
         <span class="dot" aria-hidden="true"></span>
@@ -373,57 +379,101 @@
   <!-- ═══════════ SERVICES ═══════════ -->
   <section class="sec" id="services" aria-labelledby="services-title">
     <div class="shell">
-      <header class="sec-head reveal">
-        <p class="eyebrow"><span class="eyebrow-n">02</span> What I do</p>
-        <h2 class="sec-title" id="services-title">Four ways I&nbsp;build <em>the web</em>.</h2>
+      <header class="sec-head sec-head-row reveal">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-n">02</span> What I do</p>
+          <h2 class="sec-title" id="services-title">Four ways I&nbsp;build <em>the web</em>.</h2>
+        </div>
+        <p class="sec-sub sec-sub-side">
+          Four disciplines, one person. Open a line to see what sits inside it.
+        </p>
       </header>
 
-      <ol class="svcs">
-        <li class="svc reveal">
-          <a class="svc-link" href="#contact">
+      <div class="svcs">
+        <details class="svc reveal" open>
+          <summary class="svc-sum">
             <span class="svc-n" aria-hidden="true">01</span>
-            <span class="svc-body">
-              <span class="svc-title">WordPress, your way.</span>
-              <span class="svc-desc">Custom-built WordPress sites and careful surgery on existing ones: new sections, responsive fixes, template cleanup and page-speed work that survives the next plugin update.</span>
-            </span>
-            <span class="svc-tags">Custom themes<br>Redesigns<br>Core Web Vitals</span>
-            <span class="svc-go" aria-hidden="true"><svg class="ic"><use href="#i-arrow"/></svg></span><span class="sr-only"> &mdash; ask me about this</span>
-          </a>
-        </li>
-        <li class="svc reveal">
-          <a class="svc-link" href="#contact">
+            <span class="svc-title">WordPress, your way.</span>
+            <span class="svc-ind" aria-hidden="true"><i></i><i></i></span>
+          </summary>
+          <div class="svc-panel">
+            <div class="svc-panel-in">
+              <p class="svc-desc">Custom-built WordPress sites and careful surgery on existing ones: new sections, responsive fixes, template cleanup and page-speed work that survives the next plugin update.</p>
+              <div class="svc-side">
+                <ul class="svc-tags">
+                  <li>Custom themes</li>
+                  <li>Redesigns</li>
+                  <li>Core Web Vitals</li>
+                </ul>
+                <a class="link" href="#contact">Ask me about this<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="svc reveal">
+          <summary class="svc-sum">
             <span class="svc-n" aria-hidden="true">02</span>
-            <span class="svc-body">
-              <span class="svc-title">Beyond the template.</span>
-              <span class="svc-desc">When a project needs its own architecture: modern front ends, dashboards, APIs and product interfaces built with React, Next.js and Node. Typed, tested and maintainable.</span>
-            </span>
-            <span class="svc-tags">React &middot; Next.js<br>Node<br>Headless CMS</span>
-            <span class="svc-go" aria-hidden="true"><svg class="ic"><use href="#i-arrow"/></svg></span><span class="sr-only"> &mdash; ask me about this</span>
-          </a>
-        </li>
-        <li class="svc reveal">
-          <a class="svc-link" href="#contact">
+            <span class="svc-title">Beyond the template.</span>
+            <span class="svc-ind" aria-hidden="true"><i></i><i></i></span>
+          </summary>
+          <div class="svc-panel">
+            <div class="svc-panel-in">
+              <p class="svc-desc">When a project needs its own architecture: modern front ends, dashboards, APIs and product interfaces built with React, Next.js and Node. Typed, tested and maintainable.</p>
+              <div class="svc-side">
+                <ul class="svc-tags">
+                  <li>React &middot; Next.js</li>
+                  <li>Node</li>
+                  <li>Headless CMS</li>
+                </ul>
+                <a class="link" href="#contact">Ask me about this<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="svc reveal">
+          <summary class="svc-sum">
             <span class="svc-n" aria-hidden="true">03</span>
-            <span class="svc-body">
-              <span class="svc-title">Made to be found.</span>
-              <span class="svc-desc">Technical SEO, local visibility and content structure — plus AEO and GEO — the unglamorous foundation that decides whether all the good design gets seen at all.</span>
-            </span>
-            <span class="svc-tags">Audits &middot; Schema<br>Local SEO<br>AEO / GEO</span>
-            <span class="svc-go" aria-hidden="true"><svg class="ic"><use href="#i-arrow"/></svg></span><span class="sr-only"> &mdash; ask me about this</span>
-          </a>
-        </li>
-        <li class="svc reveal">
-          <a class="svc-link" href="#contact">
+            <span class="svc-title">Made to be found.</span>
+            <span class="svc-ind" aria-hidden="true"><i></i><i></i></span>
+          </summary>
+          <div class="svc-panel">
+            <div class="svc-panel-in">
+              <p class="svc-desc">Technical SEO, local visibility and content structure &mdash; plus AEO and GEO &mdash; the unglamorous foundation that decides whether all the good design gets seen at all.</p>
+              <div class="svc-side">
+                <ul class="svc-tags">
+                  <li>Audits &middot; Schema</li>
+                  <li>Local SEO</li>
+                  <li>AEO / GEO</li>
+                </ul>
+                <a class="link" href="#contact">Ask me about this<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="svc reveal">
+          <summary class="svc-sum">
             <span class="svc-n" aria-hidden="true">04</span>
-            <span class="svc-body">
-              <span class="svc-title">Design that ships.</span>
-              <span class="svc-desc">Interface design by the person who will build it, so nothing gets lost between the mockup and the browser. Layout, type, motion and states, decided together.</span>
-            </span>
-            <span class="svc-tags">UI / UX<br>Prototypes<br>Accessibility</span>
-            <span class="svc-go" aria-hidden="true"><svg class="ic"><use href="#i-arrow"/></svg></span><span class="sr-only"> &mdash; ask me about this</span>
-          </a>
-        </li>
-      </ol>
+            <span class="svc-title">Design that ships.</span>
+            <span class="svc-ind" aria-hidden="true"><i></i><i></i></span>
+          </summary>
+          <div class="svc-panel">
+            <div class="svc-panel-in">
+              <p class="svc-desc">Interface design by the person who will build it, so nothing gets lost between the mockup and the browser. Layout, type, motion and states, decided together.</p>
+              <div class="svc-side">
+                <ul class="svc-tags">
+                  <li>UI / UX</li>
+                  <li>Prototypes</li>
+                  <li>Accessibility</li>
+                </ul>
+                <a class="link" href="#contact">Ask me about this<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -437,67 +487,104 @@
           <h2 class="sec-title" id="work-title">Projects with <em>a point of view</em>.</h2>
         </div>
         <p class="sec-sub sec-sub-side">
-          Concepts and client work, designed and developed end to end.
+          Three builds, each designed and coded end to end by the same person who&nbsp;answers the email.
         </p>
       </header>
 
       <div class="work">
-        <a class="card reveal" href="https://webdev-saif.com/saif-flix/" target="_blank" rel="noopener">
-          <span class="card-art card-art--flix" aria-hidden="true">
-            <span class="flix-glow"></span>
-            <span class="flix-top"><b>Now showing</b><b>2026</b></span>
-            <span class="flix-logo">SAIF<i>/FLIX</i></span>
-            <span class="flix-row"><i></i><i></i><i></i><i></i><i></i></span>
-            <span class="flutter">
-              <span>SAIF FLIX<span class="sr-only"> (opens in a new tab)</span></span>
-              <span class="flutter-meta">Custom code &middot; Streaming UI &middot; 2026</span>
+        <article class="feature reveal">
+          <a class="feature-link" href="https://webdev-saif.com/saif-flix/" target="_blank" rel="noopener">
+            <span class="feature-art card-art card-art--flix" aria-hidden="true">
+              <span class="flix-window">
+                <span class="flix-glow"></span>
+                <span class="flix-chrome">
+                  <span class="flix-dots"><i></i><i></i><i></i></span>
+                  <span class="flix-url">webdev-saif.com/saif-flix</span>
+                  <span class="flix-live"><i></i>Live</span>
+                </span>
+                <span class="flix-body">
+                  <span class="flix-nav">
+                    <span class="flix-brand">SAIF<i>/FLIX</i></span>
+                    <span class="flix-links"><b>Browse</b><b>Series</b><b>Films</b><b>My list</b></span>
+                    <span class="flix-av"></span>
+                  </span>
+                  <span class="flix-title">Late&nbsp;night<br>cinema.</span>
+                  <span class="flix-sub">A browsable catalog, built from scratch</span>
+                  <span class="flix-shelf">
+                    <span class="flix-shelf-label">Trending this week</span>
+                    <span class="flix-row"><i></i><i></i><i></i><i></i><i></i></span>
+                  </span>
+                </span>
+              </span>
             </span>
-          </span>
-          <span class="card-meta">
-            <span class="card-t">SAIF FLIX</span>
-            <span class="card-d">A movie streaming website with a browsable catalog, built from scratch with custom code.</span>
-            <span class="card-tags">Custom code &middot; Streaming UI &middot; Movie catalog</span>
-            <span class="card-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
-          </span>
-        </a>
+            <span class="sr-only">SAIF FLIX (opens in a new tab)</span>
 
-        <a class="card reveal" href="https://webdev-saif.com/arif-mia/" target="_blank" rel="noopener">
-          <span class="card-art card-art--arif" aria-hidden="true">
-            <span class="arif-top"><b>SEO specialist</b><b>UAE</b></span>
-            <span class="arif-name">Arif <i>Mia</i></span>
-            <span class="arif-search"><span>seo specialist near me</span><b>⌘K</b></span>
-            <span class="arif-res"><b>#1</b><span class="arif-bars"><i></i><i></i><i></i></span></span>
-            <span class="flutter">
-              <span>Arif Mia<span class="sr-only"> (opens in a new tab)</span></span>
-              <span class="flutter-meta">WordPress &middot; Elementor &middot; 2026</span>
+            <span class="feature-meta">
+              <span class="work-n" aria-hidden="true">01</span>
+              <span class="work-head">
+                <span class="work-kicker">Custom code &middot; Streaming UI &middot; 2026</span>
+                <span class="work-t" role="heading" aria-level="3">SAIF FLIX</span>
+                <span class="work-d">A movie streaming website with a browsable catalog, built from scratch with custom code &mdash; layout, filtering and player pages, no template underneath.</span>
+              </span>
+              <span class="work-tags">
+                <span>Browsable catalog</span>
+                <span>Custom front end</span>
+                <span>Responsive player pages</span>
+              </span>
+              <span class="work-cta">View the build<svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></span>
             </span>
-          </span>
-          <span class="card-meta">
-            <span class="card-t">Arif Mia</span>
-            <span class="card-d">A search-first WordPress site for an SEO specialist, with custom plugin work and automated lead flows.</span>
-            <span class="card-tags">WordPress &middot; Elementor &middot; Bit Flows</span>
-            <span class="card-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
-          </span>
-        </a>
+          </a>
+        </article>
 
-        <a class="card reveal" href="https://webdev-saif.com/renata-plc-demo/" target="_blank" rel="noopener">
-          <span class="card-art card-art--renata" aria-hidden="true">
-            <span class="renata-top"><b class="renata-mark"><i></i><i></i></b><b>Renata PLC</b></span>
-            <span class="renata-word">RENATA</span>
-            <span class="renata-rule"></span>
-            <span class="renata-sub">Pharmaceuticals &middot; Corporate concept</span>
-            <span class="flutter">
-              <span>Renata PLC<span class="sr-only"> (opens in a new tab)</span></span>
-              <span class="flutter-meta">Custom code &middot; Design system &middot; Demo</span>
-            </span>
-          </span>
-          <span class="card-meta">
-            <span class="card-t">Renata PLC</span>
-            <span class="card-d">A corporate website concept for a pharmaceutical company, designed and coded end to end.</span>
-            <span class="card-tags">Custom code &middot; Design system &middot; Demo</span>
-            <span class="card-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
-          </span>
-        </a>
+        <div class="work-pair">
+          <article class="card reveal">
+            <a class="card-link" href="https://webdev-saif.com/arif-mia/" target="_blank" rel="noopener">
+              <span class="card-art card-art--arif" aria-hidden="true">
+                <span class="arif-top"><b>SEO specialist</b><b>UAE</b></span>
+                <span class="arif-name">Arif <i>Mia</i></span>
+                <span class="arif-search"><span>seo specialist near me</span><b>&#8984;K</b></span>
+                <span class="arif-res"><b>#1</b><span class="arif-bars"><i></i><i></i><i></i></span></span>
+                <span class="flutter">
+                  <span>Arif Mia<span class="sr-only"> (opens in a new tab)</span></span>
+                  <span class="flutter-meta">WordPress &middot; Elementor &middot; 2026</span>
+                </span>
+              </span>
+              <span class="card-meta">
+                <span class="work-n" aria-hidden="true">02</span>
+                <span class="card-body">
+                  <span class="card-t">Arif Mia</span>
+                  <span class="card-d">A search-first WordPress site for an SEO specialist, with custom plugin work and automated lead flows.</span>
+                  <span class="card-tags">WordPress &middot; Elementor &middot; Bit Flows</span>
+                </span>
+                <span class="card-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
+              </span>
+            </a>
+          </article>
+
+          <article class="card reveal">
+            <a class="card-link" href="https://webdev-saif.com/renata-plc-demo/" target="_blank" rel="noopener">
+              <span class="card-art card-art--renata" aria-hidden="true">
+                <span class="renata-top"><b class="renata-mark"><i></i><i></i></b><b>Renata PLC</b></span>
+                <span class="renata-word">RENATA</span>
+                <span class="renata-rule"></span>
+                <span class="renata-sub">Pharmaceuticals &middot; Corporate concept</span>
+                <span class="flutter">
+                  <span>Renata PLC<span class="sr-only"> (opens in a new tab)</span></span>
+                  <span class="flutter-meta">Custom code &middot; Design system &middot; Demo</span>
+                </span>
+              </span>
+              <span class="card-meta">
+                <span class="work-n" aria-hidden="true">03</span>
+                <span class="card-body">
+                  <span class="card-t">Renata PLC</span>
+                  <span class="card-d">A corporate website concept for a pharmaceutical company, designed and coded end to end.</span>
+                  <span class="card-tags">Custom code &middot; Design system &middot; Demo</span>
+                </span>
+                <span class="card-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
+              </span>
+            </a>
+          </article>
+        </div>
       </div>
 
       <p class="work-foot reveal">
@@ -523,24 +610,28 @@
         </div>
       </header>
 
-      <ol class="steps">
+      <ol class="steps" id="steps">
         <li class="step reveal">
           <span class="step-n" aria-hidden="true">01</span>
+          <span class="step-dot" aria-hidden="true"></span>
           <h3>Listen</h3>
           <p>A call about the business, the customers and the thing that is not working. Goals before pixels.</p>
         </li>
         <li class="step reveal">
           <span class="step-n" aria-hidden="true">02</span>
+          <span class="step-dot" aria-hidden="true"></span>
           <h3>Shape</h3>
           <p>Structure, wireframes and a clear scope with a fixed price and timeline. You approve before anything is built.</p>
         </li>
         <li class="step reveal">
           <span class="step-n" aria-hidden="true">03</span>
+          <span class="step-dot" aria-hidden="true"></span>
           <h3>Build</h3>
           <p>Design and development in the same loop, with a staging link you can watch update in real time.</p>
         </li>
         <li class="step reveal">
           <span class="step-n" aria-hidden="true">04</span>
+          <span class="step-dot" aria-hidden="true"></span>
           <h3>Launch &amp; tune</h3>
           <p>Performance, SEO and analytics checks, a handover walkthrough, then 30 days of aftercare.</p>
         </li>
@@ -549,7 +640,7 @@
   </section>
 
   <!-- ═══════════ ABOUT ═══════════ -->
-  <section class="sec sec-band" id="about" aria-labelledby="about-title">
+  <section class="sec about-band" id="about" aria-labelledby="about-title">
     <div class="shell about">
       <div class="about-l">
         <p class="eyebrow reveal"><span class="eyebrow-n">05</span> The person behind the pixels</p>
@@ -626,6 +717,7 @@
           <span class="quote-av" aria-hidden="true">AM</span>
           <span><strong>Arif Mia</strong><br>SEO Specialist, UAE</span>
         </figcaption>
+        <p class="quote-note">Worked together on a search-first WordPress build with custom plugin work.</p>
       </figure>
     </div>
   </section>
@@ -647,42 +739,42 @@
         <details class="q" open>
           <summary>
             <span class="q-t">Can you work on my existing WordPress site?</span>
-            <span class="q-i" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+            <span class="q-i" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="q-a"><p>Yes. Redesigns, new sections, responsive fixes, cleanup, performance work and custom front-end pieces. I&rsquo;m happy to inherit a site rather than insist on starting over.</p></div>
         </details>
         <details class="q">
           <summary>
             <span class="q-t">Do you build outside WordPress?</span>
-            <span class="q-i" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+            <span class="q-i" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="q-a"><p>Yes. I also build with React, Next.js and Node.js, including web apps and headless setups when WordPress isn&rsquo;t the right fit.</p></div>
         </details>
         <details class="q">
           <summary>
             <span class="q-t">Can you help with SEO?</span>
-            <span class="q-i" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+            <span class="q-i" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="q-a"><p>Yes. Technical SEO, local SEO, schema and page structure are built into the project rather than bolted on afterwards — with AEO and GEO in mind so answer engines can read the site too.</p></div>
         </details>
         <details class="q">
           <summary>
             <span class="q-t">How long does a project take?</span>
-            <span class="q-i" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+            <span class="q-i" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="q-a"><p>Marketing sites usually take 2 to 4 weeks. Larger builds and apps can take 6 to 10 weeks. You&rsquo;ll get a fixed written timeline before anything starts.</p></div>
         </details>
         <details class="q">
           <summary>
             <span class="q-t">What does it cost?</span>
-            <span class="q-i" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+            <span class="q-i" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="q-a"><p>Projects are quoted as a fixed price after the first call. For complex applications, the work can be scoped in phases so the cost stays predictable.</p></div>
         </details>
         <details class="q">
           <summary>
             <span class="q-t">Who do you work with?</span>
-            <span class="q-i" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+            <span class="q-i" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="q-a"><p>Local businesses, professionals, founders and small teams anywhere in the world. Time zones are not a problem.</p></div>
         </details>
@@ -765,6 +857,8 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/main.js?v=20261024h" defer></script>
+<script src="assets/vendor/gsap/gsap.min.js" defer></script>
+<script src="assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
+<script src="assets/js/main.js?v=20261024i" defer></script>
 </body>
 </html>

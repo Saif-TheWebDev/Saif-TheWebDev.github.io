@@ -24,6 +24,7 @@ stone, secondary-text and border swatches behind them. The full mapping is in
 | Canvas | **owner's palette** | Warm ivory `#f7f5f0`, ink `#191817`, burnt terracotta `#b64024`, glow fields and a masked 25% grid |
 | Display type | **owner's cut** | One supplied 600-weight grotesque at poster scale — 9.2 rem, 0.9 leading, tight tracking |
 | Detail | **Vercel** | Hairline rules, tracked micro-labels, strict grid |
+| Motion | **Linear / Vercel** | GSAP hero entrance with masked lines; ScrollTrigger line draw; CSS reveal for everything else |
 
 Type: **one supplied typeface**, self-hosted as `assets/fonts/orlean.woff2` and
 used for every role — display, body, labels and numerals. It is a single 600
@@ -34,6 +35,16 @@ the file actually is and the licence position; the system sans is the fallback.
 The ivory palette is the default. A dark alternate is derived by inverting the
 same eight swatches and sits behind the existing toggle; the choice is
 remembered in `localStorage` and resolved before first paint.
+
+### Motion
+
+Two engines, one language. CSS (`cubic-bezier(.22,1,.36,1)`, 0.85 s, 22 px)
+handles scroll reveals. GSAP 3.15 — self-hosted in `assets/vendor/gsap/`, loaded
+with `defer`, never from a CDN — handles the hero entrance (label → masked
+headline lines → *purpose* → subtitle → CTAs → stats, 2.49 s total) and the
+process line via ScrollTrigger. If GSAP is missing, blocked, or the visitor
+prefers reduced motion, `initMotion()` never runs and the page is complete and
+static. Nothing on the page depends on an animation to become visible.
 
 ### The preloader
 
@@ -77,7 +88,7 @@ Pages on this site degrade gracefully rather than breaking:
 
 - **Critical CSS is inlined** in `<head>` — tokens, type, loader shell, header,
   hero and icon sizing — so a failed stylesheet request (stale cache, flaky
-  network, CDN hiccup) still gives a composed dark page, not unstyled soup.
+  network, CDN hiccup) still gives a composed ivory page, not unstyled soup.
 - **Reveal animations are progressive enhancement.** Content is visible by
   default; `main.js` adds the `.motion` class only after its
   `IntersectionObserver` is confirmed working. A blocked or crashed script can
@@ -87,7 +98,12 @@ Pages on this site degrade gracefully rather than breaking:
   three independent escapes resolve it: a 4 s inline timeout, a 5 s watchdog in
   `main.js`, and a 6 s CSS animation. With reduced motion it is never shown.
 - **Assets are cache-busted** (`?v=...`) so a bad response can't survive a
-  deploy. Bump the query string whenever you edit `style.css` or `main.js`.
+  deploy. Bump the query string whenever you edit `style.css` or `main.js`
+  (currently `20261024i`).
+- **GSAP is optional.** It is a `defer` script with no preload and no inline
+  dependency; with `assets/vendor/gsap/*` blocked by request interception the
+  hero renders in its final state and the process rail falls back to the rAF
+  scroll handler.
 - **`.nojekyll`** is present so Pages serves files verbatim, skipping Jekyll.
 
 If a deploy ever looks unstyled, hard-refresh (`Ctrl/Cmd + Shift + R`) — you are
@@ -104,7 +120,18 @@ assets/
   js/main.js
   fonts/*.woff2
   img/favicon.svg, og-image.jpg
+  vendor/gsap/gsap.min.js, ScrollTrigger.min.js, NOTICE.md
 ```
+
+## Testing
+
+The browser checks live outside the repo (Puppeteer + `@sparticuz/chromium`,
+axe-core) and are re-run against a local `python3 -m http.server`. This pass
+covered 13 widths from 320 to 2560 px, axe in light/dark/mobile (0 violations),
+a computed-style contrast sweep in both themes, keyboard tabbing through every
+focusable, `prefers-reduced-motion`, blocked `main.js`, blocked GSAP, and
+element screenshots of the featured work card. Results are in
+[`AUDIT.md`](AUDIT.md) §9.
 
 ## Local preview
 
