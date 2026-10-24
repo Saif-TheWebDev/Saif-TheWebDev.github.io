@@ -7,29 +7,44 @@ Content is adapted from [webdev-saif.com](https://webdev-saif.com).
 
 ## Design system
 
-The visual language is a synthesis of four references from *The Design Reference
-Collection* (`design.pdf`), each contributing one layer:
+Rebuilt after **[mdx.so](https://mdx.so)** — its composition, not its assets: a
+cinematic near-black canvas, a count-up preloader, a centred poster hero on soft
+glow fields, a statement, an index of services, three project cards, one
+oversized quote, and a full-bleed closing call to action. No WebGL, no video, no
+external files; the structure is borrowed and everything on screen is ours.
 
 | Layer | Reference | Contribution |
 |---|---|---|
-| Canvas & accent | **Claude** | Warm cream `#faf8f2`, coral accent, ink `#14130f` |
-| Display type | **owner's cut** | One supplied 600-weight grotesque, oversized and tight-tracked |
-| Structure | **Vercel** | Hairline rules, mono micro-labels, stark grid |
-| Depth | **Linear** | Near-black `#16150f` panels, one accent used sparingly |
+| Composition | **MDX** | Preloader → poster hero → statement → services → work → process → about → quote → FAQ → contact |
+| Canvas | **MDX** | Near-black `#08080a`, one ember accent `#e08a63`, glow fields and a masked 25% grid |
+| Display type | **owner's cut** | One supplied 600-weight grotesque at poster scale — 9.2 rem, 0.9 leading, tight tracking |
+| Detail | **Vercel** | Hairline rules, tracked micro-labels, strict grid |
 
 Type: **one supplied typeface**, self-hosted as `assets/fonts/orlean.woff2` and
 used for every role — display, body, labels and numerals. It is a single 600
 weight with no italic, so hierarchy comes from size, tracking and colour, and
-emphasis inside a sentence is carried by ink colour. `DESIGN.md` §8 records what
+emphasis inside a sentence is carried by ink colour. `DESIGN.md` §9 records what
 the file actually is and the licence position; the system sans is the fallback.
+
+Dark is the default; light (`#f6f3ec` paper) is a deliberate inverse behind the
+same toggle as before.
+
+### The preloader
+
+A real progress counter, not a fake one: elapsed time against a 1.5 s floor,
+capped at 90% until the document and the font have both loaded, then completion
+and a 0.7 s fade. It is `aria-hidden`, holds no focusable content, is removed
+from the DOM afterwards, and never appears with JS off or
+`prefers-reduced-motion: reduce`. Three independent failsafes lift the curtain if
+anything stalls, so it can never strand the page. Details in `DESIGN.md` §4.
 
 ## What's inside
 
-- One hand-written page: hero, capability index, selected work, process, about,
-  quote, FAQ and contact.
+- One hand-written page: preloader, poster hero, statement, services, selected
+  work, process, about, quote, FAQ and contact.
 - No build step, no framework, no CDN. Plain HTML, CSS and vanilla JS.
-- Project covers (SAIF FLIX, Arif Mia, Renata PLC) drawn entirely in CSS, so they
-  retint in dark mode and there is nothing to break.
+- Project covers (SAIF FLIX, Arif Mia, Renata PLC) and every glow field drawn
+  entirely in CSS, so they retint with the theme and there is nothing to break.
 - Light and dark themes, following the system preference and remembered in
   `localStorage`.
 - Responsive to 320px, keyboard accessible, honours `prefers-reduced-motion` and
@@ -54,13 +69,17 @@ arrow "buttons" that made non-clickable capability rows look clickable.
 
 Pages on this site degrade gracefully rather than breaking:
 
-- **Critical CSS is inlined** in `<head>`, so the page is always styled even if
-  the stylesheet request fails (stale cache, flaky network, CDN hiccup).
+- **Critical CSS is inlined** in `<head>` — tokens, type, loader shell, header,
+  hero and icon sizing — so a failed stylesheet request (stale cache, flaky
+  network, CDN hiccup) still gives a composed dark page, not unstyled soup.
 - **Reveal animations are progressive enhancement.** Content is visible by
   default; `main.js` adds the `.motion` class only after its
   `IntersectionObserver` is confirmed working. A blocked or crashed script can
   never leave the page blank, and blocks are never hidden before they are
   revealed — so the page cannot flash content out on load.
+- **The preloader cannot strand anyone.** It is hidden unless `html.js`, and
+  three independent escapes resolve it: a 4 s inline timeout, a 5 s watchdog in
+  `main.js`, and a 6 s CSS animation. With reduced motion it is never shown.
 - **Assets are cache-busted** (`?v=...`) so a bad response can't survive a
   deploy. Bump the query string whenever you edit `style.css` or `main.js`.
 - **`.nojekyll`** is present so Pages serves files verbatim, skipping Jekyll.

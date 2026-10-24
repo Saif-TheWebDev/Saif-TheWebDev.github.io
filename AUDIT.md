@@ -155,3 +155,54 @@ Re-run after the change, same harness:
 
 Still open, unchanged from §4: these are lab numbers, not field data, and the
 typeface's licence position is recorded rather than resolved.
+
+---
+
+## 7. Addendum — MDX-style rebuild (2026-10-24)
+
+The page was rebuilt to the composition of mdx.so: preloader, centred poster
+hero on glow fields, statement, services index, three project cards, process,
+about, oversized quote, FAQ, full-bleed contact. Real content and links were
+carried over unchanged; nothing was invented to fill the new layout.
+
+### The preloader
+
+| Requirement | How it is met | Verified |
+|---|---|---|
+| Honest number | Elapsed time vs a 1.5 s floor, capped at 90% until `load` **and** `document.fonts.ready`, then 100% | Observed climbing 16 → 67 → 100 |
+| Never blocks content | Page beneath is fully rendered; curtain only fades | No-JS and blocked-JS captures both show the full page |
+| Cannot strand anyone | 4 s inline timeout · 5 s script watchdog · 6 s CSS escape | Script blocked at request level: `loaded` true, hero visible, loader opacity 0 |
+| Not in the reading order | `aria-hidden="true"`, no focusable content, removed from DOM after 0.9 s | DOM check |
+| Reduced motion | Never rendered | `prefers-reduced-motion` emulation: loader display `none`, phrases not run |
+
+### Re-verified after the rebuild
+
+| Check | Result |
+|---|---|
+| axe-core — dark · light · 390 px | **0 violations** (was 1: footer note at 3.85:1, fixed to `--muted`) |
+| Reflow, 320 → 2560 px, 13 widths | `documentElement.scrollWidth === clientWidth` at every width |
+| Contrast, measured off computed styles | body 10.6:1, labels 6.1:1, headings 16.9:1 — all ≥ 4.5:1 |
+| Targets under 24 × 24 | 0 (footer nav links were 19 px tall, now 24) |
+| Keyboard focus | 41/41 focusables show a ring |
+| Text spacing (1.4.12) | no clipping, no horizontal scroll |
+| Reduced motion | marquee, aura drift, hero rise and reveals all off; pause button hidden |
+| Print | header and loader hidden, hero lines untransformed, URLs printed |
+| Forced colours | glows removed, strokes become `CanvasText`, progress in `Highlight` |
+| No JS | loader absent, 0 hidden reveals, counters read 20/3/95, width 1440 |
+| No CSS | loader absent, 0 hidden reveals, page composed and readable |
+| Marquee | fills the viewport at 320/390/768/1440/2560 with no gap at the loop; pauses on demand |
+| Mobile 390 | menu opens 390 × 776, Escape closes and returns focus; 0 small targets |
+| CLS / LCP (localhost) | 0.00064 / 232 ms |
+
+### Defects found during this round
+
+1. **Loader rendered with JS disabled** — the curtain existed in CSS regardless of
+   whether the script that dismisses it could run. Now `.loader` is `display: none`
+   until `html.js`.
+2. **Footer note at 3.85:1** — `--muted-2` used for text that carries meaning.
+3. **Footer nav links 19 px tall** — below the 24 px target minimum.
+4. **Hover scrim stuck on for touch** — `(hover: none)` showed a gradient over the
+   project art with nothing to reveal. Removed; the caption below already carries it.
+5. **Marquee gap at 1440 px** — two sets were narrower than the window, so the loop
+   point showed a hole. Now cloned to fit and travelling exactly one set width.
+6. **Icons full-bleed without CSS** — the sprite had no sizing in the critical CSS.
