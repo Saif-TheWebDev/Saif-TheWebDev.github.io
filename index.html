@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light dark">
 
 <title>Saif Al Jahan — Full-Stack Developer &amp; Web Designer</title>
-<meta name="description" content="Saif Al Jahan is a full-stack developer and web designer in Mymensingh, Bangladesh, building thoughtful, fast websites with WordPress, React and Next.js — designed and developed by one person.">
+<meta name="description" content="Saif Al Jahan is a full-stack developer and web designer in Mymensingh, Bangladesh, building fast, well-designed websites with WordPress, React and Next.js — designed and developed end to end by one person.">
 <meta name="author" content="Saif Al Jahan">
 <meta id="theme-meta" name="theme-color" content="#f7f5f0">
 <link rel="canonical" href="https://saif-thewebdev.github.io/">
@@ -14,35 +14,37 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Saif Al Jahan">
 <meta property="og:title" content="Saif Al Jahan — Full-Stack Developer &amp; Web Designer">
-<meta property="og:description" content="Good design. Clean code. Clear purpose. Custom websites and digital products designed and built end to end.">
+<meta property="og:description" content="Websites with intention, built to perform. Full-stack development, WordPress and design for ambitious businesses — by one person, end to end.">
 <meta property="og:url" content="https://saif-thewebdev.github.io/">
 <meta property="og:image" content="https://saif-thewebdev.github.io/assets/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Saif Al Jahan portfolio — Good design. Clean code. Clear purpose.">
+<meta property="og:image:alt" content="Saif Al Jahan — Websites with intention. Built to perform.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://saif-thewebdev.github.io/assets/img/og-image.jpg">
 <meta name="twitter:title" content="Saif Al Jahan — Full-Stack Developer &amp; Web Designer">
-<meta name="twitter:description" content="Good design. Clean code. Clear purpose. Custom websites and digital products designed and built end to end.">
+<meta name="twitter:description" content="Websites with intention, built to perform. Full-stack development, WordPress and design for ambitious businesses.">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/favicon.svg">
 
-<link rel="preload" href="assets/fonts/orlean.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin-wght-italic.woff2" as="font" type="font/woff2" crossorigin>
 
 <!-- ── critical styles ──────────────────────────────────────────────────────
      Enough to paint the first frame correctly: the ivory canvas, the loader
      shell, and the hero's type. The rest arrives with the stylesheet.
      ──────────────────────────────────────────────────────────────────────── -->
 <style>
-  @font-face{font-family:"Orlean";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/orlean.woff2") format("woff2")}
+  @font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:100 900;src:url("assets/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:"Inter";font-style:italic;font-display:swap;font-weight:100 900;src:url("assets/fonts/inter-latin-wght-italic.woff2") format("woff2-variations");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   :root{
     --bg:#f7f5f0;--bg-2:#f2efe8;--panel:#fffefb;--panel-2:#f2efe8;
     --ink:#191817;--ink-2:#4a453e;--muted:#716c65;--muted-2:#8c867d;
     --rule:rgba(25,24,23,.13);--rule-2:rgba(25,24,23,.26);
     --accent:#b64024;--accent-2:#8f301b;--accent-soft:rgba(182,64,36,.1);
     --on-accent:#fffefb;
-    --face:"Orlean",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --face:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     --display:var(--face);--sans:var(--face);--mono:var(--face);
     --shell:1320px;--gutter:clamp(20px,5vw,64px);--bar-h:76px;
     --ease:cubic-bezier(.22,1,.36,1);
@@ -77,27 +79,29 @@
   .icon-btn .ic{width:16px;height:16px}
   .pill{display:inline-flex;align-items:center;gap:10px;padding:12px 21px;border:1px solid currentColor;border-radius:999px;font-size:.82rem;line-height:1.2;text-decoration:none}
   .pill-solid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-  .hero-cta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:24px}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
   .menu-btn{display:none}
   .skip{position:fixed;top:12px;left:16px;z-index:1200;padding:10px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:.85rem;text-decoration:none;transform:translateY(-200%);transition:transform .25s var(--ease)}
   .skip:focus-visible{transform:none}
-  .display{font-family:var(--display);font-weight:400;letter-spacing:-.045em;line-height:.9}
-  .display em{font-style:italic;color:var(--accent)}
-  .display .line{display:block;overflow:hidden;padding-bottom:.055em}
+  .display{font-family:var(--display);font-weight:600;letter-spacing:-.05em;line-height:.92}
+  .display em{font-style:italic;font-weight:600;color:var(--accent)}
+  .display .line{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
   .display .line>span{display:inline-block}
   html.js .display .line>span{transform:translateY(106%)}
   html.loaded .display .line>span{transform:none;transition:transform 1.15s var(--ease)}
   html.loaded .display .line:nth-child(2)>span{transition-delay:.08s}
   html.loaded .display .line:nth-child(3)>span{transition-delay:.16s}
-  .bar{position:fixed;inset:0 0 auto;z-index:300}
-  .bar-in{display:flex;align-items:center;justify-content:space-between;gap:24px;height:var(--bar-h);width:100%;max-width:var(--shell);margin-inline:auto;padding-inline:var(--gutter)}
-  .mark{font-family:var(--display);font-size:1.5rem;line-height:1;letter-spacing:-.03em;text-decoration:none}
+  .bar{position:fixed;inset:0 0 auto;z-index:300;padding-top:14px;pointer-events:none}
+  .bar-in{pointer-events:auto;display:flex;align-items:center;gap:24px;width:max-content;max-width:calc(100vw - 2*var(--gutter));height:var(--island-h);margin-inline:auto;padding:0 8px 0 20px;border:1px solid var(--rule);border-radius:999px;background:color-mix(in srgb,var(--bg) 80%,transparent);box-shadow:0 12px 32px -18px rgba(25,24,23,.28)}
+  .mark{font-family:var(--display);font-weight:600;font-size:1.22rem;line-height:1;letter-spacing:-.045em;text-decoration:none}
   .mark span{color:var(--accent)}
-  .hero{position:relative;display:flex;flex-direction:column;justify-content:center;min-height:100svh;padding-top:calc(var(--bar-h) + 40px);padding-bottom:0;overflow:clip}
-  .hero-in{position:relative;width:100%;text-align:center}
-  .hero .display{font-size:clamp(2.85rem,9.6vw,9.4rem);margin-top:clamp(22px,3.4vw,40px)}
-  .hero-sub{max-width:56ch;margin:clamp(22px,3vw,34px) auto 0;font-size:clamp(1rem,1.25vw,1.12rem);line-height:1.6;color:var(--ink-2);text-wrap:pretty}
-  .hero-sub strong{font-weight:400;color:var(--ink)}
+  .hero{position:relative;display:flex;flex-direction:column;min-height:min(100svh,940px);padding-top:calc(var(--bar-h) + 28px);padding-bottom:32px;overflow:clip}
+  .hero-in{position:relative;width:100%;flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);align-items:end;gap:48px;padding-bottom:40px}
+  .hero .display{font-size:clamp(2.9rem,7vw,6rem);margin-top:28px}
+  .hero-sub{max-width:44ch;margin-top:26px;font-size:clamp(1rem,1.15vw,1.08rem);line-height:1.6;color:var(--ink-2);text-wrap:pretty}
+  .hero-sub strong{font-weight:500;color:var(--ink)}
+  @media (max-width:900px){.hero-in{grid-template-columns:1fr;align-items:start;gap:28px}.hero{min-height:0}}
+  .hero-tag{display:inline-flex;align-items:center;gap:9px;min-height:32px;padding:0 14px 0 12px;border:1px solid var(--rule-2);border-radius:999px;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-2)}
 
   /* ── loader ─────────────────────────────────────────────────────────── */
   .loader{display:none}
@@ -118,7 +122,7 @@
   @media (prefers-reduced-motion: reduce){ html.js .loader{display:none} }
 </style>
 
-<link rel="stylesheet" href="assets/css/style.css?v=20261024m">
+<link rel="stylesheet" href="assets/css/style.css?v=20261024p">
 
 <script>
   /* Runs before the first paint: marks the document as scripted, starts the
@@ -129,7 +133,11 @@
     d.classList.add('js');
     try {
       var t = localStorage.getItem('theme');
-      if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+      /* first visit follows the system; once someone chooses, that wins */
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      d.setAttribute('data-theme', t);
     } catch (e) {}
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) { d.classList.add('loaded'); return; }
@@ -254,125 +262,248 @@
       <a href="#services">Services</a>
       <a href="#process">Process</a>
       <a href="#about">About</a>
-      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
     </nav>
 
     <div class="bar-r">
-      <p class="bar-status"><span class="dot" aria-hidden="true"></span>Available</p>
+      <p class="bar-status"><span class="dot" aria-hidden="true"></span>Available &middot; Q4</p>
       <button class="icon-btn theme-btn" type="button" aria-label="Switch to light theme" aria-pressed="true">
         <svg class="ic ic-sun" aria-hidden="true"><use href="#i-sun"/></svg>
         <svg class="ic ic-moon" aria-hidden="true"><use href="#i-moon"/></svg>
       </button>
-      <a class="pill bar-cta" href="mailto:me@webdev-saif.com">
-        Let&rsquo;s talk
-        <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg>
+      <a class="bar-cta" href="#contact">
+        Start a project
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
       </a>
-      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu">
         <span class="bars" aria-hidden="true"><i></i><i></i></span>
       </button>
     </div>
   </div>
   <div class="bar-line" aria-hidden="true"><span id="progress"></span></div>
+
+  <!-- The panel lives outside the capsule on purpose: backdrop-filter gives
+       .bar-in its own containing block, so an absolutely positioned menu
+       inside it would anchor to the pill's width, not the viewport. -->
+  <nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </header>
 
 <main id="main" tabindex="-1">
   <!-- ═══════════ HERO ═══════════ -->
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="aura aura-a" aria-hidden="true"></div>
-    <div class="aura aura-b" aria-hidden="true"></div>
     <div class="aura-grid" aria-hidden="true"></div>
 
-    <p class="hero-rail" aria-hidden="true">
-      <span>Independent developer</span>
-      <i></i>
-      <span>Mymensingh &middot; BD</span>
-    </p>
-
     <div class="shell hero-in">
-      <p class="hero-tag">
-        <span class="dot" aria-hidden="true"></span>
-        <span>Available for new projects</span>
-        <span class="hero-tag-sep" aria-hidden="true">/</span>
-        <span class="hero-tag-mute">Mymensingh, BD &middot; <span data-clock>GMT+6</span></span>
-      </p>
+      <div class="hero-main">
+        <p class="hero-tag">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Independent developer &amp; digital designer</span>
+        </p>
 
-      <h1 class="display" id="hero-title">
-        <span class="line"><span>Good design.</span></span>
-        <span class="line"><span>Clean code.</span></span>
-        <span class="line"><span>Clear <em>purpose</em><span class="end-dot" aria-hidden="true">.</span></span></span>
-      </h1>
+        <h1 class="display" id="hero-title">
+          <span class="line"><span>Websites with</span></span>
+          <span class="line"><span>intention.</span></span>
+          <span class="line"><span>Built to <em>perform</em>.</span></span>
+        </h1>
 
-      <p class="hero-sub">
-        I&rsquo;m <strong>Saif Al Jahan</strong> — a full-stack developer and web designer
-        building custom websites where thoughtful design and purposeful engineering
-        finally sit at the same table.
-      </p>
+        <p class="hero-sub">
+          I&rsquo;m <strong>Saif Al Jahan</strong>, a full-stack developer working in
+          WordPress, React and custom PHP. I design and build the whole thing —
+          interface, front end, CMS, speed — for businesses that need a website to
+          carry weight, not just exist.
+        </p>
 
-      <div class="hero-cta">
-        <a class="pill pill-solid" href="#work">
+        <div class="hero-cta">
+          <a class="pill pill-solid" href="#work">
+            Explore selected work
+            <svg class="ic" aria-hidden="true"><use href="#i-down"/></svg>
+          </a>
+          <a class="pill" href="#contact">
+            Start a project
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <aside class="hero-side" aria-label="At a glance">
+        <p>
+          Currently taking on one or two builds at a time, working directly with
+          the people who depend on the result.
+        </p>
+        <dl>
+          <div><dt>Based</dt><dd>Mymensingh, BD</dd></div>
+          <div><dt>Local time</dt><dd><span data-clock>GMT+6</span></dd></div>
+          <div><dt>Reply within</dt><dd>1&ndash;2 days</dd></div>
+        </dl>
+      </aside>
+    </div>
+
+    <div class="shell">
+      <div class="hero-base">
+        <ul>
+          <li>WordPress &amp; Elementor</li>
+          <li>React &middot; Next.js &middot; PHP</li>
+          <li>Design &rarr; build &rarr; launch</li>
+        </ul>
+        <a class="hero-scroll" href="#work">
           Selected work
           <svg class="ic" aria-hidden="true"><use href="#i-down"/></svg>
         </a>
-        <a class="pill" href="mailto:me@webdev-saif.com">
-          Start a project
-          <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="hero-base">
-      <div class="shell">
-        <dl class="stats">
-          <div class="stat"><dt>Projects shipped</dt><dd><span data-count="20">20</span>+</dd></div>
-          <div class="stat"><dt>Years building</dt><dd><span data-count="3">3</span>+</dd></div>
-          <div class="stat"><dt>Repeat &amp; referral</dt><dd><span data-count="95">95</span>%</dd></div>
-          <div class="stat"><dt>Lighthouse target</dt><dd>100<span class="stat-of">/100</span></dd></div>
-        </dl>
-      </div>
-
-      <div class="marquee" role="group" aria-label="Core technologies">
-        <div class="marquee-vp">
-          <div class="marquee-track" id="marquee">
-            <div class="marquee-set">
-              <span>WordPress</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-              <span>React</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-              <span>Next.js</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-              <span>Node</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-              <span>SEO &middot; AEO &middot; GEO</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-              <span>UI / UX</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-              <span>Core Web Vitals</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-              <span>Accessibility</span><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg>
-            </div>
-            <div class="marquee-set" aria-hidden="true">
-              <span>WordPress</span><svg class="ic"><use href="#i-star"/></svg>
-              <span>React</span><svg class="ic"><use href="#i-star"/></svg>
-              <span>Next.js</span><svg class="ic"><use href="#i-star"/></svg>
-              <span>Node</span><svg class="ic"><use href="#i-star"/></svg>
-              <span>SEO &middot; AEO &middot; GEO</span><svg class="ic"><use href="#i-star"/></svg>
-              <span>UI / UX</span><svg class="ic"><use href="#i-star"/></svg>
-              <span>Core Web Vitals</span><svg class="ic"><use href="#i-star"/></svg>
-              <span>Accessibility</span><svg class="ic"><use href="#i-star"/></svg>
-            </div>
-          </div>
-        </div>
-        <button class="marquee-btn" type="button" aria-pressed="false" aria-label="Pause the technology ticker">
-          <svg class="ic" aria-hidden="true"><use href="#i-pause"/></svg>
-        </button>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ STATEMENT ═══════════ -->
-  <section class="statement" aria-labelledby="statement-title">
+  <section class="sec work-sec" id="work" aria-labelledby="work-title">
     <div class="shell">
-      <p class="eyebrow reveal"><span class="eyebrow-n">01</span> The point</p>
-      <h2 class="statement-text reveal" id="statement-title">
-        Most sites are built to <em>exist</em>. Yours should be built to <em>land</em>.
-      </h2>
-      <p class="statement-sub reveal">
-        Design that earns attention, code that keeps it, and search structure so the
-        right people find it in the first place. One person, start to finish.
-      </p>
+      <header class="sec-head reveal">
+        <p class="eyebrow"><span class="eyebrow-n">01</span> Selected work</p>
+        <div class="sec-head-grid">
+          <h2 class="sec-title" id="work-title">Three builds.<br>Three different <em>problems</em>.</h2>
+          <div class="sec-head-aside">
+            <p>
+              A live client site, a product built end to end, and an independent
+              concept. Different constraints, the same standard of craft.
+            </p>
+            <p class="fine">Client work &middot; personal product &middot; concept</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- ── 01 · Arif Mia — the featured build ────────────────────────── -->
+      <article class="proj proj--lead reveal">
+        <a class="plate plate--arif" href="https://arifmia.com/" target="_blank" rel="noopener">
+          <span class="plate-grain" aria-hidden="true"></span>
+          <span class="plate-top">
+            <span class="plate-chip">Client work &middot; Live</span>
+            <span class="plate-meta">WordPress &middot; Elementor &middot; Bit Flows</span>
+          </span>
+          <span class="plate-body">
+            <span class="plate-name">Arif&nbsp;<em>Mia</em></span>
+            <span class="plate-line">Local SEO, Google Maps and AI search — sold through a site that practices what it preaches.</span>
+          </span>
+          <span class="plate-foot">
+            <span class="plate-facts">
+              <span><b>Forms</b> WPForms &rarr; consultation booking</span>
+              <span><b>Automation</b> Bit Flows lead routing</span>
+            </span>
+            <span class="plate-open">arifmia.com <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></span>
+          </span>
+          <span class="sr-only">Open arifmia.com in a new tab</span>
+        </a>
+
+        <div class="proj-info">
+          <div class="proj-lead">
+            <span class="proj-n" aria-hidden="true">01</span>
+            <h3 class="proj-t">Arif Mia</h3>
+            <p class="proj-d">
+              A search-first site for an SEO specialist working across the UAE and
+              Bangladesh. WordPress with Elementor, plus bespoke plugin work for the
+              booking flow and the achievement figures that had to stay editable.
+            </p>
+          </div>
+          <dl class="proj-facts">
+            <div><dt>Type</dt><dd>Client &middot; WordPress build</dd></div>
+            <div><dt>Role</dt><dd>Design, front end, CMS, plugin</dd></div>
+            <div><dt>Stack</dt><dd>WordPress, Elementor, WPForms</dd></div>
+            <div><dt>Status</dt><dd>Live &middot; client site</dd></div>
+          </dl>
+          <div class="proj-links">
+            <a class="link" href="/work/arif-mia.html">Read the case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── 02 · SAIF FLIX — image and content, alternating ──────────── -->
+      <article class="proj proj--flip reveal">
+        <div class="proj-info">
+          <span class="proj-n" aria-hidden="true">02</span>
+          <h3 class="proj-t">SAIF FLIX</h3>
+          <p class="proj-d">
+            A dark, cinematic streaming catalogue built from scratch — billboard
+            rotation, filtered shelves, watchlist, multi-server playback fallbacks
+            and an Android TV layout. No page builder, no template.
+          </p>
+          <dl class="proj-facts">
+            <div><dt>Type</dt><dd>Personal product &middot; live demo</dd></div>
+            <div><dt>Role</dt><dd>Product, design, full-stack</dd></div>
+            <div><dt>Built with</dt><dd>PHP, JavaScript, TMDB API</dd></div>
+            <div><dt>Standout</dt><dd>Leanback UI for Android TV</dd></div>
+          </dl>
+          <div class="proj-links">
+            <a class="link" href="https://saif-flix.webdev-saif.com/" target="_blank" rel="noopener">Open the demo <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></a>
+            <a class="link" href="/work/saif-flix.html">Case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+
+        <a class="plate plate--flix" href="https://saif-flix.webdev-saif.com/" target="_blank" rel="noopener">
+          <span class="plate-grain" aria-hidden="true"></span>
+          <span class="plate-top">
+            <span class="plate-chip plate-chip--accent">Demo &middot; Live</span>
+            <span class="plate-meta">PHP &middot; TMDB &middot; Custom player</span>
+          </span>
+          <span class="plate-body">
+            <span class="plate-name plate-name--stack">SAIF<em>/</em>FLIX</span>
+            <span class="plate-line">Late-night cinema, engineered like a product.</span>
+          </span>
+          <span class="plate-foot">
+            <span class="plate-facts">
+              <span><b>Shelves</b> Continue watching &middot; Top 10</span>
+              <span><b>Fallback</b> Multi-server playback</span>
+            </span>
+            <span class="plate-open">saif-flix.webdev-saif.com <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></span>
+          </span>
+          <span class="sr-only">Open the SAIF FLIX demo in a new tab</span>
+        </a>
+      </article>
+
+      <!-- ── 03 · Renata PLC — full-width concept, clearly labelled ───── -->
+      <article class="proj proj--wide reveal">
+        <a class="plate plate--renata" href="https://plc.webdev-saif.com/" target="_blank" rel="noopener">
+          <span class="plate-grid" aria-hidden="true"></span>
+          <span class="plate-top">
+            <span class="plate-chip">Independent concept &middot; Not commissioned</span>
+            <span class="plate-meta">Corporate &middot; Multi-page &middot; 2026</span>
+          </span>
+          <span class="plate-body plate-body--wide">
+            <span class="plate-name">Renata<em>&thinsp;PLC</em></span>
+            <span class="plate-line">
+              A corporate information architecture concept for a Bangladeshi
+              pharmaceutical manufacturer — products, pipeline, investors, CSR.
+            </span>
+          </span>
+          <span class="plate-foot">
+            <span class="plate-facts">
+              <span><b>Scope</b> 9 page templates &middot; HCP product search</span>
+              <span><b>Note</b> Unaffiliated design study. No client endorsement implied.</span>
+            </span>
+            <span class="plate-open">plc.webdev-saif.com <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></span>
+          </span>
+          <span class="sr-only">Open the Renata PLC concept in a new tab</span>
+        </a>
+        <div class="proj-foot">
+          <div>
+            <h3 class="proj-t">Renata PLC — concept</h3>
+            <p class="proj-d">
+              Renata PLC has not commissioned or endorsed this work. It is an
+              independent study in corporate IA for a listed pharmaceutical
+              company: how a 50-year-old manufacturer explains itself online.
+            </p>
+          </div>
+          <dl class="proj-facts proj-facts--inline">
+            <div><dt>Type</dt><dd>Concept study</dd></div>
+            <div><dt>Role</dt><dd>Design &amp; build</dd></div>
+            <div><dt>Stack</dt><dd>Static HTML/CSS/JS</dd></div>
+          </dl>
+          <a class="link" href="/work/renata-plc.html">Case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -393,7 +524,7 @@
         <details class="svc reveal" open>
           <summary class="svc-sum">
             <span class="svc-n" aria-hidden="true">01</span>
-            <span class="svc-title">WordPress, your way.</span>
+            <span class="svc-title">WordPress Development</span>
             <span class="svc-ind" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="svc-panel">
@@ -414,7 +545,7 @@
         <details class="svc reveal">
           <summary class="svc-sum">
             <span class="svc-n" aria-hidden="true">02</span>
-            <span class="svc-title">Beyond the template.</span>
+            <span class="svc-title">Full-Stack Development</span>
             <span class="svc-ind" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="svc-panel">
@@ -435,7 +566,7 @@
         <details class="svc reveal">
           <summary class="svc-sum">
             <span class="svc-n" aria-hidden="true">03</span>
-            <span class="svc-title">Made to be found.</span>
+            <span class="svc-title">SEO &amp; Technical Optimization</span>
             <span class="svc-ind" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="svc-panel">
@@ -456,7 +587,7 @@
         <details class="svc reveal">
           <summary class="svc-sum">
             <span class="svc-n" aria-hidden="true">04</span>
-            <span class="svc-title">Design that ships.</span>
+            <span class="svc-title">UI-UX &amp; Digital Design</span>
             <span class="svc-ind" aria-hidden="true"><i></i><i></i></span>
           </summary>
           <div class="svc-panel">
@@ -478,130 +609,12 @@
   </section>
 
   <!-- ═══════════ WORK ═══════════ -->
-  <section class="sec work-sec" id="work" aria-labelledby="work-title">
-    <div class="aura aura-c" aria-hidden="true"></div>
-    <div class="shell">
-      <header class="sec-head sec-head-row reveal">
-        <div>
-          <p class="eyebrow"><span class="eyebrow-n">03</span> Selected work</p>
-          <h2 class="sec-title" id="work-title">Projects with <em>a point of view</em>.</h2>
-        </div>
-        <p class="sec-sub sec-sub-side">
-          Three builds, each designed and coded end to end by the same person who&nbsp;answers the email.
-        </p>
-      </header>
-
-      <div class="work">
-        <article class="feature reveal">
-          <a class="feature-link" href="https://webdev-saif.com/saif-flix/" target="_blank" rel="noopener">
-            <span class="feature-art card-art card-art--flix" aria-hidden="true">
-              <span class="flix-window">
-                <span class="flix-glow"></span>
-                <span class="flix-chrome">
-                  <span class="flix-dots"><i></i><i></i><i></i></span>
-                  <span class="flix-url">webdev-saif.com/saif-flix</span>
-                  <span class="flix-live"><i></i>Live</span>
-                </span>
-                <span class="flix-body">
-                  <span class="flix-nav">
-                    <span class="flix-brand">SAIF<i>/FLIX</i></span>
-                    <span class="flix-links"><b>Browse</b><b>Series</b><b>Films</b><b>My list</b></span>
-                    <span class="flix-av"></span>
-                  </span>
-                  <span class="flix-title">Late&nbsp;night<br>cinema.</span>
-                  <span class="flix-sub">A browsable catalog, built from scratch</span>
-                  <span class="flix-shelf">
-                    <span class="flix-shelf-label">Trending this week</span>
-                    <span class="flix-row"><i></i><i></i><i></i><i></i><i></i></span>
-                  </span>
-                </span>
-              </span>
-            </span>
-            <span class="sr-only">SAIF FLIX (opens in a new tab)</span>
-
-            <span class="feature-meta">
-              <span class="work-n" aria-hidden="true">01</span>
-              <span class="work-head">
-                <span class="work-kicker">Custom code &middot; Streaming UI &middot; 2026</span>
-                <span class="work-t" role="heading" aria-level="3">SAIF FLIX</span>
-                <span class="work-d">A movie streaming website with a browsable catalog, built from scratch with custom code &mdash; layout, filtering and player pages, no template underneath.</span>
-              </span>
-              <span class="work-tags">
-                <span>Browsable catalog</span>
-                <span>Custom front end</span>
-                <span>Responsive player pages</span>
-              </span>
-              <span class="work-cta">View the build<svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></span>
-            </span>
-          </a>
-        </article>
-
-        <div class="work-pair">
-          <article class="card reveal">
-            <a class="card-link" href="https://webdev-saif.com/arif-mia/" target="_blank" rel="noopener">
-              <span class="card-art card-art--arif" aria-hidden="true">
-                <span class="arif-top"><b>SEO specialist</b><b>UAE</b></span>
-                <span class="arif-name">Arif <i>Mia</i></span>
-                <span class="arif-search"><span>seo specialist near me</span><b>&#8984;K</b></span>
-                <span class="arif-res"><b>#1</b><span class="arif-bars"><i></i><i></i><i></i></span></span>
-                <span class="flutter">
-                  <span>Arif Mia<span class="sr-only"> (opens in a new tab)</span></span>
-                  <span class="flutter-meta">WordPress &middot; Elementor &middot; 2026</span>
-                </span>
-              </span>
-              <span class="card-meta">
-                <span class="work-n" aria-hidden="true">02</span>
-                <span class="card-body">
-                  <span class="card-t">Arif Mia</span>
-                  <span class="card-d">A search-first WordPress site for an SEO specialist, with custom plugin work and automated lead flows.</span>
-                  <span class="card-tags">WordPress &middot; Elementor &middot; Bit Flows</span>
-                </span>
-                <span class="card-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
-              </span>
-            </a>
-          </article>
-
-          <article class="card reveal">
-            <a class="card-link" href="https://webdev-saif.com/renata-plc-demo/" target="_blank" rel="noopener">
-              <span class="card-art card-art--renata" aria-hidden="true">
-                <span class="renata-top"><b class="renata-mark"><i></i><i></i></b><b>Renata PLC</b></span>
-                <span class="renata-word">RENATA</span>
-                <span class="renata-rule"></span>
-                <span class="renata-sub">Pharmaceuticals &middot; Corporate concept</span>
-                <span class="flutter">
-                  <span>Renata PLC<span class="sr-only"> (opens in a new tab)</span></span>
-                  <span class="flutter-meta">Custom code &middot; Design system &middot; Demo</span>
-                </span>
-              </span>
-              <span class="card-meta">
-                <span class="work-n" aria-hidden="true">03</span>
-                <span class="card-body">
-                  <span class="card-t">Renata PLC</span>
-                  <span class="card-d">A corporate website concept for a pharmaceutical company, designed and coded end to end.</span>
-                  <span class="card-tags">Custom code &middot; Design system &middot; Demo</span>
-                </span>
-                <span class="card-go" aria-hidden="true"><svg class="ic"><use href="#i-out"/></svg></span>
-              </span>
-            </a>
-          </article>
-        </div>
-      </div>
-
-      <p class="work-foot reveal">
-        <a class="link" href="https://webdev-saif.com/projects/" target="_blank" rel="noopener">
-          All projects on webdev-saif.com<span class="sr-only"> (opens in a new tab)</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg>
-        </a>
-      </p>
-    </div>
-  </section>
-
   <!-- ═══════════ PROCESS ═══════════ -->
   <section class="sec" id="process" aria-labelledby="process-title">
     <div class="shell">
       <header class="sec-head sec-head-row reveal">
         <div>
-          <p class="eyebrow"><span class="eyebrow-n">04</span> How it works</p>
+          <p class="eyebrow"><span class="eyebrow-n">03</span> How it works</p>
           <h2 class="sec-title" id="process-title">Four steps. <em>No mystery</em>.</h2>
         </div>
         <div class="sec-sub sec-sub-side">
@@ -614,49 +627,54 @@
         <li class="step reveal">
           <span class="step-n" aria-hidden="true">01</span>
           <span class="step-dot" aria-hidden="true"></span>
-          <h3>Listen</h3>
-          <p>A call about the business, the customers and the thing that is not working. Goals before pixels.</p>
+          <h3>Discover</h3>
+          <p>A working session on the business, the customer and the thing that is not working. You leave with a written brief and a sitemap.</p>
+          <p class="step-out">Deliverable &middot; Brief &amp; sitemap</p>
         </li>
         <li class="step reveal">
           <span class="step-n" aria-hidden="true">02</span>
           <span class="step-dot" aria-hidden="true"></span>
-          <h3>Shape</h3>
-          <p>Structure, wireframes and a clear scope with a fixed price and timeline. You approve before anything is built.</p>
+          <h3>Define</h3>
+          <p>Structure, content model and a fixed scope with a price and a date. Nothing gets built before you approve it.</p>
+          <p class="step-out">Deliverable &middot; Scope &amp; fixed quote</p>
         </li>
         <li class="step reveal">
           <span class="step-n" aria-hidden="true">03</span>
           <span class="step-dot" aria-hidden="true"></span>
-          <h3>Build</h3>
-          <p>Design and development in the same loop, with a staging link you can watch update in real time.</p>
+          <h3>Design &amp; Build</h3>
+          <p>Design and code in the same loop on a staging link you can watch update, with review points after each section.</p>
+          <p class="step-out">Deliverable &middot; Staging build</p>
         </li>
         <li class="step reveal">
           <span class="step-n" aria-hidden="true">04</span>
           <span class="step-dot" aria-hidden="true"></span>
-          <h3>Launch &amp; tune</h3>
-          <p>Performance, SEO and analytics checks, a handover walkthrough, then 30 days of aftercare.</p>
+          <h3>Launch &amp; Refine</h3>
+          <p>Deploy, test, hand over — then four weeks of tuning against real traffic and the first Search Console data.</p>
+          <p class="step-out">Deliverable &middot; Handover &amp; 30 days</p>
         </li>
       </ol>
     </div>
   </section>
 
   <!-- ═══════════ ABOUT ═══════════ -->
-  <section class="sec about-band" id="about" aria-labelledby="about-title">
+  <section class="sec about-band" id="about" data-invert aria-labelledby="about-title">
     <div class="shell about">
       <div class="about-l">
-        <p class="eyebrow reveal"><span class="eyebrow-n">05</span> The person behind the pixels</p>
-        <h2 class="sec-title reveal" id="about-title">Hi, I&rsquo;m Saif. <em>I connect the dots</em>.</h2>
+        <p class="eyebrow reveal"><span class="eyebrow-n">04</span> About</p>
 
-        <div class="id reveal">
-          <div class="id-mono" aria-hidden="true">SA</div>
-          <div class="id-lines">
-            <p class="id-name">Saif Al Jahan</p>
-            <p class="id-role">Full-stack developer &amp; web designer</p>
-            <dl class="id-facts">
-              <div><dt>Based</dt><dd>Mymensingh, Bangladesh</dd></div>
-              <div><dt>Zone</dt><dd>GMT+6 &middot; <span data-clock>live</span></dd></div>
-              <div><dt>Status</dt><dd class="id-open"><span class="dot dot-sm" aria-hidden="true"></span>Open for work</dd></div>
-            </dl>
-          </div>
+        <!-- No portrait exists, and inventing one (or borrowing a stock face)
+             would be a lie with a layout. The identity is typographic. -->
+        <div class="about-id reveal">
+          <h2 class="sec-title about-name" id="about-title">Saif<br>Al <em>Jahan</em></h2>
+          <p class="about-role">
+            Independent developer &amp; digital designer<br>
+            Mymensingh, Bangladesh
+          </p>
+          <dl class="about-facts">
+            <div><dt>Local time</dt><dd data-clock>GMT+6</dd></div>
+            <div><dt>Reply within</dt><dd>1&ndash;2 working days</dd></div>
+            <div><dt>Availability</dt><dd><span class="dot dot-sm" aria-hidden="true"></span>One or two projects</dd></div>
+          </dl>
         </div>
 
         <p class="about-sig reveal" aria-hidden="true">Designed &amp; built in Mymensingh</p>
@@ -726,7 +744,7 @@
   <section class="sec" id="faq" aria-labelledby="faq-title">
     <div class="shell faq">
       <header class="faq-l">
-        <p class="eyebrow reveal"><span class="eyebrow-n">06</span> A few things to know</p>
+        <p class="eyebrow reveal"><span class="eyebrow-n">05</span> A few things to know</p>
         <h2 class="sec-title reveal" id="faq-title">Good questions. <em>Straight answers</em>.</h2>
         <p class="sec-sub reveal">Still curious about something? Send a note and I&rsquo;ll reply within one working day.</p>
         <a class="pill reveal" href="mailto:me@webdev-saif.com">
@@ -786,7 +804,7 @@
   <section class="contact" id="contact" aria-labelledby="contact-title">
     <div class="aura aura-e" aria-hidden="true"></div>
     <div class="shell">
-      <p class="eyebrow eyebrow-center reveal"><span class="eyebrow-n">07</span> Say hello</p>
+      <p class="eyebrow eyebrow-center reveal"><span class="eyebrow-n">06</span> Say hello</p>
       <h2 class="display contact-title reveal" id="contact-title">
         <span class="line"><span>Let&rsquo;s build</span></span>
         <span class="line"><span>something <em>that lands</em>.</span></span>
@@ -796,23 +814,108 @@
         I can help shape the design, development and search structure together.
       </p>
 
-      <div class="contact-actions reveal">
-        <a class="pill pill-solid pill-lg" href="mailto:me@webdev-saif.com">
-          <svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>
-          me@webdev-saif.com
-        </a>
-        <button class="pill pill-lg" type="button" data-copy="me@webdev-saif.com">
-          <svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>
-          <span data-copy-label>Copy address</span>
-        </button>
-      </div>
+      <div class="contact-grid">
+        <div class="contact-l reveal">
+          <a class="contact-mail" href="mailto:me@webdev-saif.com">
+            <span class="contact-mail-k">Email directly</span>
+            <span class="contact-mail-v">me@webdev-saif.com</span>
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <button class="copy-btn" type="button" data-copy="me@webdev-saif.com">
+            <svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>
+            <span data-copy-label>Copy address</span>
+          </button>
 
-      <dl class="contact-meta reveal">
-        <div><dt>Based in</dt><dd>Mymensingh, Bangladesh</dd></div>
-        <div><dt>Local time</dt><dd data-clock>GMT+6</dd></div>
-        <div><dt>Reply time</dt><dd>Within one working day</dd></div>
-        <div><dt>Working</dt><dd>Worldwide, remote</dd></div>
-      </dl>
+          <dl class="contact-meta">
+            <div><dt>Based in</dt><dd>Mymensingh, Bangladesh</dd></div>
+            <div><dt>Local time</dt><dd data-clock>GMT+6</dd></div>
+            <div><dt>Reply time</dt><dd>Within one working day</dd></div>
+            <div><dt>Working</dt><dd>Worldwide, remote</dd></div>
+          </dl>
+        </div>
+
+        <!-- A real form, with an honest fallback: with no endpoint configured
+             it composes a mail draft instead of pretending to succeed. The
+             owner adds one URL — see README, "Contact form". -->
+        <form class="inq reveal" id="inquiry" novalidate
+              data-endpoint=""
+              data-email="me@webdev-saif.com"
+              aria-describedby="inq-note">
+          <p class="inq-head">Start a project</p>
+
+          <div class="field">
+            <label for="inq-name">Name</label>
+            <input id="inq-name" name="name" type="text" autocomplete="name" required
+                   aria-describedby="err-name">
+            <p class="err" id="err-name" hidden>Please tell me your name.</p>
+          </div>
+
+          <div class="field">
+            <label for="inq-email">Email</label>
+            <input id="inq-email" name="email" type="email" autocomplete="email" required
+                   inputmode="email" aria-describedby="err-email">
+            <p class="err" id="err-email" hidden>Please use a valid email address.</p>
+          </div>
+
+          <div class="field">
+            <label for="inq-type">Project type</label>
+            <select id="inq-type" name="project" required aria-describedby="err-type">
+              <option value="">Choose one</option>
+              <option>WordPress site</option>
+              <option>Full-stack product</option>
+              <option>SEO &amp; technical</option>
+              <option>Design &amp; build</option>
+              <option>Something else</option>
+            </select>
+            <p class="err" id="err-type" hidden>Pick the closest option — it can change later.</p>
+          </div>
+
+          <div class="field">
+            <label for="inq-msg">What are you building?</label>
+            <textarea id="inq-msg" name="message" rows="4" required
+                      aria-describedby="err-msg"></textarea>
+            <p class="err" id="err-msg" hidden>A sentence or two is enough to start.</p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="inq-budget">Budget <span class="opt">optional</span></label>
+              <select id="inq-budget" name="budget">
+                <option value="">Not sure yet</option>
+                <option>Under $500</option>
+                <option>$500 – $1,500</option>
+                <option>$1,500 – $4,000</option>
+                <option>$4,000+</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="inq-when">Timeline <span class="opt">optional</span></label>
+              <select id="inq-when" name="timeline">
+                <option value="">Flexible</option>
+                <option>As soon as possible</option>
+                <option>Within a month</option>
+                <option>1–3 months</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- honeypot: bots fill it, people never see it -->
+          <div class="hp" aria-hidden="true">
+            <label for="inq-company">Company</label>
+            <input id="inq-company" name="company" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <button class="btn-submit" type="submit">
+            Send the brief
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+
+          <p class="inq-note" id="inq-note">
+            Sends from your own email app — no account, no stored copy.
+          </p>
+          <p class="inq-status" id="inq-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
   </section>
 </main>
@@ -858,6 +961,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/vendor/gsap/gsap.min.js" defer></script>
-<script src="assets/js/main.js?v=20261024m" defer></script>
+<script src="assets/js/main.js?v=20261024p" defer></script>
 </body>
 </html>

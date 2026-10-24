@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+
+<title>SAIF FLIX — Saif Al Jahan</title>
+<meta name="description" content="SAIF FLIX — a TMDB-backed streaming catalogue with a custom player, multi-server fallback and a dedicated Android TV leanback mode. Personal product, built end to end.">
+<meta name="author" content="Saif Al Jahan">
+<meta id="theme-meta" name="theme-color" content="#f7f5f0">
+<link rel="canonical" href="https://saif-thewebdev.github.io/work/saif-flix.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Saif Al Jahan">
+<meta property="og:title" content="SAIF FLIX — Saif Al Jahan">
+<meta property="og:description" content="SAIF FLIX — a TMDB-backed streaming catalogue with a custom player, multi-server fallback and a dedicated Android TV leanback mode. Personal product, built end to end.">
+<meta property="og:url" content="https://saif-thewebdev.github.io/work/saif-flix.html">
+<meta property="og:image" content="https://saif-thewebdev.github.io/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://saif-thewebdev.github.io/assets/img/og-image.jpg">
+<meta name="twitter:title" content="SAIF FLIX — Saif Al Jahan">
+<meta name="twitter:description" content="SAIF FLIX — a TMDB-backed streaming catalogue with a custom player, multi-server fallback and a dedicated Android TV leanback mode. Personal product, built end to end.">
+
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/favicon.svg">
+<link rel="preload" href="../assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/style.css?v=20261024p">
+<link rel="stylesheet" href="../assets/css/case.css?v=20261024p">
+
+<script>
+  // theme before paint, same contract as the home page
+  (function () {
+    var d = document.documentElement;
+    d.className = 'js';
+    try {
+      var t = localStorage.getItem('saif-theme');
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      d.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "SAIF FLIX",
+  "description": "SAIF FLIX — a TMDB-backed streaming catalogue with a custom player, multi-server fallback and a dedicated Android TV leanback mode. Personal product, built end to end.",
+  "url": "https://saif-thewebdev.github.io/work/saif-flix.html",
+  "creator": {
+    "@type": "Person",
+    "name": "Saif Al Jahan",
+    "url": "https://saif-thewebdev.github.io/"
+  },
+  "about": "Streaming catalogue product"
+}
+</script>
+</head>
+<body class="case-page">
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M8 16 16 8M9.5 8H16v6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m4.2 7.2 7.8 5.6 7.8-5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar" id="bar">
+  <div class="bar-in">
+    <a class="mark" href="../index.html" aria-label="Saif Al Jahan — back to portfolio">Saif<span aria-hidden="true">.</span></a>
+
+    <nav class="nav" id="nav" aria-label="Case study">
+      <a href="../index.html#work">All work</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+
+    <div class="bar-r">
+      <button class="icon-btn theme-btn" type="button" aria-label="Switch theme" aria-pressed="false">
+        <svg class="ic ic-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+      <a class="bar-cta" href="../index.html#contact">
+        Start a project
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu">
+        <span class="bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+  <div class="bar-line" aria-hidden="true"><span id="progress"></span></div>
+
+  <nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="../index.html#work">All work</a>
+    <a href="../index.html#services">Services</a>
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+
+<article>
+
+<section class="case-hero">
+  <div class="shell">
+    <p class="crumb"><a href="../index.html">Saif Al Jahan</a><span aria-hidden="true">/</span><a href="../index.html#work">Work</a><span aria-hidden="true">/</span>SAIF FLIX</p>
+
+    <h1 class="case-title">SAIF <em>/</em> FLIX</h1>
+    <p class="case-lede">A dark, cinematic streaming catalogue built from scratch on TMDB data — shelves, watchlist, a player that survives a dead source, and a layout that works from a sofa.</p>
+
+    
+
+    <div class="case-foot-hero">
+      <span class="case-status">Personal product · live demo</span>
+      <div class="case-links">
+        <a class="btn-line btn-line--solid" href="https://saif-flix.webdev-saif.com/" target="_blank" rel="noopener">Live demo <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="case-mid">
+  <div class="shell">
+    <dl class="facts">
+      <div><dt>Type</dt><dd>Personal product</dd></div>
+      <div><dt>Role</dt><dd>Product, design, front end</dd></div>
+      <div><dt>Stack</dt><dd>JavaScript, TMDB API, custom player</dd></div>
+      <div><dt>Year</dt><dd>2026</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="case-main">
+  <div class="shell case-wrap">
+    <nav class="toc" aria-label="On this page">
+      <p>Contents</p>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#problem">The problem</a></li>
+        <li><a href="#role">My role</a></li>
+        <li><a href="#approach">Technical approach</a></li>
+        <li><a href="#design">Design decisions</a></li>
+        <li><a href="#challenges">Challenges</a></li>
+        <li><a href="#outcome">Outcome</a></li>
+        <li><a href="#gallery">Evidence</a></li>
+      </ol>
+    </nav>
+
+    <div class="case-body">
+      <section class="case-sec" id="overview">
+        <h2><span class="n" aria-hidden="true">01</span>Overview</h2>
+        <p><strong>SAIF FLIX</strong> is a free streaming catalogue I designed and built end to end. It reads from the TMDB database, presents films and series as shelves, and plays them through a custom player with multiple fallback servers. No account, no payment, no personal data collected — the product is the browsing and the playback.</p><p>It is my own product, not a client commission, which is exactly why it is in this portfolio: it is the project where nobody else set the constraints.</p>
+      </section>
+      <section class="case-sec" id="problem">
+        <h2><span class="n" aria-hidden="true">02</span>The problem</h2>
+        <p>Streaming front ends fail in three predictable ways: they are heavy, they break when a third-party source does, and they are designed for a laptop and then squashed onto a TV.</p><ul><li>Thousands of titles need to feel navigable, not dumped into an infinite grid.</li><li>Playback depends on sources I do not control, so the interface has to keep working when one does not.</li><li>Metadata arrives incomplete — missing artwork, missing runtimes, duplicate titles across regions.</li><li>People watch on televisions, where a cursor and a hover state do not exist.</li></ul>
+      </section>
+      <section class="case-sec" id="role">
+        <h2><span class="n" aria-hidden="true">03</span>My role</h2>
+        <p>Product decisions, interface design, front-end engineering, the player, the routing, the Android TV layout and the search metadata — one person, the whole product. I also wrote the copy, which is the part nobody warns you about.</p>
+      </section>
+      <section class="case-sec" id="approach">
+        <h2><span class="n" aria-hidden="true">04</span>Technical approach</h2>
+        <dl class="dec">
+      <div><dt>Data</dt><dd>TMDB as the catalogue: trending, top-rated, per-genre collections and per-title metadata, requested on demand rather than baked into the page.</dd></div>
+      <div><dt>Routing</dt><dd>Query-string routes — /movie?id=, /tv?id= — so a title has a shareable URL and the page renders from an identifier rather than a client-side router.</dd></div>
+      <div><dt>Player</dt><dd>Multiple servers offered per title with an automatic fallback, so one dead source degrades the experience instead of ending it.</dd></div>
+      <div><dt>Catalogue logic</dt><dd>De-duplication by title and year across lists, so the same film does not appear three times in a row of shelves.</dd></div>
+      <div><dt>Television</dt><dd>A dedicated leanback route at /android-tv with larger targets, no hover dependence, and a D-pad-shaped focus order.</dd></div>
+      <div><dt>Performance</dt><dd>No framework, no animation library, images sized per shelf slot, and nothing fetched that the current shelf does not need.</dd></div>
+    </dl>
+      </section>
+      <section class="case-sec" id="design">
+        <h2><span class="n" aria-hidden="true">05</span>Design decisions</h2>
+        <p>Dark, because the artwork is the interface: posters are the brightest thing on screen and every chrome element steps back so they can be. One accent colour marks the primary action and the active filter, and nothing else competes with it.</p><p>Shelves are labelled in plain language — Continue Watching, Because You Watched, Top 10 — because the user's question is never “what is in the database”, it is “what do I watch next”. Badges stay small and factual: rating, year, language, media type.</p>
+      </section>
+      <section class="case-sec" id="challenges">
+        <h2><span class="n" aria-hidden="true">06</span>Challenges</h2>
+        <dl class="dec">
+      <div><dt>Third-party failure</dt><dd>Images 404 and ratings arrive as “NR”. Every slot has a fallback treatment so a missing poster leaves a composed card, not a broken hole.</dd></div>
+      <div><dt>Long lists, short attention</dt><dd>Horizontal shelves with keyboard and touch support, capped row lengths, and a Top 10 that is a real ranking rather than another poster grid.</dd></div>
+      <div><dt>Playback reliability</dt><dd>The fallback chain has to be invisible when it works and obvious when it does not. The player tells you which source it is trying and moves on.</dd></div>
+      <div><dt>Television input</dt><dd>Leanback mode is a different interaction model, not a responsive breakpoint: focus rings become the primary state and the whole grid steps up in size.</dd></div>
+    </dl>
+      </section>
+      <section class="case-sec" id="outcome">
+        <h2><span class="n" aria-hidden="true">07</span>Outcome</h2>
+        <p>Live at <strong>saif-flix.webdev-saif.com</strong>, with the Android TV mode at /android-tv. I am not quoting traffic or retention numbers here because I have no verified analytics for the demo.</p><p>What is checkable: the catalogue loads, shelves filter by All / Movies / TV Shows, the watchlist persists locally, playback falls back between servers, and the leanback layout is usable with arrow keys alone.</p>
+        <div class="case-links">
+          <a class="btn-line btn-line--solid" href="https://saif-flix.webdev-saif.com/" target="_blank" rel="noopener">Open the demo <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></a>
+          <a class="btn-line" href="https://saif-flix.webdev-saif.com/android-tv" target="_blank" rel="noopener">Android TV mode <svg class="ic" aria-hidden="true"><use href="#i-out"/></svg></a>
+        </div>
+      </section>
+      <section class="case-sec" id="gallery">
+        <h2><span class="n" aria-hidden="true">08</span>Evidence</h2>
+        <div class="gallery">
+        <p class="gal-note">Screenshots are pending for the same reason as the other projects — the demo host is outside this build environment's network. These are the product surfaces that exist and can be opened directly.</p>
+        <div class="gal-grid">
+        <div class="gal-card"><span class="k">Home</span><span class="v">Rotating billboard</span><span class="m">One featured title at a time, with Watch Now and My List as the only actions.</span></div>
+        <div class="gal-card"><span class="k">Catalogue</span><span class="v">Continue Watching · Because You Watched · Watchlist · Top 10</span><span class="m">Four shelves with different jobs, filtered by All / Movies / TV Shows.</span></div>
+        <div class="gal-card"><span class="k">Playback</span><span class="v">Multi-server fallback</span><span class="m">A failed source is skipped rather than surfaced as an error.</span></div>
+        <div class="gal-card"><span class="k">Television</span><span class="v">/android-tv</span><span class="m">Leanback layout for Android TV, Fire TV and Google TV remotes.</span></div>
+        </div>
+      </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<div class="shell">
+  <div class="case-next">
+    <a href="renata-plc.html">
+      <span class="k">Next project</span>
+      <span class="t">Renata PLC <svg class="ic" aria-hidden="true" style="width:.6em;height:.6em"><use href="#i-arrow"/></svg></span>
+    </a>
+  </div>
+</div>
+
+</article>
+</main>
+
+<footer class="foot">
+  <div class="shell foot-in">
+    <a class="foot-mark" href="../index.html">Saif<span aria-hidden="true">.</span></a>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../index.html#process">Process</a>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+    <div class="foot-social">
+      <a class="icon-btn" href="https://github.com/Saif-TheWebDev" target="_blank" rel="noopener me" aria-label="GitHub profile (opens in a new tab)">
+        <svg class="ic" aria-hidden="true"><use href="#i-github"/></svg>
+      </a>
+      <a class="icon-btn" href="mailto:me@webdev-saif.com" aria-label="Send an email">
+        <svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="shell foot-bot">
+    <p>&copy; <span id="year">2026</span> Saif Al Jahan</p>
+    <p class="foot-note">Designed &amp; built by hand</p>
+    <a class="foot-top" href="#main">
+      Back to top
+      <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </a>
+  </div>
+
+  <p class="foot-word" aria-hidden="true">SAIF AL JAHAN</p>
+</footer>
+
+<script src="../assets/js/main.js?v=20261024p" defer></script>
+</body>
+</html>
