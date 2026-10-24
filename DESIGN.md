@@ -164,7 +164,8 @@ the point:
    masks (`yPercent 128 → 0`, 1.05 s, 85 ms stagger) → the italic *purpose* on
    its own beat (0.8 s, 42 % lift, 1.5° unwind) → subtitle (0.7 s) → CTAs
    (0.6 s, 75 ms stagger) → stats (0.55 s, 65 ms stagger). Total 2.49 s, and
-   the loader covers the first frames so nothing is seen before it starts.
+   the loader runs for 2.66 s, so the first ~17% of it plays under the curtain
+   and the headline is already into its second line as it lifts.
 2. **Process rail**, driven by a ScrollTrigger scrub (0.5) between `top 74%`
    and `bottom 36%` of the list. It writes the same `--tp` custom property and
    `is-on` class the rAF fallback writes, so the drawing is identical whichever
@@ -186,16 +187,23 @@ parks the masked lines a line-height low (found and fixed in this pass).
 
 ## 4. The preloader
 
-It is a courtesy, not a toll gate.
+It is a fixed clock, not a guess and not a toll gate.
 
-- **First visit:** a short beat (≈520 ms minimum), honest progress tied to
-  `window.load` + `fonts.ready`, then the curtain lifts.
-- **Repeat visit in the same session:** `sessionStorage.saif-visited` shortens
-  the minimum to 120 ms; the page is essentially immediate.
-- **Hard ceiling:** 1.5 s. A stalled font or third party never holds content
-  hostage.
-- **Failure:** the inline script lifts the curtain at 2.2 s if `main.js` never
-  runs; the stylesheet carries a 7 s escape; reduced motion skips it entirely.
+- **The count:** 0 → 100 in exactly 2.5 s, driven by `performance.now()` and a
+  smoothstep curve, so the digits move at a readable rate the whole way rather
+  than racing to 60% and appearing to stall. It is identical on a fast
+  connection and a slow one. At 2.5 s it reads 100, the bar is full, and the
+  curtain lifts 160 ms later — the whole beat is ≈2.66 s.
+- **It is not gated on the network.** No `window.load`, no `fonts.ready`, no
+  `sessionStorage`, no first-visit/repeat-visit split, and no 1.5 s ceiling: the
+  last rAF frame before the deadline stops the number at 99 so 100 always means
+  "finished", and a 2.56 s `setTimeout` finishes the count even if the frame
+  loop is starved.
+- **Failure:** the inline script lifts the curtain at 1.2 s if `main.js` never
+  runs — it tests the number itself, which ships as `100` and is rewound to `0`
+  by `main.js`, so a working script is never pre-empted. The stylesheet carries
+  a later escape if even that does not run; reduced motion skips the loader
+  before the first paint.
 - The loader is `aria-hidden`, never focusable, and is removed from the DOM
   700 ms after it finishes.
 
@@ -290,10 +298,11 @@ visible, and the loader and progress bars paint in `Highlight`.
   IntersectionObserver is wired; the hero's line-rise only exists under `html.js`.
   Without JS the page is complete, the counters show their final numbers, and the
   preloader never appears.
-- **The preloader cannot strand the page.** Three independent escapes (inline
-  timeout, script watchdog, stylesheet animation) each resolve it.
+- **The preloader cannot strand the page.** Three independent escapes (the
+  1.2 s inline failsafe, which only fires when the number was never rewound;
+  the stylesheet animation; and reduced motion) each resolve it.
 - **Cache-bust** `style.css` / `case.css` / `main.js` with `?v=` on every change
-  (currently `20261024q`). GSAP and Lenis are resolved by `main.js` against its
+  (currently `20261024s`). GSAP and Lenis are resolved by `main.js` against its
   own script URL, so the same file serves `/index.html` and `/work/*.html`.
 - **Vendor paths are relative to the script**, not the document, or the case
   pages would request `/work/assets/vendor/…`.

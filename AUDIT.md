@@ -169,9 +169,10 @@ carried over unchanged; nothing was invented to fill the new layout.
 
 | Requirement | How it is met | Verified |
 |---|---|---|
-| Honest number | Elapsed time vs a 1.5 s floor, capped at 90% until `load` **and** `document.fonts.ready`, then 100% | Observed climbing 16 → 67 → 100 |
+| Honest number | A fixed clock: `performance.now()` against 2500 ms, smoothstepped, capped at 99 until the deadline | Sampled 0 → 17 → 53 → 86 → 100 at 0 / 625 / 1250 / 1875 / 2500 ms |
 | Never blocks content | Page beneath is fully rendered; curtain only fades | No-JS and blocked-JS captures both show the full page |
-| Cannot strand anyone | 4 s inline timeout · 5 s script watchdog · 6 s CSS escape | Script blocked at request level: `loaded` true, hero visible, loader opacity 0 |
+| Lifts on time | `finish()` at 2500 ms, `loaded` 160 ms later, node removed 700 ms after that | Loader class at 2.60 s, element gone at 3.31 s |
+| Cannot strand anyone | 1.2 s inline failsafe (tests the number, so it cannot pre-empt a live count) · stylesheet escape · reduced motion skips it | `main.js` blocked at request level: `loaded` at 1.10 s, `loading` cleared, full page visible |
 | Not in the reading order | `aria-hidden="true"`, no focusable content, removed from DOM after 0.9 s | DOM check |
 | Reduced motion | Never rendered | `prefers-reduced-motion` emulation: loader display `none`, phrases not run |
 
@@ -418,7 +419,7 @@ reduced motion the rail is drawn complete (`1`, 4 lit).
 | Social proof | 20+ projects / 3+ years / 95% repeat / "Lighthouse 100" (a target presented as a result) | Removed. One real client quote remains |
 | Contact | Email + copy button | Email + copy + a real inquiry form (six fields, honeypot, accessible validation, mailto or configured endpoint — never a fake success) |
 | Footer | Small mark, outline wordmark | Solid giant `SAIF AL JAHAN` wordmark, cropped by the page edge: minimal links, year, back to top |
-| Motion | Loader with a 1.25 s floor, hero hidden until it finished | Loader 520 ms floor on first visit, 120 ms on repeat, 1.5 s hard ceiling; hero copy paints immediately and is only nudged |
+| Motion | Loader with a 1.25 s floor, hero hidden until it finished | Loader is a fixed 0→100 count over 2.5 s, then a 160 ms lift; hero copy paints immediately and is only nudged |
 | SEO | No sitemap, no robots | `sitemap.xml`, `robots.txt`, case-study canonicals + `CreativeWork` JSON-LD, new OG card rendered from the page's own type |
 
 ### Verified by running it
@@ -432,7 +433,7 @@ reduced motion the rail is drawn complete (`1`, 4 lit).
 | Theme | Toggle, then reload | `data-theme` and `localStorage` both `dark` after reload; first visit follows `prefers-color-scheme` |
 | Form validation | Empty submit, bad email, valid submit | 4 inline errors + `aria-invalid` on empty; email-only error on bad address; valid submit composes the mail draft and says so |
 | Reduced motion | `prefers-reduced-motion: reduce` | Loader removed, headline at final state, 0 hidden `.reveal` |
-| Loader | First visit vs repeat (`sessionStorage`) | 520 ms floor / 120 ms floor / 1500 ms ceiling; DOM node removed 700 ms after finish |
+| Loader | Sampled every 50 ms for 3.8 s in a JSDOM page running the shipped `main.js` | 0 → 17 → 53 → 86 → 100 at 0 / 625 / 1250 / 1875 / 2500 ms; monotonic; `loaded` at 2.60 s; node removed 3.31 s |
 | LCP / CLS | Chromium, no throttle and 4G + 4× CPU | desktop LCP **490 ms**, CLS **0.0007**; mobile LCP **712 ms**, CLS **0.0012**, TBT 250 ms |
 | Console | Whole pass, both themes, mobile, case pages | 0 page errors, 0 failed requests |
 

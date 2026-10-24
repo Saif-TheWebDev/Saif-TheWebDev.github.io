@@ -39,8 +39,8 @@ SHELL = """<!DOCTYPE html>
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/img/favicon.svg">
 <link rel="preload" href="../assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/css/style.css?v=20261024q">
-<link rel="stylesheet" href="../assets/css/case.css?v=20261024q">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261024s">
+<link rel="stylesheet" href="../assets/css/case.css?v=20261024s">
 
 <script>
   // theme before paint, same contract as the home page
@@ -208,7 +208,7 @@ SHELL = """<!DOCTYPE html>
   <p class="foot-word" aria-hidden="true">SAIF AL JAHAN</p>
 </footer>
 
-<script src="../assets/js/main.js?v=20261024q" defer></script>
+<script src="../assets/js/main.js?v=20261024s" defer></script>
 </body>
 </html>
 """

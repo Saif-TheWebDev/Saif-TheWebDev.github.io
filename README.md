@@ -67,12 +67,14 @@ Pages on this site degrade gracefully rather than breaking:
   `IntersectionObserver` is confirmed working. A blocked or crashed script can
   never leave the page blank, and blocks are never hidden before they are
   revealed — so the page cannot flash content out on load.
-- **The preloader cannot strand anyone.** It is hidden unless `html.js`, and
-  three independent escapes resolve it: a 4 s inline timeout, a 5 s watchdog in
-  `main.js`, and a 6 s CSS animation. With reduced motion it is never shown.
+- **The preloader counts 0 → 100 in 2.5 s** on a fixed clock — no network
+  gating, no `sessionStorage` split — then lifts 160 ms later. It cannot strand
+  anyone: the inline failsafe lifts the curtain at 1.2 s only if the number is
+  still untouched (which means `main.js` never ran), the stylesheet carries a
+  later escape, and reduced motion skips it before first paint.
 - **Assets are cache-busted** (`?v=...`) so a bad response can't survive a
   deploy. Bump the query string whenever you edit `style.css` or `main.js`
-  (currently `20261024m`).
+  (currently `20261024s`).
 - **GSAP is optional.** It is a `defer` script with no preload and no inline
   dependency; with `assets/vendor/gsap/*` blocked by request interception the
   hero renders in its final state and the process rail falls back to the rAF
