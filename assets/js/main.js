@@ -18,10 +18,11 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── loader ────────────────────────────────────────────────────────────
-     The percentage is honest: it tracks elapsed time and the real readiness
-     signals (window load + fonts), holds short of 100 until both are in, and
-     then finishes. It is decorative, so it stays aria-hidden throughout and
-     never takes focus.
+     A fixed count: 0 → 100 in 2.5 s, then the curtain lifts. The number is a
+     clock, not a guess — it is driven entirely by elapsed time, so it reads
+     the same on a fast connection and a slow one, and it always finishes.
+     It is decorative, so it stays aria-hidden throughout and never takes
+     focus. Reduced motion skips it; a blocked script has its own escapes.
      ────────────────────────────────────────────────────────────────────── */
   var loader = doc.getElementById('loader');
   var loaderNum = doc.getElementById('loader-num');
@@ -55,29 +56,18 @@
         loaderPhrase.textContent = phrases[phraseIndex];
         loaderPhrase.classList.remove('is-out');
       }, 200);
-    }, 820);
+    }, 800);
 
-    var ready = doc.readyState === 'complete';
-    var fontsReady = !doc.fonts;
-    window.addEventListener('load', function () { ready = true; });
-    if (doc.fonts && doc.fonts.ready) {
-      doc.fonts.ready.then(function () { fontsReady = true; });
-    }
-
-    /* A first visit gets a short beat — enough to read the mark, not enough to
-       wait for anything. A repeat visit inside the same session skips it
-       entirely: the loader is a courtesy, never a toll gate. */
-    var seen = false;
-    try { seen = sessionStorage.getItem('saif-visited') === '1'; } catch (e) {}
+    /* 2.5 s, end to end. Smoothstep rather than a hard ease-out: a count that
+       is already at 63% after 600 ms reads as a bar that has stalled, not one
+       that is working. This keeps the digits moving at a readable rate the
+       whole way and still lands on exactly 100 at 2500 ms. */
+    var COUNT_MS = 2500;
     var start = (window.performance && window.performance.now) ? window.performance.now() : Date.now();
-    var MIN_MS = seen ? 120 : 520;
-    var MAX_MS = seen ? 400 : 1500;
-    var shown = 0;
     var done = false;
 
-    try { sessionStorage.setItem('saif-visited', '1'); } catch (e) {}
-
     function finish() {
+      if (done) return;
       done = true;
       window.clearInterval(phraseTimer);
       if (loaderNum) loaderNum.textContent = '100';
@@ -87,22 +77,14 @@
 
     function tick(now) {
       if (done) return;
-      var elapsed = now - start;
-      var target = Math.min(1, elapsed / MIN_MS);
+      var p = (now - start) / COUNT_MS;
+      if (!(p < 1)) { finish(); return; }
 
-      /* Hold at 90% until the document and the font are both in; once they are,
-         stop easing toward the finish and take it — the asymptotic tail was
-         costing half a second of staring at "97%". */
-      if (ready && fontsReady && elapsed >= MIN_MS) { finish(); return; }
-      /* a hard ceiling: a slow font or a stalled third party is not a reason to
-         keep a curtain over content that has already painted */
-      if (elapsed >= MAX_MS) { finish(); return; }
-      if (!ready || !fontsReady) target = Math.min(target, 0.9);
-
-      shown += (target - shown) * 0.18;
-
-      if (loaderNum) loaderNum.textContent = String(Math.min(99, Math.round(shown * 100)));
-      if (loaderFill) loaderFill.style.width = Math.min(99, shown * 100).toFixed(1) + '%';
+      var q = Math.max(0, p);
+      var eased = q * q * (3 - 2 * q);
+      var n = Math.min(99, Math.round(eased * 100));
+      if (loaderNum) loaderNum.textContent = String(n);
+      if (loaderFill) loaderFill.style.width = eased * 100 + '%';
 
       window.requestAnimationFrame(tick);
     }
@@ -110,11 +92,9 @@
     if (window.requestAnimationFrame) window.requestAnimationFrame(tick);
     else finish();
 
-    /* rAF stops in background tabs, and a stalled frame must never keep the
-       curtain up: this mirrors the stylesheet's own six-second escape. */
-    window.setTimeout(function () {
-      if (!done) finish();
-    }, 5000);
+    /* rAF stops in background tabs, so a timer guarantees the curtain lifts
+       even if no frame is ever painted again. */
+    window.setTimeout(finish, COUNT_MS + 60);
   })();
 
   /* ── year ────────────────────────────────────────────────────────────── */
