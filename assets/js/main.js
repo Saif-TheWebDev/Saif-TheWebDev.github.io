@@ -116,7 +116,7 @@
   function applyTheme(theme, persist) {
     root.setAttribute('data-theme', theme);
     if (persist) { try { localStorage.setItem('theme', theme); } catch (e) {} }
-    if (themeMeta) themeMeta.setAttribute('content', theme === 'dark' ? '#08080a' : '#f6f3ec');
+    if (themeMeta) themeMeta.setAttribute('content', theme === 'dark' ? '#191817' : '#f7f5f0');
     if (themeBtn) {
       var dark = theme === 'dark';
       themeBtn.setAttribute('aria-pressed', String(dark));

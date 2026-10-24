@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark light">
+<meta name="color-scheme" content="light dark">
 
 <title>Saif Al Jahan — Full-Stack Developer &amp; Web Designer</title>
 <meta name="description" content="Saif Al Jahan is a full-stack developer and web designer in Mymensingh, Bangladesh, building thoughtful, fast websites with WordPress, React and Next.js — designed and developed by one person.">
 <meta name="author" content="Saif Al Jahan">
-<meta id="theme-meta" name="theme-color" content="#08080a">
+<meta id="theme-meta" name="theme-color" content="#f7f5f0">
 <link rel="canonical" href="https://saif-thewebdev.github.io/">
 
 <meta property="og:type" content="website">
@@ -31,20 +31,31 @@
 <link rel="preload" href="assets/fonts/orlean.woff2" as="font" type="font/woff2" crossorigin>
 
 <!-- ── critical styles ──────────────────────────────────────────────────────
-     Enough to paint the first frame correctly: the dark canvas, the loader
+     Enough to paint the first frame correctly: the ivory canvas, the loader
      shell, and the hero's type. The rest arrives with the stylesheet.
      ──────────────────────────────────────────────────────────────────────── -->
 <style>
   @font-face{font-family:"Orlean";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/orlean.woff2") format("woff2")}
   :root{
-    --bg:#08080a;--bg-2:#0c0c0f;--panel:#101014;--panel-2:#15151a;
-    --ink:#f4f1ea;--ink-2:#c8c4ba;--muted:#8b8880;--muted-2:#6f6c66;
-    --rule:rgba(244,241,234,.13);--rule-2:rgba(244,241,234,.22);
-    --accent:#e08a63;--accent-2:#c96a44;--accent-soft:rgba(224,138,99,.13);
+    --bg:#f7f5f0;--bg-2:#f2efe8;--panel:#fffefb;--panel-2:#f2efe8;
+    --ink:#191817;--ink-2:#4a453e;--muted:#716c65;--muted-2:#8c867d;
+    --rule:rgba(25,24,23,.13);--rule-2:rgba(25,24,23,.26);
+    --accent:#b64024;--accent-2:#8f301b;--accent-soft:rgba(182,64,36,.1);
+    --on-accent:#fffefb;
     --face:"Orlean",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     --display:var(--face);--sans:var(--face);--mono:var(--face);
     --shell:1320px;--gutter:clamp(20px,5vw,64px);--bar-h:76px;
     --ease:cubic-bezier(.22,1,.36,1);
+    color-scheme:light;
+  }
+  /* same subset for a returning visitor whose stored theme is dark, so the
+     first paint is already the right colour */
+  [data-theme="dark"]{
+    --bg:#191817;--bg-2:#1c1a19;--panel:#221f1e;--panel-2:#2a2725;
+    --ink:#f7f5f0;--ink-2:#d8d2c8;--muted:#a7a199;--muted-2:#7e7871;
+    --rule:rgba(247,245,240,.14);--rule-2:rgba(247,245,240,.26);
+    --accent:#e0704e;--accent-2:#c9563a;--accent-soft:rgba(224,112,78,.14);
+    --on-accent:#191817;
     color-scheme:dark;
   }
   *,*::before,*::after{box-sizing:border-box}
@@ -65,7 +76,7 @@
   .icon-btn{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:none;color:inherit;border:1px solid currentColor;opacity:.7}
   .icon-btn .ic{width:16px;height:16px}
   .pill{display:inline-flex;align-items:center;gap:10px;padding:12px 21px;border:1px solid currentColor;border-radius:999px;font-size:.82rem;line-height:1.2;text-decoration:none}
-  .pill-solid{background:#f4f1ea;color:#08080a;border-color:#f4f1ea}
+  .pill-solid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
   .hero-cta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:24px}
   .menu-btn{display:none}
   .skip{position:fixed;top:12px;left:16px;z-index:1200;padding:10px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:.85rem;text-decoration:none;transform:translateY(-200%);transition:transform .25s var(--ease)}
@@ -90,16 +101,16 @@
 
   /* ── loader ─────────────────────────────────────────────────────────── */
   .loader{display:none}
-  html.js .loader{position:fixed;inset:0;z-index:900;display:grid;grid-template-rows:1fr auto;background:#08080a;color:#f4f1ea}
+  html.js .loader{position:fixed;inset:0;z-index:900;display:grid;grid-template-rows:1fr auto;background:var(--bg);color:var(--ink)}
   .loader-in{display:grid;place-content:center;justify-items:center;gap:18px;padding:24px;text-align:center}
   .loader-mark{font-family:var(--display);font-size:clamp(2rem,4vw,2.6rem);line-height:1;letter-spacing:-.03em}
-  .loader-mark span{color:#e08a63}
-  .loader-phrase{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:#8b8880;min-height:1.2em}
+  .loader-mark span{color:var(--accent)}
+  .loader-phrase{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);min-height:1.2em}
   .loader-pct{font-family:var(--display);font-size:clamp(3.2rem,9vw,6.4rem);line-height:.9;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
-  .loader-pct i{font-style:normal;font-size:.32em;color:#8b8880;margin-left:.12em;letter-spacing:0}
-  .loader-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 24px 22px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#6f6c66}
-  .loader-bar{position:relative;flex:1;height:1px;background:rgba(244,241,234,.16);overflow:hidden}
-  .loader-bar span{position:absolute;inset:0 auto 0 0;width:100%;background:#e08a63}
+  .loader-pct i{font-style:normal;font-size:.32em;color:var(--muted);margin-left:.12em;letter-spacing:0}
+  .loader-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 24px 22px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .loader-bar{position:relative;flex:1;height:1px;background:var(--rule);overflow:hidden}
+  .loader-bar span{position:absolute;inset:0 auto 0 0;width:100%;background:var(--accent)}
   html.loaded .loader{opacity:0;visibility:hidden;transition:opacity .55s var(--ease),visibility .55s}
   /* If the script dies mid-load, the curtain lifts itself. */
   html.js .loader{animation:loaderFailsafe 0s linear 7s forwards}
@@ -107,7 +118,7 @@
   @media (prefers-reduced-motion: reduce){ html.js .loader{display:none} }
 </style>
 
-<link rel="stylesheet" href="assets/css/style.css?v=20261024g">
+<link rel="stylesheet" href="assets/css/style.css?v=20261024h">
 
 <script>
   /* Runs before the first paint: marks the document as scripted, starts the
@@ -754,6 +765,6 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/main.js?v=20261024g" defer></script>
+<script src="assets/js/main.js?v=20261024h" defer></script>
 </body>
 </html>

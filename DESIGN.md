@@ -20,46 +20,67 @@ file rather than contradict it.
 ## 2. Direction and why
 
 Rebuilt after **mdx.so**, at the owner's request, taking the *structure* of that
-site rather than its assets: a cinematic near-black canvas, one enormous display
-face used at almost poster scale, soft warm glow fields behind the text, a
-count-up preloader, a centred hero, an index of services, three project cards,
-one oversized client quote, and a full-bleed closing call to action.
+site rather than its assets: one enormous display face used at almost poster
+scale, soft warm glow fields behind the text, a count-up preloader, a centred
+hero, an index of services, three project cards, one oversized client quote,
+and a full-bleed closing call to action.
+
+The **colour** is the owner's own eight-swatch palette, not MDX's black: a warm
+ivory canvas, soft near-black ink and one burnt terracotta accent. The
+composition stays MDX-shaped; the surface is paper.
 
 | Layer | Reference | Reason |
 |---|---|---|
 | Composition | MDX (mdx.so) | Preloader → centred poster hero → statement → services index → work cards → process → about → quote → FAQ → full-bleed contact. Centre-aligned where the message is a slogan, left-aligned where it is evidence. |
-| Canvas | MDX — near-black, one ember accent | White type on near-black reads as a studio reel rather than a brochure. The accent is used on one clause per headline, never as a wash. |
+| Colour | Owner's eight-swatch palette | Warm ivory paper rather than near-black. The accent is used on one clause per headline, never as a wash. |
 | Display type | Owner-supplied single cut, poster scale | 9.2 rem at 1440 px, 0.9 leading, −0.045 em. The headline *is* the page. |
-| Depth | Glow fields + 25% grid | Two blurred ember ellipses and a masked hairline grid give the flat black depth without images. |
+| Depth | Glow fields + 25% grid | Two blurred terracotta ellipses, tinted towards the canvas so they read as daylight, and a masked hairline grid give the flat paper depth without images. |
 
 Deliberately **not** used: MDX's 3D/WebGL scenes, video, cursor-follow previews,
 or any external asset. The site stays one static page with no dependencies —
 the *composition* is borrowed, the pixels are ours.
 
-The light theme is kept as a deliberate inverse (warm paper, dark ink, same
-grammar) rather than dropped, because the toggle was an existing promise.
+A dark alternate is kept, derived by inverting the same eight swatches (the
+palette's Primary Text becomes the canvas, its Canvas becomes the ink), because
+the theme toggle was an existing promise.
 
 ## 3. Tokens
 
-All tokens live at the top of `assets/css/style.css` (`:root` is the dark
-default, `[data-theme="light"]` inverts it). The core tokens and the loader
+All tokens live at the top of `assets/css/style.css` (`:root` is the ivory
+default, `[data-theme="dark"]` inverts it). The core tokens and the loader
 shell are duplicated in the inlined critical CSS in `index.html`; keep the two
 in step.
 
-**Colour**
+**Colour — the eight supplied swatches**
 
-| Role | Dark (default) | Light |
-|---|---|---|
-| canvas | `#08080a` | `#f6f3ec` |
-| banded section | `#0c0c10` | `#efeade` |
-| panel | `#101014` | `#fffdf8` |
-| ink / ink-2 / muted | `#f4f1ea` / `#c8c4ba` / `#9a968d` | `#121210` / `#3b382f` / `#5f5b51` |
-| accent (action, emphasis) | `#e08a63` | `#a84621` |
-| rule / rule-strong | 13% / 24% ink | 14% / 26% ink |
+| Swatch | Hex | Token | Where it lands |
+|---|---|---|---|
+| Canvas / Background | `#f7f5f0` | `--bg` | page |
+| Primary Text | `#191817` | `--ink` | headings, body, solid buttons |
+| Signature Accent | `#b64024` | `--accent` | one clause per headline, actions, status dot, focus ring |
+| Card Background | `#fffefb` | `--panel` | project cards, the ID card, the toast |
+| Secondary Surface | `#e9e3d9` | `--band` | the About band |
+| Secondary Text | `#716c65` | `--muted` | supporting copy, labels, metadata |
+| Borders / Dividers | `#dfd9cf` | `--rule` (as 13% ink) | hairlines, rules, card outlines |
+| Accent Hover | `#8f301b` | `--accent-2`, and the accent on stone | hover states, the About band |
 
-Contrast is checked, not eyeballed: body and label pairs measure 6.1:1 or better
-against their own surface, and `--muted-2` is reserved for decoration only
-(after axe caught the footer note at 3.85:1 it was moved to `--muted`).
+Everything not on that list is derived from it and named as such: `--ink-2`
+`#4a453e` (a step between ink and secondary), `--muted-2` `#8c867d`
+(decoration only), and the rule weights (the supplied beige is too pale to
+survive as a 1 px hairline over the gap-free canvas, so rules are drawn as 13%
+ink, which lands on the same perceived weight).
+
+**Dark alternate** — inverted from the same eight: canvas `#191817`, panel
+`#221f1e`, band `#211f1d`, ink `#f7f5f0`, muted `#a7a199`, accent `#e0704e`.
+The accent is lightened for that theme only, because `#b64024` measures 3.16:1
+against `#191817` — fine as a fill, not as text.
+
+**Contrast is measured, not eyeballed.** On the ivory canvas: ink 16.3:1,
+secondary text 4.78:1, accent 5.14:1, ivory-on-accent 5.14:1. Two pairs needed
+care and are documented at the token site: Secondary Text on the stone band
+measures 4.08:1 and the accent on stone 4.39:1, so `.sec-band` steps both down
+one notch (muted `#68625a`, accent → the palette's own Accent Hover `#8f301b`,
+6.31:1). Elsewhere the swatches are used exactly as supplied.
 
 The accent has exactly three jobs: primary action, one emphasis word per
 headline, and the status dot. It is never used for body copy or decoration.
@@ -107,18 +128,20 @@ and 22 px. Motion explains arrival; it never delays reading.
 
 Present in the markup, **shown only when scripting is available** (`.loader` is
 `display: none` until `html.js`). It reports a real number: elapsed time against
-a 1.5 s floor, capped at 90% until `window.load` and `document.fonts.ready` have
-both fired, then 100% and a 0.7 s fade. Three failure paths keep it honest:
+a 1.25 s floor, held under 100% until `window.load` and `document.fonts.ready` have
+both fired, then 100% and a 0.55 s fade. Three failure paths keep it honest:
 
 1. `prefers-reduced-motion: reduce` → never shown.
-2. Script blocked at parse time → the inline failsafe in `<head>` adds `.loaded`
-   after 4 s.
-3. `main.js` fails after parsing → the stylesheet's own `loaderEscape` animation
-   lifts the curtain at 6 s, and `runLoader`'s watchdog calls `finish()` at 5 s.
+2. `main.js` blocked at parse time → the inline failsafe in `<head>` adds
+   `.loaded` after 2.2 s, and only if `main.js` never set its readiness flag.
+3. `main.js` fails after parsing → `runLoader`'s watchdog calls `finish()` at
+   5 s, and the stylesheet's own `loaderEscape` animation lifts the curtain at 6 s.
 
-It is `aria-hidden`, holds no focusable content, and is removed from the DOM
-0.9 s after it finishes. No percentage is invented and nothing is gated behind it:
-the page beneath is fully rendered before the curtain lifts.
+The markup ships in its finished state (100%, bar full) and the script rewinds it
+on the first frame, so a blocked script shows a complete frame rather than a
+frozen zero. It is `aria-hidden`, holds no focusable content, and is removed from
+the DOM 0.7 s after it finishes. No percentage is invented and nothing is gated
+behind it: the page beneath is fully rendered before the curtain lifts.
 
 ## 5. Component rules
 
@@ -171,7 +194,7 @@ visible, and the loader and progress bars paint in `Highlight`.
 
 - **Critical CSS is inlined** in `<head>`: tokens, type, the loader shell, the
   header, hero and icon sizing. The external stylesheet is an enhancement, so a
-  dead stylesheet still produces a dark, composed, readable page rather than
+  dead stylesheet still produces an ivory, composed, readable page rather than
   default-blue-link soup with full-bleed SVG icons.
 - **Content is visible by default.** `.motion` is added by JS only after the
   IntersectionObserver is wired; the hero's line-rise only exists under `html.js`.
@@ -180,7 +203,7 @@ visible, and the loader and progress bars paint in `Highlight`.
 - **The preloader cannot strand the page.** Three independent escapes (inline
   timeout, script watchdog, stylesheet animation) each resolve it.
 - **Cache-bust** `style.css` / `main.js` with `?v=` on every change (currently
-  `20261024g`).
+  `20261024h`).
 - `.nojekyll` keeps Pages from touching the files.
 
 ## 9. Asset provenance
