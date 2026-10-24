@@ -45,7 +45,17 @@ headline lines → *purpose* → subtitle → CTAs → stats, 2.49 s total) and 
 process line via ScrollTrigger — which is fetched *after* the curtain lifts, not
 shipped in the critical path. If GSAP is missing, blocked, or the visitor prefers
 reduced motion, `initMotion()` never runs and the page is complete and static.
-Nothing on the page depends on an animation to become visible.
+nothing on the page depends on an animation to become visible.
+
+### Slowed scrolling
+
+Scrolling is damped rather than instant: Lenis eases the page to rest over about
+a second instead of snapping. It drives the real scroll position, so the
+scrollbar, keyboard, find-in-page, focus and the back button behave natively —
+and the *distance* is deliberately unchanged (a wheel notch still travels a
+wheel notch). Self-hosted at `assets/vendor/lenis/`, fetched after the curtain,
+never on touch-only devices or with reduced motion. Tune `SLOW_EASE` in
+`assets/js/main.js` (0.075; lower is slower).
 
 ### The preloader
 
@@ -100,7 +110,7 @@ Pages on this site degrade gracefully rather than breaking:
   `main.js`, and a 6 s CSS animation. With reduced motion it is never shown.
 - **Assets are cache-busted** (`?v=...`) so a bad response can't survive a
   deploy. Bump the query string whenever you edit `style.css` or `main.js`
-  (currently `20261024l`).
+  (currently `20261024m`).
 - **GSAP is optional.** It is a `defer` script with no preload and no inline
   dependency; with `assets/vendor/gsap/*` blocked by request interception the
   hero renders in its final state and the process rail falls back to the rAF
@@ -122,6 +132,7 @@ assets/
   fonts/*.woff2
   img/favicon.svg, og-image.jpg
   vendor/gsap/gsap.min.js, ScrollTrigger.min.js, NOTICE.md
+  vendor/lenis/lenis.min.js, LICENSE.txt, NOTICE.md
 ```
 
 ## Testing
