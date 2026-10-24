@@ -194,6 +194,10 @@ behind it: the page beneath is fully rendered before the curtain lifts.
   behaviour exist with no script. One panel animates at a time with the Web
   Animations API and all other panels snap closed; the plus/minus is a drawn SVG
   and rotates rather than swapping glyphs.
+- **Magnetic CTA.** On fine pointers with hover, the featured card's "View the
+  build" control drifts up to 7 px × 5 px toward the cursor and eases back on
+  leave. Transform only, `pointerleave`-released, and skipped entirely for
+  touch, reduced motion or keyboard-only visits.
 - **The header inverts** (`is-inverse`) while it overlaps `.about-band`, so the
   pale translucent bar never floats across the dark section. Each theme defines
   its own inverse token set; the band flips to paper in the dark theme, so the

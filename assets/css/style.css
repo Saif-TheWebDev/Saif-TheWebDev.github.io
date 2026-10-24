@@ -978,7 +978,7 @@ html.js .loader { animation: loaderEscape 0s linear 6s forwards; }
   letter-spacing: 0.13em;
   text-transform: uppercase;
   white-space: nowrap;
-  transition: color 0.3s, border-color 0.3s, gap 0.35s var(--ease);
+  transition: color 0.3s, border-color 0.3s, gap 0.35s var(--ease), transform 0.45s var(--ease);
 }
 .work-cta .ic { width: 13px; height: 13px; }
 .feature-link:hover .work-cta,

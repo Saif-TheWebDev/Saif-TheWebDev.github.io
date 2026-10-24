@@ -302,5 +302,7 @@ palette swatches were treated as frozen.
   pass.
 - No field data: LCP/INP/CLS are reasoned about (defer scripts, no layout
   thrash, reserved media boxes), not measured under throttling.
-- The optional desktop magnetic hover from the brief was not implemented; the
-  hover and focus states are.
+- The desktop magnetic hover exists only for fine pointers with hover
+  capability; headless Chromium reports `hover: none`, so it was exercised by
+  stubbing the media query and dispatching real pointer events (±5 px measured,
+  clean release), not in a real cursor environment.

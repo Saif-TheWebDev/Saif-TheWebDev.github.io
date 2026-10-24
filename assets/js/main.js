@@ -620,6 +620,37 @@
     });
   });
 
+  /* ── magnetic case-study CTA ─────────────────────────────────────────────
+     Desktop pointers only, a few pixels of give, and only on the one control
+     that means "go deeper". Transform-only, released on leave/blur, and not
+     wired at all for touch, keyboard-first or reduced-motion visits.
+     ────────────────────────────────────────────────────────────────────── */
+  if (!reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var featureLink = doc.querySelector('.feature-link');
+    var cta = featureLink && featureLink.querySelector('.work-cta');
+    if (cta) {
+      var mx = 0, my = 0, mraf = 0;
+      var paintMagnet = function () {
+        mraf = 0;
+        cta.style.transform = 'translate3d(' + mx.toFixed(2) + 'px,' + my.toFixed(2) + 'px,0)';
+      };
+      featureLink.addEventListener('pointermove', function (e) {
+        var r = featureLink.getBoundingClientRect();
+        var dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        var dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        mx = Math.max(-1, Math.min(1, dx)) * 7;
+        my = Math.max(-1, Math.min(1, dy)) * 5;
+        if (!mraf) mraf = window.requestAnimationFrame(paintMagnet);
+      });
+      var releaseMagnet = function () {
+        if (mraf) { window.cancelAnimationFrame(mraf); mraf = 0; }
+        cta.style.transform = '';
+      };
+      featureLink.addEventListener('pointerleave', releaseMagnet);
+      featureLink.addEventListener('blur', releaseMagnet, true);
+    }
+  }
+
   /* ── pointer spotlight on project art ────────────────────────────────── */
   if (!reduce && window.matchMedia('(hover: hover)').matches) {
     Array.prototype.forEach.call(doc.querySelectorAll('.card-art'), function (art) {
