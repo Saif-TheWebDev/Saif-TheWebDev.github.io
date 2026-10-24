@@ -135,6 +135,13 @@ the point:
    `is-on` class the rAF fallback writes, so the drawing is identical whichever
    engine runs it.
 
+ScrollTrigger is **not** in the document's script tags. It is 45 KB serving one
+scrub on a section three viewports down, so `main.js` appends it after
+`saif:ready` (the moment the curtain lifts) and only then registers the plugin.
+Until it lands — and permanently, if it never does — the rAF rail from the
+plain-JS path draws the line. Measured effect: desktop long tasks dropped from
+57 ms to none, and the throttled-mobile total blocking time fell by about 100 ms.
+
 GSAP is loaded from `assets/vendor/gsap/` with `defer`, never from a CDN, and is
 optional: if it fails to load, is blocked, or the visitor prefers reduced
 motion, `initMotion()` returns before touching anything and the CSS system
@@ -252,7 +259,7 @@ visible, and the loader and progress bars paint in `Highlight`.
 | SVG icon sprite (`index.html`) | Hand-drawn paths | Original |
 | Project covers | Pure CSS (gradients, one repeating hairline), no image files | Original |
 | Glow fields, grid, grain | CSS radial gradients + an inline SVG noise data-URI | Original |
-| `assets/vendor/gsap/gsap.min.js`, `ScrollTrigger.min.js` (v3.15.0, 73 + 45 KB) | npm `gsap` 3.15.0 tarball, copied verbatim | GreenSock standard licence — free for this use; banner kept in both files, provenance in `NOTICE.md` |
+| `assets/vendor/gsap/gsap.min.js`, `ScrollTrigger.min.js` (v3.15.0, 71 + 44 KB on disk, 28 + 18 KB gzipped) | npm `gsap` 3.15.0 tarball, copied verbatim | GreenSock standard licence — free for this use; banner kept in both files, provenance in `NOTICE.md` |
 | Photography, video, audio | None used | — |
 
 No generated people, no stock photos, no third-party embeds, no tracking.

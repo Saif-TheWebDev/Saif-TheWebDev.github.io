@@ -287,6 +287,39 @@ lazy-load (the covers are CSS drawings) and the single font is preloaded with
 | GSAP hero lines parked one line-height below the mask | Computed transform `matrix(1,0,0,1,0,131.871)` after the timeline reported progress 1 | Start states set with `gsap.set()` and every percentage tween pins `y: 0`; layout flushed before measuring. Documented in `DESIGN.md` §3 |
 | Orphan `.feature-badge` rules after the badge was removed | `grep` on both files | Both the desktop rule and its mobile override deleted; brace count 477/477 |
 
+### Third round — lab performance and a lighter critical path
+
+Measured in Chromium with a cold cache: desktop unthrottled, and 390 px at 4×
+CPU throttle with a 1.6 Mbps / 150 ms profile.
+
+| Metric | Desktop | Mobile (throttled) |
+|---|---|---|
+| LCP | 0.77 s | 1.96 s |
+| CLS | 0.0014 | 0.0006 |
+| Total blocking time | 0 ms | 687 ms |
+| DCL / load | 0.12 s | 2.0 s |
+| Headline fully settled | 3.3 s | 4.6 s |
+
+**Read the last row honestly.** LCP is the browser's number, and it is the first
+paint of the text before the choreography takes it over. A visitor actually
+reads the headline once the curtain lifts (1.25 s floor) and the 2.49 s timeline
+finishes — about 3.3 s on desktop. That is the entrance the brief asked for, not
+a bug, but it is a deliberate cost and it is recorded here rather than hidden
+behind a good LCP.
+
+**One optimisation came out of it.** ScrollTrigger (44 KB, 18 KB gzipped) existed
+to drive a single scrub three viewports down, yet it sat in the parser's path
+with everything else. It is now appended by `main.js` after `saif:ready`, with
+the rAF rail carrying the section until it arrives. Desktop long tasks went
+57 ms → 0, throttled-mobile TBT 784 → 687 ms, and the critical path is 157 KB
+gzipped (HTML 11, CSS 12, JS 8, GSAP 28, font 98) with the 18 KB ScrollTrigger
+arriving after the curtain.
+
+Verified in three states after the change: normal load hands the rail from rAF to
+ScrollTrigger at the same value (`--tp 0.702`, 3 of 4 steps lit); with
+ScrollTrigger aborted the rAF rail tracks scroll on its own (`0.725`, 3 lit); with
+reduced motion the rail is drawn complete (`1`, 4 lit).
+
 ### Second testing round — interaction behaviours
 
 | Control | Test | Result |
